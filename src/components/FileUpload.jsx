@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import CryptoJS from "crypto-js";
 
 // const PINATA_API = process.env.REACT_APP_PINATA_API;
 // const PINATA_SECRET = process.env.REACT_APP_PINATA_SECRET;
@@ -12,6 +13,7 @@ const FileUpload = () => {
   const [selectedFile, setSelectedFile] = useState();
   const [ipfsHash, setIpfsHash] = useState();
 
+  // 업로드 할 파일 선택
   const changeHandler = (event) => {
     setSelectedFile(event.target.files[0]);
   };
@@ -49,6 +51,8 @@ const FileUpload = () => {
       console.log(error);
     }
   };
+
+  // 이미지 주소 CID값 (IpfsHash) 암호화
 
   useEffect(() => {
     if (ipfsHash) {
