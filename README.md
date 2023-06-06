@@ -10,9 +10,9 @@ Make your memory NFT on Memora Chain.
 
 
 
-## API
+### API
 - Pinata
 
-## Library
+### Library
 - crypto-js
 npm install crypto-js
