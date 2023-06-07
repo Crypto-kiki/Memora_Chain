@@ -12,6 +12,7 @@ Your "Pinata API Key" acts as your public key for our REST API, and your "Pinata
 const FileUpload = () => {
   const [selectedFile, setSelectedFile] = useState();
   const [ipfsHash, setIpfsHash] = useState();
+  const [encryptedIpfs, setEncryptedIpfs] = useState();
 
   // 업로드 할 파일 선택
   const changeHandler = (event) => {
@@ -53,11 +54,29 @@ const FileUpload = () => {
   };
 
   // 이미지 주소 CID값 (IpfsHash) 암호화
+  const encryptIpfs = () => {
+    const encrypted = CryptoJS.AES.encrypt(ipfsHash, "1234");
+    setEncryptedIpfs(encrypted.toString());
+  };
+
+  // 복호화
+  // decryptKey 값 변경 핸들러
+  // const handleDecryptKeyChange = (e) => {
+  //   setDecryptKey(e.target.value);
+  // };
+
+  // const decryptIpfs = () => {
+  //   const decrypted = CryptoJS.AES.decrypt(encryptedIpfs, "1234");
+  //   const decryptedIpfs = decrypted.toString(CryptoJS.enc.Utf8);
+  //   setDecryptedIpfs(decryptedIpfs);
+  // };
 
   useEffect(() => {
     if (ipfsHash) {
       // ipfsHash 값이 업데이트되면 이미지를 표시
       console.log(ipfsHash);
+      encryptIpfs();
+      console.log(encryptedIpfs);
     }
   }, [ipfsHash]);
 
@@ -67,10 +86,13 @@ const FileUpload = () => {
       <input type="file" onChange={changeHandler} />
       <button onClick={handleSubmission}>Submit</button>
       {ipfsHash && (
-        <img
-          src={`https://gateway.pinata.cloud/ipfs/${ipfsHash}`}
-          alt="Selected Image"
-        />
+        <>
+          <img
+            src={`https://gateway.pinata.cloud/ipfs/${ipfsHash}`}
+            alt="Selected Image"
+          />
+          <div>{encryptedIpfs}</div>
+        </>
       )}
     </>
   );
