@@ -39,6 +39,7 @@
     ]
   },
   "devDependencies": {
+    "@types/google.maps": "^3.53.4",
     "tailwindcss": "^3.3.2"
   }
 }

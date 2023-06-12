@@ -13,15 +13,21 @@ Make your memory NFT on Memora Chain.
 
 - Encrypt ipfsHash
 
-`23.06.12`
+`23.06.11`
 
 - Google Map API
 - Header Component
+
+`23.06.12`
+
+- Fix Google Map in Mint.jsx (remove GeolocationMap component)
+- Get lattitude, longitude from OpenWeather API
 
 ### API
 
 - Pinata
 - Google Map API
+- OpenWeather API
 
 ### Library
 

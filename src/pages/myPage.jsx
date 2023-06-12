@@ -5,7 +5,6 @@ const MyPage = () => {
     <div>
       <div>My page</div>
       <div>Geolocation Test</div>
-      <GeolocationMap />
     </div>
   );
 };

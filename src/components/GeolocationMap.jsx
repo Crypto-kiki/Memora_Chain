@@ -1,79 +1,57 @@
-import { useEffect } from "react";
+import { useCallback, useEffect, useRef } from "react";
 
 const GOOGLEMAP_API = process.env.REACT_APP_GOOGLEMAP_API;
 
-const GeolocationMap = () => {
-  useEffect(() => {
-    let map, infoWindow;
+const GeolocationMap = ({ lat, lon }) => {
+  const mapElement = useRef(null);
 
-    function initMap() {
-      map = new window.google.maps.Map(document.getElementById("map"), {
-        center: { lat: 37.611, lng: 127.0139 },
-        zoom: 19,
-      });
-      infoWindow = new window.google.maps.InfoWindow();
-
-      const locationButton = document.createElement("button");
-
-      locationButton.textContent = "Pan to Current Location";
-      locationButton.classList.add("custom-map-control-button");
-      map.controls[window.google.maps.ControlPosition.TOP_CENTER].push(
-        locationButton
-      );
-      locationButton.addEventListener("click", () => {
-        // Try HTML5 geolocation.
-        if (navigator.geolocation) {
-          navigator.geolocation.getCurrentPosition(
-            (position) => {
-              const pos = {
-                lat: position.coords.latitude,
-                lng: position.coords.longitude,
-              };
-
-              infoWindow.setPosition(pos);
-              infoWindow.setContent("Location found.");
-              infoWindow.open(map);
-              map.setCenter(pos);
-            },
-            () => {
-              handleLocationError(true, infoWindow, map.getCenter());
-            }
-          );
-        } else {
-          // Browser doesn't support Geolocation
-          handleLocationError(false, infoWindow, map.getCenter());
-        }
-      });
-    }
-
-    function handleLocationError(browserHasGeolocation, infoWindow, pos) {
-      infoWindow.setPosition(pos);
-      infoWindow.setContent(
-        browserHasGeolocation
-          ? "Error: The Geolocation service failed."
-          : "Error: Your browser doesn't support geolocation."
-      );
-      infoWindow.open(map);
-    }
-
-    window.initMap = initMap; // initMap 함수를 전역 범위로 노출
-
-    // Load Google Maps API script
-    const script = document.createElement("script");
-    script.src = `https://maps.googleapis.com/maps/api/js?key=${GOOGLEMAP_API}&callback=initMap&v=weekly`;
-    script.defer = true;
-    document.head.appendChild(script);
-
-    return () => {
-      // Cleanup script after component unmounts
-      document.head.removeChild(script);
-    };
+  //  스크립트가 실행된 시점에서 initMap은 undefined이기 때문에 에러가 발생
+  //  initMap이 먼저 선언되는 것을 보장하기 위해서 수동으로 스크립트를 로드 loadScript
+  // script가 실행되기 이전에 window.initMap이 먼저 선언되어야 하기 때문
+  const loadScript = useCallback((url) => {
+    const firstScript = window.document.getElementsByTagName("script")[0];
+    const newScript = window.document.createElement("script");
+    newScript.src = url;
+    newScript.async = true;
+    newScript.defer = true;
+    firstScript?.parentNode?.insertBefore(newScript, firstScript);
   }, []);
 
+  // script에서 google map api를 가져온 후에 실행될 callback 함수
+  const initMap = useCallback(() => {
+    const { google } = window;
+    if (!mapElement.current || !google) return;
+
+    const location = { lat, lng: lon };
+    const map = new google.maps.Map(mapElement.current, {
+      zoom: 17,
+      center: location,
+    });
+    new google.maps.Marker({
+      position: location,
+      map,
+    });
+  }, [lat, lon]);
+
+  useEffect(() => {
+    const script = window.document.getElementsByTagName("script")[0];
+    const includeCheck = script.src.startsWith(
+      "https://maps.googleapis.com/maps/api"
+    );
+
+    // script 중복 호출 방지
+    if (includeCheck) return initMap();
+
+    window.initMap = initMap;
+    loadScript(
+      `https://maps.googleapis.com/maps/api/js?key=${GOOGLEMAP_API}&callback=initMap&language=en`
+    );
+  }, [initMap, loadScript]);
+
   return (
-    <div className="h-screen">
-      <div id="map" className="h-1/2 w-1/2"></div>
-    </div>
+    <>
+      <div ref={mapElement} className="min-h-[400px]" />
+    </>
   );
 };
 
