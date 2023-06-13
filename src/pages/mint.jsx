@@ -7,6 +7,9 @@ const Mint = () => {
 
   const [lat, setLat] = useState(null);
   const [lon, setLon] = useState(null);
+  const [country, setCountry] = useState();
+  const [city, setCity] = useState();
+
   const [isLocationAllowed, setIsLocationAllowed] = useState(false); // 위치 정보 동의 상태를 저장
 
   const getGeolocation = useCallback(async () => {
@@ -25,7 +28,6 @@ const Mint = () => {
           errorCallback
         );
       });
-
       setLat(position.coords.latitude);
       setLon(position.coords.longitude);
       setIsLocationAllowed(true); // 위치 정보 동의 상태를 true로 설정
@@ -45,7 +47,8 @@ const Mint = () => {
         alert("날씨 정보를 가져오지 못했습니다.");
         return;
       }
-
+      setCity(response.data.name);
+      setCountry(response.data.sys.country);
       console.log(response.data);
     } catch (error) {
       console.error(error);
@@ -133,6 +136,14 @@ const Mint = () => {
       {isLocationAllowed && (
         <>
           <div ref={mapElement} className="min-h-[400px]" />
+          <div className="flex flex-col my-20 border border-gray-500 p-12">
+            <div>현재 위치</div>
+            <div>위도 : {lat}</div>
+            <div>경도 : {lon}</div>
+            {/* 국가 / 도시 부분은 위도 경도를 기반으로 Geocoding API 쓸 것. */}
+            {/* <div>국가 : {country}</div>
+            <div>도시 : {city}</div> */}
+          </div>
           <FileUpload />
         </>
       )}
