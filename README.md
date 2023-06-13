@@ -23,6 +23,10 @@ Make your memory NFT on Memora Chain.
 - Fix Google Map in Mint.jsx (remove GeolocationMap component)
 - Get lattitude, longitude from OpenWeather API
 
+`23.06.13`
+
+- Mint page is going on fix
+
 ### API
 
 - Pinata
