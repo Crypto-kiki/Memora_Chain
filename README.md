@@ -27,6 +27,10 @@ Make your memory NFT on Memora Chain.
 
 - Mint page is going on fix
 
+`23.06.14`
+
+- Firebase setting....
+
 ### API
 
 - Pinata
