@@ -1,6 +1,7 @@
 import { useCallback, useState, useEffect, useRef } from "react";
 import axios from "axios";
 import FileUpload from "../components/FileUpload";
+import { format } from "crypto-js";
 
 const Mint = () => {
   const GOOGLEMAP_API = process.env.REACT_APP_GOOGLEMAP_API;
@@ -9,6 +10,7 @@ const Mint = () => {
   const [lon, setLon] = useState(null);
   const [country, setCountry] = useState();
   const [city, setCity] = useState();
+  const [formatted_address, setFormatted_address] = useState();
 
   const [isLocationAllowed, setIsLocationAllowed] = useState(false); // 위치 정보 동의 상태를 저장
 
@@ -102,8 +104,30 @@ const Mint = () => {
     if (!isLocationAllowed) {
       // 위치 정보 동의를 받지 않았으면 위치 정보 요청
       getGeolocation();
+    } else {
+      // 위치 정보가 허용되면 geocoding 호출
+      const fetchGeocoding = async () => {
+        try {
+          const geocoding = await axios.get(
+            `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lon}&key=${GOOGLEMAP_API}&language=en`
+          );
+          console.log(geocoding);
+          setCountry(
+            geocoding.data.results[geocoding.data.results.length - 1]
+              .formatted_address
+          );
+          setCity(
+            geocoding.data.results[geocoding.data.results.length - 2]
+              .address_components[0].long_name
+          );
+          setFormatted_address(geocoding.data.results[0].formatted_address);
+        } catch (error) {
+          console.error(error);
+        }
+      };
+      fetchGeocoding();
     }
-  }, [isLocationAllowed, getGeolocation]);
+  }, [isLocationAllowed, getGeolocation, lat, lon, setCountry]);
 
   useEffect(() => {
     if (lat !== null && lon !== null && mapLoaded.current) {
@@ -115,17 +139,12 @@ const Mint = () => {
     loadScript();
   }, [loadScript]);
 
+  // 비동기라 South Korea를 불렀다가 KR까지 부르게 됨. 따라서 아래 useEffect 써야 함.
   useEffect(() => {
     console.log(lat);
-  }, [lat]);
-
-  useEffect(() => {
     console.log(lon);
-  }, [lon]);
-
-  useEffect(() => {
-    console.log(process.env.REACT_APP_WEATHER_API);
-  }, []);
+    console.log(country);
+  }, [lat, lon, country]);
 
   return (
     <div>
@@ -140,9 +159,9 @@ const Mint = () => {
             <div>현재 위치</div>
             <div>위도 : {lat}</div>
             <div>경도 : {lon}</div>
-            {/* 국가 / 도시 부분은 위도 경도를 기반으로 Geocoding API 쓸 것. */}
-            {/* <div>국가 : {country}</div>
-            <div>도시 : {city}</div> */}
+            <div>국가 : {country}</div>
+            <div>도시 : {city}</div>
+            <div>상세주소 : {formatted_address}</div>
           </div>
           <FileUpload />
         </>
