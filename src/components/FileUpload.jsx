@@ -10,11 +10,16 @@ const PINATA_JWT = process.env.REACT_APP_PINATA_JWT; // Bearer Token 사용해�
 Your "Pinata API Key" acts as your public key for our REST API, and your "Pinata Secret API Key" acts as the password for your public key. The JWT is an encoded mix of the two. Be sure to keep your secret key private.
 */
 
+
+
 const FileUpload = () => {
   const [selectedFile, setSelectedFile] = useState();
   const [ipfsHash, setIpfsHash] = useState();
   const [encryptedIpfs, setEncryptedIpfs] = useState();
   const [metaData2, setMetaData] = useState({name : '',  age: 0,});
+  const [backimg, setBackImg] = useState();
+
+  const imageUrls = [1,2,3,4];
 
   // 업로드 할 파일 선택
   const changeHandler = (event) => {
@@ -75,20 +80,23 @@ const FileUpload = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    // 입력된 이름과 나이 가져오기
-    // const name = event.target.elements.name.value;
-    // const age = event.target.elements.age.value;
-
-    // name 값을 업데이트하는 함수
-    // age 값을 업데이트하는 함수
-
+    // name, age 값을 업데이트하는 함수
     setMetaData({
       name: event.target.name.value,
       age: event.target.age.value,
     });
-          console.log(metaData2);
-  
+          console.log(metaData2);  
   };  
+
+  const ButtonWithImage = ({imageUrl, alt})=> (
+    <button className='w-[150px] h-[180px] object-cover border-2' onClick = {()=>{setBackImg(imageUrl)}}>
+      <img src={`${process.env.PUBLIC_URL}/image/${imageUrl}.png`} alt={alt} />      
+    </button>
+  )
+  useEffect(()=>{
+    console.log(backimg);
+  }, [backimg])
+
 
   useEffect(() => {
     if (ipfsHash) {
@@ -104,7 +112,8 @@ const FileUpload = () => {
       <label>Choose File</label>
       <input type="file" onChange={changeHandler} />
       <button onClick={handleSubmission}>Submit</button>
-      <form onSubmit={handleSubmit}>
+      <div className='flex'>
+      <form onSubmit={handleSubmit} className='mr-8 ml-6'>
         <label>
           Name:
           <input type="text" name="name" className="border-2 rounded-md ml-2  m-1" />
@@ -117,10 +126,23 @@ const FileUpload = () => {
         <br />
         <button type="submit">Submit</button>
         </form>     
+        <div  className='border-2 border-black rounded-md p-4 ml-[350px] w-[700px] h-[500px]'>
+          <div className='mb-4 ml-4'>
+          배경화면 틀 정하기
+          </div>
+          <div className='grid grid-cols-4 gap-2 justify-items-center'>
+            {imageUrls.map((v,i)=>{
+              return (
+                <ButtonWithImage key={i} imageUrl={v} alt={`Image ${i + 1}`}/>
+              );
+            })}
+          </div>
+        </div>
+      </div>
       {ipfsHash && (
         <>         
-          <CanvasForm metadata = {metaData2} imgad = {ipfsHash} />
-          <div>{encryptedIpfs}</div>     
+          <CanvasForm metadata = {metaData2} imgad = {ipfsHash} imgstyle={backimg} />
+          <div>{encryptedIpfs}</div>
         </>
       )}
     </>
