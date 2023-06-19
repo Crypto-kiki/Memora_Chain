@@ -1,7 +1,7 @@
 import { useCallback, useState, useEffect, useRef } from "react";
 import axios from "axios";
 import FileUpload from "../components/FileUpload";
-import { format } from "crypto-js";
+// import { format } from "crypto-js";
 
 const Mint = () => {
   const GOOGLEMAP_API = process.env.REACT_APP_GOOGLEMAP_API;
@@ -163,7 +163,13 @@ const Mint = () => {
             <div>도시 : {city}</div>
             <div>상세주소 : {formatted_address}</div>
           </div>
-          <FileUpload />
+          <FileUpload
+            lat={lat}
+            lon={lon}
+            contry={country}
+            city={city}
+            address={formatted_address}
+          />
         </>
       )}
     </div>

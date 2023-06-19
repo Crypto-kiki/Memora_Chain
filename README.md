@@ -35,6 +35,10 @@ Make your memory NFT on Memora Chain.
 
 - Reverse Geocoding API
 
+`23.06.19`
+
+- Firebase Image Upload
+
 ### API
 
 - Pinata
