@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import CryptoJS from "crypto-js";
+import CanvasForm from './CanvasForm';
 
 // const PINATA_API = process.env.REACT_APP_PINATA_API;
 // const PINATA_SECRET = process.env.REACT_APP_PINATA_SECRET;
@@ -13,6 +14,7 @@ const FileUpload = () => {
   const [selectedFile, setSelectedFile] = useState();
   const [ipfsHash, setIpfsHash] = useState();
   const [encryptedIpfs, setEncryptedIpfs] = useState();
+  const [metaData2, setMetaData] = useState({name : '',  age: 0,});
 
   // 업로드 할 파일 선택
   const changeHandler = (event) => {
@@ -71,6 +73,23 @@ const FileUpload = () => {
   //   setDecryptedIpfs(decryptedIpfs);
   // };
 
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    // 입력된 이름과 나이 가져오기
+    // const name = event.target.elements.name.value;
+    // const age = event.target.elements.age.value;
+
+    // name 값을 업데이트하는 함수
+    // age 값을 업데이트하는 함수
+
+    setMetaData({
+      name: event.target.name.value,
+      age: event.target.age.value,
+    });
+          console.log(metaData2);
+  
+  };  
+
   useEffect(() => {
     if (ipfsHash) {
       // ipfsHash 값이 업데이트되면 이미지를 표시
@@ -85,13 +104,23 @@ const FileUpload = () => {
       <label>Choose File</label>
       <input type="file" onChange={changeHandler} />
       <button onClick={handleSubmission}>Submit</button>
+      <form onSubmit={handleSubmit}>
+        <label>
+          Name:
+          <input type="text" name="name" className="border-2 rounded-md ml-2  m-1" />
+        </label>
+        <br />
+        <label>
+          Age:
+          <input type="text" name="age" className="border-2 rounded-md ml-2 m-1"  />
+        </label>
+        <br />
+        <button type="submit">Submit</button>
+        </form>     
       {ipfsHash && (
-        <>
-          <img
-            src={`https://gateway.pinata.cloud/ipfs/${ipfsHash}`}
-            alt="Selected Image"
-          />
-          <div>{encryptedIpfs}</div>
+        <>         
+          <CanvasForm metadata = {metaData2} imgad = {ipfsHash} />
+          <div>{encryptedIpfs}</div>     
         </>
       )}
     </>
