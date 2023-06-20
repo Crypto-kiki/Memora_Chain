@@ -39,6 +39,13 @@ Make your memory NFT on Memora Chain.
 
 - Firebase Image Upload
 
+## On-going
+
+- Web design concept
+- NFT Design
+- Canvas card design
+- etc
+
 ### API
 
 - Pinata
@@ -48,3 +55,4 @@ Make your memory NFT on Memora Chain.
 ### Library
 
 - crypto-js (npm install crypto-js)
+- uuid (create random string)

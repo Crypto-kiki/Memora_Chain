@@ -1,10 +1,14 @@
 import { useCallback, useState, useEffect, useRef } from "react";
 import axios from "axios";
-import FileUpload from "../components/FileUpload";
-// import { format } from "crypto-js";
+import CryptoJS from "crypto-js";
+import { storage } from "../firebase";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { v4 } from "uuid"; // 임의 문자 생성 라이브러리
+import { format } from "crypto-js";
 
 const Mint = () => {
   const GOOGLEMAP_API = process.env.REACT_APP_GOOGLEMAP_API;
+  const PINATA_JWT = process.env.REACT_APP_PINATA_JWT; // Bearer Token 사용해야 됨.
 
   const [lat, setLat] = useState(null);
   const [lon, setLon] = useState(null);
@@ -146,6 +150,137 @@ const Mint = () => {
     console.log(country);
   }, [lat, lon, country]);
 
+  const [selectedFile, setSelectedFile] = useState();
+  const [ipfsHash, setIpfsHash] = useState();
+  const [encryptedIpfs, setEncryptedIpfs] = useState();
+
+  // Firebase updload 하기
+  const [imageUpload, setImageUpload] = useState(null);
+  const [downloadURL, setDownloadURL] = useState();
+
+  // 파일 업로드 후 업로드 된 주소 받아오기
+  const upLoadImage = () => {
+    if (imageUpload == null) return;
+    const imageRef = ref(storage, `images/${imageUpload.name + v4()}`); // v4라이브러리를 사용해서 임의의 문자열을 생성. 중복방지
+    uploadBytes(imageRef, imageUpload)
+      .then(() => {
+        // alert("Image Uploaded");
+        return getDownloadURL(imageRef);
+      })
+      .then((url) => {
+        setDownloadURL(url);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const changeHandler = (event) => {
+    setSelectedFile(event.target.files[0]);
+  };
+
+  // Pinata 업로드
+  const uploadToPinata = async () => {
+    if (!selectedFile) {
+      console.log("파일을 선택해주세요.");
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("file", selectedFile);
+
+    const options = JSON.stringify({
+      cidVersion: 0,
+    });
+    formData.append("pinataOptions", options);
+
+    try {
+      const res = await axios.post(
+        "https://api.pinata.cloud/pinning/pinFileToIPFS",
+        formData,
+        {
+          maxBodyLength: "Infinity",
+          headers: {
+            "Content-Type": `multipart/form-data; boundary=${formData._boundary}`,
+            Authorization: `Bearer ${PINATA_JWT}`,
+          },
+        }
+      );
+      setIpfsHash(res.data.IpfsHash);
+      console.log(res.data);
+      // 이미지 주소 CID값 (IpfsHash) 암호화
+      encryptIpfs();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  async function uploadFirebaseAndPinata() {
+    await upLoadImage();
+    if (downloadURL) {
+      uploadToPinata();
+    }
+  }
+
+  const uploadMetadataToPinata = async () => {
+    try {
+      const metadata = {
+        Name: "test",
+        ImgUrl: downloadURL,
+        EncryptedImgUrl: encryptedIpfs,
+        GeolocationInfo: {
+          Latitude: lat,
+          Longitude: lon,
+          Country: country,
+          City: city,
+          Address: formatted_address,
+        },
+      };
+
+      const metadataRes = await axios.post(
+        "https://api.pinata.cloud/pinning/pinJSONToIPFS",
+        metadata,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${PINATA_JWT}`,
+          },
+        }
+      );
+
+      console.log(metadataRes.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // 이미지 주소 CID값 (IpfsHash) 암호화
+  const encryptIpfs = () => {
+    const encrypted = CryptoJS.AES.encrypt(ipfsHash, "1234");
+    setEncryptedIpfs(encrypted.toString());
+  };
+
+  // 복호화
+  // decryptKey 값 변경 핸들러
+  // const handleDecryptKeyChange = (e) => {
+  //   setDecryptKey(e.target.value);
+  // };
+
+  // const decryptIpfs = () => {
+  //   const decrypted = CryptoJS.AES.decrypt(encryptedIpfs, "1234");
+  //   const decryptedIpfs = decrypted.toString(CryptoJS.enc.Utf8);
+  //   setDecryptedIpfs(decryptedIpfs);
+  // };
+
+  useEffect(() => {
+    if (ipfsHash) {
+      // ipfsHash 값이 업데이트되면 이미지를 표시
+      console.log(ipfsHash);
+      encryptIpfs();
+      console.log(encryptedIpfs);
+    }
+  }, [ipfsHash]);
+
   return (
     <div>
       {!isLocationAllowed && (
@@ -163,13 +298,42 @@ const Mint = () => {
             <div>도시 : {city}</div>
             <div>상세주소 : {formatted_address}</div>
           </div>
-          <FileUpload
-            lat={lat}
-            lon={lon}
-            contry={country}
-            city={city}
-            address={formatted_address}
-          />
+          <>
+            <label>Choose File</label>
+            <input
+              type="file"
+              onChange={(event) => {
+                setImageUpload(event.target.files[0]);
+              }}
+            />
+            <button onClick={uploadFirebaseAndPinata}>
+              Upload Image to Firebase and Pinata
+            </button>
+
+            <div>
+              <div>Firebase에 업로드 된 img주소: {downloadURL}</div>
+              <div>Pinata에 업로드 된 EncryptedImg주소: {encryptedIpfs}</div>
+            </div>
+            {/* <input type="file" onChange={changeHandler} />
+            <button onClick={uploadToPinata} className="border border-gray-400">
+              이미지 업로드
+            </button> */}
+            <button
+              onClick={uploadMetadataToPinata}
+              className="border border-gray-400"
+            >
+              메타데이터 업로드
+            </button>
+            {ipfsHash && (
+              <>
+                <img
+                  src={`https://gateway.pinata.cloud/ipfs/${ipfsHash}`}
+                  alt="Selected Image"
+                />
+                <div>{encryptedIpfs}</div>
+              </>
+            )}
+          </>
         </>
       )}
     </div>
