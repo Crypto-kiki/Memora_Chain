@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import CryptoJS from "crypto-js";
 import CanvasForm from './CanvasForm';
+import CanvasForm2 from './CanvasForm2';
 
 // const PINATA_API = process.env.REACT_APP_PINATA_API;
 // const PINATA_SECRET = process.env.REACT_APP_PINATA_SECRET;
@@ -85,17 +86,17 @@ const FileUpload = () => {
       name: event.target.name.value,
       age: event.target.age.value,
     });
-          console.log(metaData2);  
+          // console.log(metaData2);  
   };  
 
-  const ButtonWithImage = ({imageUrl, alt})=> (
-    <button className='w-[150px] h-[180px] object-cover border-2' onClick = {()=>{setBackImg(imageUrl)}}>
-      <img src={`${process.env.PUBLIC_URL}/image/${imageUrl}.png`} alt={alt} />      
-    </button>
-  )
-  useEffect(()=>{
-    console.log(backimg);
-  }, [backimg])
+  // const ButtonWithImage = ({imageUrl, alt})=> (
+  //   <button className='w-[150px] h-[180px] object-cover border-2' onClick = {()=>{setBackImg(imageUrl)}}>
+  //     <img src={`${process.env.PUBLIC_URL}/image/${imageUrl}.png`} alt={alt} />      
+  //   </button>
+  // )
+  // useEffect(()=>{
+  //   console.log(metaData2);
+  // }, [metaData2])
 
 
   useEffect(() => {
@@ -126,7 +127,7 @@ const FileUpload = () => {
         <br />
         <button type="submit">Submit</button>
         </form>     
-        <div  className='border-2 border-black rounded-md p-4 ml-[350px] w-[700px] h-[500px]'>
+        {/* <div  className='border-2 border-black rounded-md p-4 ml-[350px] w-[700px] h-[500px]'>
           <div className='mb-4 ml-4'>
           배경화면 틀 정하기
           </div>
@@ -137,11 +138,14 @@ const FileUpload = () => {
               );
             })}
           </div>
-        </div>
+        </div> */}
       </div>
       {ipfsHash && (
         <>         
+        <div className='grid grid-cols-2 gap-4'>
           <CanvasForm metadata = {metaData2} imgad = {ipfsHash} imgstyle={backimg} />
+          <CanvasForm2 metadata = {metaData2} imgad = {ipfsHash} imgstyle={backimg} />
+        </div>
           <div>{encryptedIpfs}</div>
         </>
       )}
