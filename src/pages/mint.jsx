@@ -3,9 +3,8 @@ import axios from "axios";
 import CryptoJS from "crypto-js";
 import { storage } from "../firebase";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { v4 } from "uuid"; // 임의 문자 생성 라이브러리
-import { format } from "crypto-js";
-// test
+// import { v4 } from "uuid"; // 임의 문자 생성 라이브러리
+import FileUpload from "../components/FileUpload";
 
 const Mint = () => {
   const GOOGLEMAP_API = process.env.REACT_APP_GOOGLEMAP_API;
@@ -144,45 +143,38 @@ const Mint = () => {
     loadScript();
   }, [loadScript]);
 
-  // 비동기라 South Korea를 불렀다가 KR까지 부르게 됨. 따라서 아래 useEffect 써야 함.
-  useEffect(() => {
-    console.log(lat);
-    console.log(lon);
-    console.log(country);
-  }, [lat, lon, country]);
-
   const [selectedFile, setSelectedFile] = useState();
   const [ipfsHash, setIpfsHash] = useState();
   const [encryptedIpfs, setEncryptedIpfs] = useState();
+  const [decryptedIpfs, setDecryptedIpfs] = useState();
 
   // Firebase updload 하기
-  const [imageUpload, setImageUpload] = useState(null);
   const [downloadURL, setDownloadURL] = useState();
+  const [metadataURI, setMetadataURI] = useState();
 
-  // 파일 업로드 후 업로드 된 주소 받아오기
-  const upLoadImage = () => {
-    if (imageUpload == null) return;
-    const imageRef = ref(storage, `images/${imageUpload.name + v4()}`); // v4라이브러리를 사용해서 임의의 문자열을 생성. 중복방지
-    uploadBytes(imageRef, imageUpload)
-      .then(() => {
-        // alert("Image Uploaded");
-        return getDownloadURL(imageRef);
-      })
-      .then((url) => {
-        setDownloadURL(url);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+  // Firebase 파일 업로드 후 업로드 된 주소 받아오기
+  const upLoadImage = async () => {
+    if (selectedFile == null) return;
+
+    const imageRef = ref(storage, `images/${selectedFile.name /* + v4()*/}`);
+    try {
+      await uploadBytes(imageRef, selectedFile);
+      const url = await getDownloadURL(imageRef);
+      setDownloadURL(url);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
-  const changeHandler = (event) => {
-    setSelectedFile(event.target.files[0]);
-  };
+  useEffect(() => {
+    if (downloadURL) {
+      uploadToPinata();
+    }
+  }, [downloadURL]);
 
   // Pinata 업로드
   const uploadToPinata = async () => {
-    if (!selectedFile) {
+    if (!selectedFile || !downloadURL) {
       console.log("파일을 선택해주세요.");
       return;
     }
@@ -208,22 +200,34 @@ const Mint = () => {
         }
       );
       setIpfsHash(res.data.IpfsHash);
-      console.log(res.data);
-      // 이미지 주소 CID값 (IpfsHash) 암호화
-      encryptIpfs();
+      console.log(ipfsHash);
     } catch (error) {
       console.log(error);
     }
   };
 
-  async function uploadFirebaseAndPinata() {
-    await upLoadImage();
-    if (downloadURL) {
-      uploadToPinata();
+  useEffect(() => {
+    if (ipfsHash) {
+      console.log(ipfsHash);
+      encryptIpfs();
+      console.log(encryptedIpfs);
     }
-  }
+  }, [ipfsHash]);
 
-  const uploadMetadataToPinata = async () => {
+  // 이미지 주소 CID값 (IpfsHash) 암호화
+  const encryptIpfs = () => {
+    const encrypted = CryptoJS.AES.encrypt(ipfsHash, "1234"); // 1234 부분은 회원가입시 비밀번호 설정한 값을 키로 사용하게
+    setEncryptedIpfs(encrypted.toString());
+  };
+
+  useEffect(() => {
+    if (encryptedIpfs) {
+      uploadMetadata();
+    }
+  }, [encryptedIpfs]);
+
+  // 메타데이터 업로드
+  const uploadMetadata = async () => {
     try {
       const metadata = {
         Name: "test",
@@ -248,39 +252,22 @@ const Mint = () => {
           },
         }
       );
-
-      console.log(metadataRes.data);
+      console.log(metadataRes);
+      console.log(metadataRes.data.IpfsHash);
+      setMetadataURI(
+        `https://teal-rapid-mink-528.mypinata.cloud/ipfs/${metadataRes.data.IpfsHash}`
+      );
     } catch (error) {
       console.log(error);
     }
   };
 
-  // 이미지 주소 CID값 (IpfsHash) 암호화
-  const encryptIpfs = () => {
-    const encrypted = CryptoJS.AES.encrypt(ipfsHash, "1234");
-    setEncryptedIpfs(encrypted.toString());
-  };
-
   // 복호화
-  // decryptKey 값 변경 핸들러
-  // const handleDecryptKeyChange = (e) => {
-  //   setDecryptKey(e.target.value);
-  // };
-
-  // const decryptIpfs = () => {
-  //   const decrypted = CryptoJS.AES.decrypt(encryptedIpfs, "1234");
-  //   const decryptedIpfs = decrypted.toString(CryptoJS.enc.Utf8);
-  //   setDecryptedIpfs(decryptedIpfs);
-  // };
-
-  useEffect(() => {
-    if (ipfsHash) {
-      // ipfsHash 값이 업데이트되면 이미지를 표시
-      console.log(ipfsHash);
-      encryptIpfs();
-      console.log(encryptedIpfs);
-    }
-  }, [ipfsHash]);
+  const decryptIpfs = () => {
+    const decrypted = CryptoJS.AES.decrypt(encryptedIpfs, "1234");
+    const decryptedIpfs = decrypted.toString(CryptoJS.enc.Utf8);
+    setDecryptedIpfs(decryptedIpfs);
+  };
 
   return (
     <div>
@@ -304,34 +291,25 @@ const Mint = () => {
             <input
               type="file"
               onChange={(event) => {
-                setImageUpload(event.target.files[0]);
+                setSelectedFile(event.target.files[0]);
               }}
             />
-            <button onClick={uploadFirebaseAndPinata}>
+            <button onClick={upLoadImage}>
               Upload Image to Firebase and Pinata
             </button>
-
             <div>
               <div>Firebase에 업로드 된 img주소: {downloadURL}</div>
+              <div>Pinata에 업로드 된 IPFS 주소 : {ipfsHash}</div>
               <div>Pinata에 업로드 된 EncryptedImg주소: {encryptedIpfs}</div>
+              {/* <div>Pinata에 업로드 된 DecryptedImg주소: {decryptedIpfs}</div> */}
+              <div>Pinata에 업로드 된 Metadata 주소 : {metadataURI}</div>
             </div>
-            {/* <input type="file" onChange={changeHandler} />
-            <button onClick={uploadToPinata} className="border border-gray-400">
-              이미지 업로드
-            </button> */}
-            <button
-              onClick={uploadMetadataToPinata}
-              className="border border-gray-400"
-            >
-              메타데이터 업로드
-            </button>
             {ipfsHash && (
               <>
                 <img
                   src={`https://gateway.pinata.cloud/ipfs/${ipfsHash}`}
-                  alt="Selected Image"
+                  alt="uploaded ipfsHash"
                 />
-                <div>{encryptedIpfs}</div>
               </>
             )}
           </>
