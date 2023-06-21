@@ -1,3 +1,27 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+/* body {
+  font-family: 'Roboto', sans-serif;
+} */
+
+
+@import url('https://fonts.googleapis.com/css2?family=Kablammo&display=swap');
+
+#fontChange{
+  font-family: 'Kablammo', cursive;
+}
+
+@font-face {
+  font-family: 'MyFont';
+  src: url('../public/font/Kablammo-Regular.ttf') format('truetype');
+  /* 다른 폰트 형식을 사용할 경우 format을 조정합니다. */
+}
+
+#fontChange {
+  font-family: 'MyFont', sans-serif;
+}

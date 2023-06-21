@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import CryptoJS from "crypto-js";
-import CanvasForm from './CanvasForm';
-import CanvasForm2 from './CanvasForm2';
+import CanvasForm from './CanvasForm/CanvasForm';
+import CanvasForm2 from './CanvasForm/CanvasForm2';
+import CanvasForm3 from './CanvasForm/CanvasForm3';
+import CanvasForm4 from './CanvasForm/CanvasForm4';
 
 // const PINATA_API = process.env.REACT_APP_PINATA_API;
 // const PINATA_SECRET = process.env.REACT_APP_PINATA_SECRET;
@@ -120,12 +122,12 @@ const FileUpload = () => {
           <input type="text" name="name" className="border-2 rounded-md ml-2  m-1" />
         </label>
         <br />
-        <label>
+        <label className='font-display2' >
           Age:
           <input type="text" name="age" className="border-2 rounded-md ml-2 m-1"  />
         </label>
         <br />
-        <button type="submit">Submit</button>
+        <button type="submit"  >Submit</button>
         </form>     
         {/* <div  className='border-2 border-black rounded-md p-4 ml-[350px] w-[700px] h-[500px]'>
           <div className='mb-4 ml-4'>
@@ -140,15 +142,22 @@ const FileUpload = () => {
           </div>
         </div> */}
       </div>
-      {ipfsHash && (
+      {/* {ipfsHash && ( */}
         <>         
-        <div className='grid grid-cols-2 gap-4'>
-          <CanvasForm metadata = {metaData2} imgad = {ipfsHash} imgstyle={backimg} />
-          <CanvasForm2 metadata = {metaData2} imgad = {ipfsHash} imgstyle={backimg} />
+        <div className='grid grid-cols-2 gap-4 justify-items-center'>
+          <CanvasForm metadata = {metaData2}  />
+          <CanvasForm2 metadata = {metaData2}  />
+          <CanvasForm3 metadata = {metaData2}  />
+          <CanvasForm4 metadata = {metaData2}  />
+
+        </div>
+        <div>
+          <button className='border-2 '>Font EXample</button>
         </div>
           <div>{encryptedIpfs}</div>
+          <div className=''></div>
         </>
-      )}
+      {/* )} */}
     </>
   );
 };

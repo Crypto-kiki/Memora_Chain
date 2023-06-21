@@ -5,6 +5,7 @@ import { storage } from "../firebase";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { v4 } from "uuid"; // 임의 문자 생성 라이브러리
 import { format } from "crypto-js";
+import FileUpload from '../components/FileUpload';
 // test
 
 const Mint = () => {
@@ -332,8 +333,12 @@ const Mint = () => {
                   alt="Selected Image"
                 />
                 <div>{encryptedIpfs}</div>
+
               </>
             )}
+                <div>
+                <FileUpload />
+                </div>
           </>
         </>
       )}
