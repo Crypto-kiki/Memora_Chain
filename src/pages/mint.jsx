@@ -5,6 +5,7 @@ import { storage } from "../firebase";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { v4 } from "uuid"; // 임의 문자 생성 라이브러리
 import { format } from "crypto-js";
+// test
 
 const Mint = () => {
   const GOOGLEMAP_API = process.env.REACT_APP_GOOGLEMAP_API;
