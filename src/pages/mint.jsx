@@ -3,8 +3,15 @@ import axios from "axios";
 import CryptoJS from "crypto-js";
 import { storage } from "../firebase";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+<<<<<<< HEAD
 // import { v4 } from "uuid"; // 임의 문자 생성 라이브러리
 import FileUpload from "../components/FileUpload";
+=======
+import { v4 } from "uuid"; // 임의 문자 생성 라이브러리
+import { format } from "crypto-js";
+import FileUpload from '../components/FileUpload';
+// test
+>>>>>>> origin/habin
 
 const Mint = () => {
   const GOOGLEMAP_API = process.env.REACT_APP_GOOGLEMAP_API;
@@ -310,8 +317,16 @@ const Mint = () => {
                   src={`https://gateway.pinata.cloud/ipfs/${ipfsHash}`}
                   alt="uploaded ipfsHash"
                 />
+<<<<<<< HEAD
+=======
+                <div>{encryptedIpfs}</div>
+
+>>>>>>> origin/habin
               </>
             )}
+                <div>
+                <FileUpload />
+                </div>
           </>
         </>
       )}
