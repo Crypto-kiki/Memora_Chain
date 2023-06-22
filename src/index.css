@@ -22,6 +22,46 @@
   /* 다른 폰트 형식을 사용할 경우 format을 조정합니다. */
 }
 
+@font-face {
+  font-family: 'Inter';
+  src: url('../public/font/Inter.ttf') format('truetype');
+  /* 다른 폰트 형식을 사용할 경우 format을 조정합니다. */
+}
+
+@font-face {
+  font-family: 'Montserrat';
+  src: url('../public/font/Montserrat.ttf') format('truetype');
+  /* 다른 폰트 형식을 사용할 경우 format을 조정합니다. */
+}
+
+@font-face {
+  font-family: 'Popppins';
+  src: url('../public/font/Popppins.ttf') format('truetype');
+  /* 다른 폰트 형식을 사용할 경우 format을 조정합니다. */
+}
+
+@font-face {
+  font-family: 'roboto';
+  src: url('../public/font/roboto.ttf') format('truetype');
+  /* 다른 폰트 형식을 사용할 경우 format을 조정합니다. */
+}
+
 #fontChange {
   font-family: 'MyFont', sans-serif;
+}
+
+#fontChange {
+  font-family: 'Montserrat', sans-serif;
+}
+
+#fontChange {
+  font-family: 'roboto', sans-serif;
+}
+
+#fontChange {
+  font-family: 'Popppins', sans-serif;
+}
+
+#fontChange {
+  font-family: 'Inter', sans-serif;
 }

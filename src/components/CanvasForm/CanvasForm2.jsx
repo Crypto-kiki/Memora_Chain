@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 import {useEffect} from "react";
-function CanvasForm2({metadata,  imgstyle}) {
+function CanvasForm2({metadata, fontstyle, size, img}) {
   const canvasRef = useRef(null);
 
    useEffect(()=>{
@@ -8,16 +8,22 @@ function CanvasForm2({metadata,  imgstyle}) {
     // 캔버스에 그리기
     const canvas = canvasRef.current;
     const ctx = canvas.getContext('2d');
-    const canvasWidth = canvas.width;
-    const canvasHeight = canvas.height;   
+    const cw = canvas.width;
+    const ch = canvas.height;   
+
+    // console.log(fontstyle);
+
+    //폰트 기능
+    const font = new FontFace(`${fontstyle}`,  `url(${process.env.PUBLIC_URL}/font/${fontstyle}.ttf)`);
+
 
     const tempCanvas = document.createElement('canvas');
     const tempCtx = tempCanvas.getContext('2d');
 
-    const width = 300;
-    const height = 400;
-    const x = canvasWidth/2 - 150;
-    const y = canvasHeight/2 - 200;
+    const width = cw/1.83;
+    const height = ch/2.5;
+    const x = cw/2 - cw/3.66;
+    const y = ch/2 - ch/5;
     const cornerRadius = 20; 
 
     // 이미지 그리기
@@ -28,25 +34,28 @@ function CanvasForm2({metadata,  imgstyle}) {
       image.onload = () => {
    
           ctx.filter = 'blur(6px)'       
-          ctx.drawImage(image, 0,0,550,1000);
+          ctx.drawImage(image, 0,0,cw,ch);
 
           ctx.filter = 'none'
           //사각형 아웃라인
-          ctx.strokeRect(0,0, canvasWidth, canvasHeight);                       
-          ctx.beginPath();
-          ctx.rect(0, 0, 500, 1000);
-          ctx.font = '25px Arial bold ';
-          ctx.fillStyle = 'white';
-          ctx.fillText(`Name: ${metadata.name}`, 50, 180);
-          ctx.fillText(`Age: ${metadata.age}`, 50, 220);
-          ctx.clip();
-          ctx.restore()
-   
+          ctx.strokeRect(0,0, cw, ch);                       
+
+    ctx.beginPath();
+    ctx.rect(0, 0,cw, ch);
+    font.load().then(() => {
+      ctx.font = `20px ${fontstyle} `;
+      ctx.fillStyle = 'white';
+      ctx.fillText(`Name: ${metadata.name}`, cw/11, ch/5.55);
+      ctx.fillText(`Age: ${metadata.age}`, cw/11, ch/4.54);
+    });
+
+    ctx.clip();
+    ctx.restore()
+        
         //삽화 이미지 그리기 (원본 크기)        
         tempCanvas.width = width;
         tempCanvas.height = height;
         tempCtx.drawImage(image, 0, 0, width, height);
-
 
         tempCtx.globalCompositeOperation = 'destination-in';
         tempCtx.beginPath();
@@ -62,16 +71,19 @@ function CanvasForm2({metadata,  imgstyle}) {
         tempCtx.closePath();
         tempCtx.fill();
           
-          ctx.drawImage(tempCanvas,x, y, width, height);
-       
+        ctx.drawImage(tempCanvas,x, y, width, height);
+
+        const imageDataUrl = canvas.toDataURL('image/png');
+        img(imageDataUrl);
+
         }
       
-    }, [ metadata])
+    }, [ metadata, fontstyle, size])
     
     
     return (
       <div>      
-      <canvas ref={canvasRef} width={550} height={1000} />
+      <canvas ref={canvasRef} width={size.width} height={size.height} />
     </div>
   );
 }

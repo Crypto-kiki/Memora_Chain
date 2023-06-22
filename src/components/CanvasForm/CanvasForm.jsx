@@ -2,7 +2,7 @@ import React, { useRef } from 'react';
 import {useEffect} from "react";
 // import d from "../../../public/font/Kablammo-Regular.ttf"
 
-function CanvasForm({metadata,  id}) {
+function CanvasForm({metadata,  fontstyle, size, img}) {
   const canvasRef = useRef(null);
   
   useEffect(()=>{
@@ -10,18 +10,12 @@ function CanvasForm({metadata,  id}) {
     // 캔버스에 그리기
     const canvas = canvasRef.current;
     const ctx = canvas.getContext('2d');   
-    const canvasWidth = canvas.width;
-    const canvasHeight = canvas.height;  
+    const cw = canvas.width;
+    const ch = canvas.height;  
     
-    const font = new FontFace('MyFont',  `url(${process.env.PUBLIC_URL}/font/Kablammo-Regular.ttf)`);
- 
-
-    font.load().then(() => {
-      ctx.font = '20px MyFont';
-      ctx.fillText(`Name: ${metadata.name}`, 50, 80);
-      ctx.fillText(`Age: ${metadata.age}`, 50, 120);  
-    });
-
+    //폰트 기능
+    const font = new FontFace(`${fontstyle}`,  `url(${process.env.PUBLIC_URL}/font/${fontstyle}.ttf)`);
+    
     //임시 캔버스 변수
     
     const tempCanvas = document.createElement('canvas');
@@ -31,25 +25,30 @@ function CanvasForm({metadata,  id}) {
    const height = 1000; // 이미지의 높이
    const zoomFactor = 0.8; // 확대 배율
 
-        // 확대된 크기 계산
-        const zoomedWidth = width * zoomFactor;
-        const zoomedHeight = height  * zoomFactor ;
+    // 확대된 크기 계산
+    const zoomedWidth = width * zoomFactor;
+    const zoomedHeight = height  * zoomFactor ;
 
           // 중앙 좌표 계산
-  const centerX =  width / 2;
-  const centerY = height / 2;
+    const centerX =  width / 2;
+    const centerY = height / 2;
 
-  // 중앙을 기준으로 확대된 크기만큼 좌표 이동
-  const zoomedX = centerX - zoomedWidth / 2;
-  const zoomedY = centerY - zoomedHeight / 2;
+     // 중앙을 기준으로 확대된 크기만큼 좌표 이동
+   const zoomedX = centerX - zoomedWidth / 2;
+    const zoomedY = centerY - zoomedHeight / 2;
 
 
     // 이미지 그리기
     const image = new Image();
-    image.src = `${process.env.PUBLIC_URL}/image/test2.jpg`; 
+    image.src = `${process.env.PUBLIC_URL}/image/test4.jpg`; 
 
       image.onload = () => {
-        // if(imgstyle ==1){
+
+          font.load().then(() => {
+            ctx.font = `20px ${fontstyle}`;
+            ctx.fillText(`Name: ${metadata.name}`, cw/11, ch/12.5);
+            ctx.fillText(`Age: ${metadata.age}`, cw/11, ch/8.3);  
+          });
            //임시캔버스에 그리기
           tempCanvas.width = zoomedWidth;
           tempCanvas.height = zoomedHeight;
@@ -60,23 +59,19 @@ function CanvasForm({metadata,  id}) {
 
           ctx.filter = 'none'          
           // 오른쪽에 사각형 그리기
-          const rectWidth = canvasWidth /2;
-          const rectheight = canvasHeight;
+          const rectWidth = cw /2;
+          const rectheight = ch;
           ctx.fillStyle = '#ffffff';
-          ctx.fillRect(rectWidth-30, 0, rectWidth+10, rectheight);
+          ctx.fillRect(rectWidth-cw/18.33, 0, rectWidth+cw/5, rectheight);
           //사각형 아웃라인
-          ctx.strokeRect(0,0, canvasWidth, canvasHeight);
-
-        // 텍스트 그리기        
-        ctx.font = 'bold 48px serif';
-        ctx.fillStyle = 'white';
-       
+          ctx.strokeRect(0,0, cw, ch);
+     
         
         //삽화 배경사각형
-        const rectWidth2 = 310;
-        const rectheight2 = 310;
+        const rectWidth2 = cw/1.78;
+        const rectheight2 = cw/1.78;
         ctx.fillStyle = '#ffffff';
-        ctx.fillRect(canvasWidth/2 - 75, canvasHeight/2 -55, rectWidth2, rectheight2);
+        ctx.fillRect(cw/2 - cw/7.33, ch/2 -ch/18.18, rectWidth2, rectheight2);
 
        
 
@@ -86,22 +81,24 @@ function CanvasForm({metadata,  id}) {
 
         ctx.drawImage(
           additionalImage,
-          canvasWidth/2 - 70,
-          canvasHeight/2 -50,
-          300,300
+          cw/2 -cw/7.85,
+          ch/2 -ch/20,
+          cw/1.84,cw/1.84
           );
+
+          const imageDataUrl = canvas.toDataURL('image/png');
+          img(imageDataUrl);
         }
 
-    }, [ metadata])
+    }, [ metadata, fontstyle, size])
     
-    
-    return (
-      <>
 
-      <div >       
-      <canvas ref={canvasRef} width={550} height={1000}/>
+    return (
+    <div>       
+      <canvas ref={canvasRef} width={size.width} height={size.height}/>
+      {/* <button onClick={imageDataUrl}>Complete</button> */}
     </div>
-    </>
+
   );
 }
 
