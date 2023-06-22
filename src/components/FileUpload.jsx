@@ -91,14 +91,14 @@ const FileUpload = () => {
           // console.log(metaData2);  
   };  
 
-  // const ButtonWithImage = ({imageUrl, alt})=> (
-  //   <button className='w-[150px] h-[180px] object-cover border-2' onClick = {()=>{setBackImg(imageUrl)}}>
-  //     <img src={`${process.env.PUBLIC_URL}/image/${imageUrl}.png`} alt={alt} />      
-  //   </button>
-  // )
-  // useEffect(()=>{
-  //   console.log(metaData2);
-  // }, [metaData2])
+  const ButtonWithImage = ({imageUrl, alt})=> (
+    <button className='w-[150px] h-[180px] object-cover border-2' onClick = {()=>{setBackImg(imageUrl)}}>
+      <img src={`${process.env.PUBLIC_URL}/image/${imageUrl}.png`} alt={alt} />      
+    </button>
+  )
+  useEffect(()=>{
+    console.log(metaData2);
+  }, [metaData2])
 
 
   useEffect(() => {
@@ -128,14 +128,21 @@ const FileUpload = () => {
         </label>
         <br />
         <button type="submit"  >Submit</button>
-        </form>   
-        </div>
-      <div className="border-1 bg-gray-300 text-white mt-4 p-2 mb-2"> 
+        </form>
+        <div  className='border-2 border-black rounded-md p-4 ml-[350px] w-[700px] h-[500px]'>
+          <div className='mb-4 ml-4'>
           Font Example
-          <div className='border-1 '>
-            1
           </div>
-      </div>  
+          <div className='grid grid-cols-4 gap-2 justify-items-center'>
+            {imageUrls.map((v,i)=>{
+              return (
+                <ButtonWithImage key={i} imageUrl={v} alt={`Image ${i + 1}`}/>
+              );
+            })}
+          </div>
+        </div> 
+        </div>
+ 
 
       {/* {ipfsHash && ( */}
         <>         
@@ -157,16 +164,3 @@ const FileUpload = () => {
 
 export default FileUpload;
 
-
-      {/* <div  className='border-2 border-black rounded-md p-4 ml-[350px] w-[700px] h-[500px]'>
-          <div className='mb-4 ml-4'>
-          배경화면 틀 정하기
-          </div>
-          <div className='grid grid-cols-4 gap-2 justify-items-center'>
-            {imageUrls.map((v,i)=>{
-              return (
-                <ButtonWithImage key={i} imageUrl={v} alt={`Image ${i + 1}`}/>
-              );
-            })}
-          </div>
-        </div> */}
