@@ -4,10 +4,7 @@ import { useState } from "react";
 import database from "./firebase.js";
 
 const Main = () => {
-  
-  return (
-    
-  );
+  return <div></div>;
 };
 
 export default Main;
