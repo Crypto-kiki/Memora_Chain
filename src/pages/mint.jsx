@@ -30,7 +30,6 @@ const Mint = ({ account }) => {
         const errorCallback = (error) => {
           reject(error);
         };
-
         navigator.geolocation.getCurrentPosition(
           successCallback,
           errorCallback
@@ -156,15 +155,18 @@ const Mint = ({ account }) => {
 
   // Firebase 파일 업로드 후 업로드 된 주소 받아오기
   const upLoadImage = async () => {
-    if (selectedFile == null) return;
-
-    const imageRef = ref(storage, `images/${selectedFile.name + v4()}`);
-    try {
-      await uploadBytes(imageRef, selectedFile);
-      const url = await getDownloadURL(imageRef);
-      setDownloadURL(url);
-    } catch (error) {
-      console.log(error);
+    // if (selectedFile == null) return;
+    if (selectedFile && account) {
+      const imageRef = ref(storage, `images/${selectedFile.name + v4()}`);
+      try {
+        await uploadBytes(imageRef, selectedFile);
+        const url = await getDownloadURL(imageRef);
+        setDownloadURL(url);
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      alert("지갑을 연결해 주세요.");
     }
   };
 

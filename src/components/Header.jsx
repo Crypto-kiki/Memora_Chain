@@ -1,7 +1,5 @@
 import { Link } from "react-router-dom";
 import { useContext } from "react";
-import { IoIosClose } from "react-icons/io";
-import { RxHamburgerMenu } from "react-icons/rx";
 import { AccountContext } from "../AccountContext";
 
 const Header = () => {
