@@ -128,8 +128,37 @@ const FileUpload = () => {
         </label>
         <br />
         <button type="submit"  >Submit</button>
-        </form>     
-        {/* <div  className='border-2 border-black rounded-md p-4 ml-[350px] w-[700px] h-[500px]'>
+        </form>   
+        </div>
+      <div className="border-1 bg-gray-300 text-white mt-4 p-2 mb-2"> 
+          Font Example
+          <div className='border-1 '>
+            1
+          </div>
+      </div>  
+
+      {/* {ipfsHash && ( */}
+        <>         
+        <div className='grid grid-cols-2 gap-4 justify-items-center'>
+          <CanvasForm metadata = {metaData2}  />
+          <CanvasForm2 metadata = {metaData2}  />
+          <CanvasForm3 metadata = {metaData2}  />
+          <CanvasForm4 metadata = {metaData2}  />
+
+        </div>
+
+          <div>{encryptedIpfs}</div>
+          {/* <div className=''></div> */}
+        </>
+      {/* )} */}
+    </>
+  );
+};
+
+export default FileUpload;
+
+
+      {/* <div  className='border-2 border-black rounded-md p-4 ml-[350px] w-[700px] h-[500px]'>
           <div className='mb-4 ml-4'>
           배경화면 틀 정하기
           </div>
@@ -141,25 +170,3 @@ const FileUpload = () => {
             })}
           </div>
         </div> */}
-      </div>
-      {/* {ipfsHash && ( */}
-        <>         
-        <div className='grid grid-cols-2 gap-4 justify-items-center'>
-          <CanvasForm metadata = {metaData2}  />
-          <CanvasForm2 metadata = {metaData2}  />
-          <CanvasForm3 metadata = {metaData2}  />
-          <CanvasForm4 metadata = {metaData2}  />
-
-        </div>
-        <div>
-          <button className='border-2 '>Font EXample</button>
-        </div>
-          <div>{encryptedIpfs}</div>
-          <div className=''></div>
-        </>
-      {/* )} */}
-    </>
-  );
-};
-
-export default FileUpload;
