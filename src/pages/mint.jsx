@@ -1,11 +1,14 @@
-import { useCallback, useState, useEffect, useRef } from "react";
+import { AccountContext } from "../AccountContext";
+import { useCallback, useState, useEffect, useRef, useContext } from "react";
 import axios from "axios";
 import CryptoJS from "crypto-js";
 import { storage } from "../firebase";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import FileUpload from "../components/FileUpload";
+import { v4 } from "uuid";
+import { v4 as uuidv4 } from "uuid";
 
-const Mint = () => {
+const Mint = ({ account }) => {
   const GOOGLEMAP_API = process.env.REACT_APP_GOOGLEMAP_API;
   const PINATA_JWT = process.env.REACT_APP_PINATA_JWT; // Bearer Token 사용해야 됨.
 
@@ -155,7 +158,7 @@ const Mint = () => {
   const upLoadImage = async () => {
     if (selectedFile == null) return;
 
-    const imageRef = ref(storage, `images/${selectedFile.name /* + v4()*/}`);
+    const imageRef = ref(storage, `images/${selectedFile.name + v4()}`);
     try {
       await uploadBytes(imageRef, selectedFile);
       const url = await getDownloadURL(imageRef);
@@ -207,9 +210,7 @@ const Mint = () => {
 
   useEffect(() => {
     if (ipfsHash) {
-      console.log(ipfsHash);
       encryptIpfs();
-      console.log(encryptedIpfs);
     }
   }, [ipfsHash]);
 
@@ -231,7 +232,7 @@ const Mint = () => {
       const metadata = {
         Name: "test",
         ImgUrl: downloadURL,
-        EncryptedImgUrl: encryptedIpfs,
+        EncryptedIPFSImgUrl: encryptedIpfs,
         GeolocationInfo: {
           Latitude: lat,
           Longitude: lon,
@@ -261,12 +262,13 @@ const Mint = () => {
     }
   };
 
-  // 복호화
+  /* 복호화
   const decryptIpfs = () => {
     const decrypted = CryptoJS.AES.decrypt(encryptedIpfs, "1234");
     const decryptedIpfs = decrypted.toString(CryptoJS.enc.Utf8);
     setDecryptedIpfs(decryptedIpfs);
   };
+  */
 
   return (
     <div>
@@ -300,8 +302,9 @@ const Mint = () => {
               <div>Firebase에 업로드 된 img주소: {downloadURL}</div>
               <div>Pinata에 업로드 된 IPFS 주소 : {ipfsHash}</div>
               <div>Pinata에 업로드 된 EncryptedImg주소: {encryptedIpfs}</div>
-              {/* <div>Pinata에 업로드 된 DecryptedImg주소: {decryptedIpfs}</div> */}
               <div>Pinata에 업로드 된 Metadata 주소 : {metadataURI}</div>
+              <div>지갑주소 : {account}</div>
+              {/* <div>Pinata에 업로드 된 DecryptedImg주소: {decryptedIpfs}</div> */}
             </div>
             {ipfsHash && (
               <>
@@ -311,9 +314,7 @@ const Mint = () => {
                 />
               </>
             )}
-            <div>
-              <FileUpload />
-            </div>
+            <div>{/* <FileUpload /> */}</div>
           </>
         </>
       )}
