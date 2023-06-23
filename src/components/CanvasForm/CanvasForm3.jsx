@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 import {useEffect} from "react";
-function CanvasForm3({metadata, fontstyle, size, img}) {
+function CanvasForm3({metadata, fontstyle, size, img, file}) {
   const canvasRef = useRef(null);
 
    useEffect(()=>{
@@ -16,7 +16,7 @@ function CanvasForm3({metadata, fontstyle, size, img}) {
 
     // 이미지 그리기
     const image = new Image();
-    image.src = `${process.env.PUBLIC_URL}/image/test4.jpg`; 
+    image.src = file; 
 
       image.onload = () => {
    
@@ -69,16 +69,16 @@ function CanvasForm3({metadata, fontstyle, size, img}) {
           document.fonts.ready.then(() => {
           ctx.font = `15px ${fontstyle}`;
           ctx.fillStyle = 'black';
-          ctx.fillText(`Age: ${metadata.age}`, cw/2 -cw/4.58 , ch/2 + ch/6.8);})
+          ctx.fillText(`Age: ${metadata.age}`, cw/2 -cw/4.58 , ch/2 + ch/6.8);
           const imageDataUrl = canvas.toDataURL('image/png');
-          img(imageDataUrl);});   
+          img(imageDataUrl);});   })
         }
 
-    }, [metadata, fontstyle, size])
+    }, [metadata, fontstyle, size, file])
 
     return (
-      <div>      
-      <canvas ref={canvasRef} width={size.width} height={size.height} />
+      <div className='hidden'>      
+      <canvas ref={canvasRef} width={550} height={900} />
     </div>
   );
 }

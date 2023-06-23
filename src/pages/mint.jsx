@@ -3,7 +3,12 @@ import { useCallback, useState, useEffect, useRef, useContext } from "react";
 import axios from "axios";
 import CryptoJS from "crypto-js";
 import { storage } from "../firebase";
-import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import {
+  ref,
+  uploadBytes,
+  getDownloadURL,
+  updateMetadata,
+} from "firebase/storage";
 import FileUpload from "../components/FileUpload";
 import { v4 } from "uuid";
 import { v4 as uuidv4 } from "uuid";
@@ -144,24 +149,47 @@ const Mint = ({ account }) => {
     loadScript();
   }, [loadScript]);
 
-  const [selectedFile, setSelectedFile] = useState();
+  const [selectedFile, setSelectedFile] = useState(null);
   const [ipfsHash, setIpfsHash] = useState();
   const [encryptedIpfs, setEncryptedIpfs] = useState();
-  const [decryptedIpfs, setDecryptedIpfs] = useState();
+  // const [decryptedIpfs, setDecryptedIpfs] = useState();
 
   // Firebase updload 하기
   const [downloadURL, setDownloadURL] = useState();
   const [metadataURI, setMetadataURI] = useState();
 
+  const [selectedFileURL, setSelectedFileURL] = useState();
+
+  // 이미지 선택하면 selectedFile 값 저장하기
+  useEffect(() => {
+    console.log(selectedFile);
+  }, [selectedFile]);
+
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    setSelectedFile(file);
+    setSelectedFileURL(URL.createObjectURL(file));
+  };
+
   // Firebase 파일 업로드 후 업로드 된 주소 받아오기
   const upLoadImage = async () => {
-    // if (selectedFile == null) return;
+    console.log(selectedFile);
     if (selectedFile && account) {
       const imageRef = ref(storage, `images/${selectedFile.name + v4()}`);
       try {
         await uploadBytes(imageRef, selectedFile);
+
+        const metadata = {
+          customMetadata: {
+            account: account,
+          },
+        };
+        await updateMetadata(imageRef, metadata);
+
         const url = await getDownloadURL(imageRef);
         setDownloadURL(url);
+
+        console.log("메타데이터 업데이트 성공");
       } catch (error) {
         console.log(error);
       }
@@ -241,6 +269,7 @@ const Mint = ({ account }) => {
           Country: country,
           City: city,
           Address: formatted_address,
+          Account: account,
         },
       };
 
@@ -291,12 +320,10 @@ const Mint = ({ account }) => {
           </div>
           <>
             <label>Choose File</label>
-            <input
-              type="file"
-              onChange={(event) => {
-                setSelectedFile(event.target.files[0]);
-              }}
-            />
+            <input type="file" onChange={handleFileChange} />
+            {selectedFileURL && (
+              <img src={selectedFileURL} alt="Selected File" />
+            )}
             <button onClick={upLoadImage}>
               Upload Image to Firebase and Pinata
             </button>
@@ -316,7 +343,9 @@ const Mint = ({ account }) => {
                 />
               </>
             )}
-            <div><FileUpload /></div>
+            <div>
+              <FileUpload file={selectedFileURL} />
+            </div>
           </>
         </>
       )}

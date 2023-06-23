@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 import {useEffect} from "react";
-function CanvasForm4({metadata, fontstyle,size, img}) {
+function CanvasForm4({metadata, fontstyle,size, img, file}) {
   const canvasRef = useRef(null);
 
    useEffect(()=>{
@@ -18,14 +18,14 @@ function CanvasForm4({metadata, fontstyle,size, img}) {
 
     // 이미지 그리기
     const image = new Image();
-    image.src = `${process.env.PUBLIC_URL}/image/test4.jpg`; 
+    image.src = file; 
 
       image.onload = () => {   
 
           ctx.drawImage(image, 0,ch/2-ch/20,550,550);
           
           const x1 = (image.width)/2;
-          const y1 = ((image.height)/2)+ch/2;
+          const y1 = ((image.height)/2)+image.height/2;
           const pixel = ctx.getImageData(x1, y1, 1, 1);
           const data = pixel.data;          
           const rgba = `rgba(${data[0]}, ${data[1]}, ${data[2]}, ${data[3] / 255})`; 
@@ -69,21 +69,21 @@ function CanvasForm4({metadata, fontstyle,size, img}) {
         ctx.fillText(`Name: ${metadata.name}`, cw/2 - cw/4.6, ch/2 + ch/8.33);
         ctx.font = `15px ${fontstyle} `;
         ctx.fillStyle = 'black';
-        ctx.fillText(`Age: ${metadata.age}`, cw/2 -cw/4.6 , ch/2 + ch/6.66);  })
+        ctx.fillText(`Age: ${metadata.age}`, cw/2 -cw/4.6 , ch/2 + ch/6.66);  
         const imageDataUrl = canvas.toDataURL('image/png');
-        img(imageDataUrl);  
+        img(imageDataUrl);  })
       });
 
     
         }
 
 
-    }, [metadata, fontstyle, size])
+    }, [metadata, fontstyle, size, file])
     
     
     return (
-      <div>      
-      <canvas ref={canvasRef} width={size.width} height={size.height} />
+      <div className='hidden'>       
+      <canvas ref={canvasRef} width={550} height={900} />
     </div>
   );
 }
