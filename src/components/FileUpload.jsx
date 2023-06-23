@@ -109,9 +109,7 @@ const FileUpload = () => {
         </div>
         <div>
           <SliderComponent imgurl1={CanvasImage1} imgurl2={CanvasImage2} imgurl3={CanvasImage3} imgurl4={CanvasImage4}/>
-        </div>
-
-        
+        </div>        
     </>
   );
 };
