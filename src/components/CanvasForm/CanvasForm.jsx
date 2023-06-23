@@ -1,8 +1,7 @@
 import React, { useRef } from "react";
 import { useEffect } from "react";
-// import d from "../../../public/font/Kablammo-Regular.ttf"
 
-function CanvasForm({ metadata, fontstyle, size, img }) {
+function CanvasForm({ metadata, fontstyle, size, img, file }) {
   const canvasRef = useRef(null);
 
   useEffect(() => {
@@ -36,12 +35,12 @@ function CanvasForm({ metadata, fontstyle, size, img }) {
     const centerY = height / 2;
 
     // 중앙을 기준으로 확대된 크기만큼 좌표 이동
-    const zoomedX = centerX - zoomedWidth / 2;
-    const zoomedY = centerY - zoomedHeight / 2;
+    //  const zoomedX = centerX - zoomedWidth / 2;
+    //   const zoomedY = centerY - zoomedHeight / 2;
 
     // 이미지 그리기
     const image = new Image();
-    image.src = `${process.env.PUBLIC_URL}/image/test4.jpg`;
+    image.src = file;
 
     image.onload = () => {
       font.load().then(() => {
@@ -50,9 +49,9 @@ function CanvasForm({ metadata, fontstyle, size, img }) {
           ctx.font = `20px ${fontstyle}`;
           ctx.fillText(`Name: ${metadata.name}`, cw / 11, ch / 12.5);
           ctx.fillText(`Age: ${metadata.age}`, cw / 11, ch / 8.3);
+          const imageDataUrl = canvas.toDataURL("image/png"); // 파일 url 저장부분
+          img(imageDataUrl);
         });
-        const imageDataUrl = canvas.toDataURL("image/png");
-        img(imageDataUrl);
       });
 
       //임시캔버스에 그리기
@@ -95,11 +94,11 @@ function CanvasForm({ metadata, fontstyle, size, img }) {
         cw / 1.84
       );
     };
-  }, [metadata, fontstyle, size, img]);
+  }, [metadata, fontstyle, size, file]);
 
   return (
-    <div>
-      <canvas ref={canvasRef} width={size.width} height={size.height} />
+    <div className="hidden">
+      <canvas ref={canvasRef} width={550} height={900} />
     </div>
   );
 }
