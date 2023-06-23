@@ -149,17 +149,31 @@ const Mint = ({ account }) => {
     loadScript();
   }, [loadScript]);
 
-  const [selectedFile, setSelectedFile] = useState();
+  const [selectedFile, setSelectedFile] = useState(null);
   const [ipfsHash, setIpfsHash] = useState();
   const [encryptedIpfs, setEncryptedIpfs] = useState();
-  const [decryptedIpfs, setDecryptedIpfs] = useState();
+  // const [decryptedIpfs, setDecryptedIpfs] = useState();
 
   // Firebase updload 하기
   const [downloadURL, setDownloadURL] = useState();
   const [metadataURI, setMetadataURI] = useState();
 
+  const [selectedFileURL, setSelectedFileURL] = useState();
+
+  // 이미지 선택하면 selectedFile 값 저장하기
+  useEffect(() => {
+    console.log(selectedFile);
+  }, [selectedFile]);
+
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    setSelectedFile(file);
+    setSelectedFileURL(URL.createObjectURL(file));
+  };
+
   // Firebase 파일 업로드 후 업로드 된 주소 받아오기
   const upLoadImage = async () => {
+    console.log(selectedFile);
     if (selectedFile && account) {
       const imageRef = ref(storage, `images/${selectedFile.name + v4()}`);
       try {
@@ -306,12 +320,10 @@ const Mint = ({ account }) => {
           </div>
           <>
             <label>Choose File</label>
-            <input
-              type="file"
-              onChange={(event) => {
-                setSelectedFile(event.target.files[0]);
-              }}
-            />
+            <input type="file" onChange={handleFileChange} />
+            {selectedFileURL && (
+              <img src={selectedFileURL} alt="Selected File" />
+            )}
             <button onClick={upLoadImage}>
               Upload Image to Firebase and Pinata
             </button>
@@ -331,7 +343,9 @@ const Mint = ({ account }) => {
                 />
               </>
             )}
-            <div><FileUpload /></div>
+            <div>
+              <FileUpload file={selectedFileURL} />
+            </div>
           </>
         </>
       )}
