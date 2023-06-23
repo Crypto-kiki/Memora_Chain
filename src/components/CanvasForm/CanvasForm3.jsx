@@ -65,13 +65,13 @@ function CanvasForm3({metadata, fontstyle, size, img}) {
 
 
         font.load().then(() => {
+          document.fonts.add(font); // 폰트를 document.fonts에 추가
+          document.fonts.ready.then(() => {
           ctx.font = `15px ${fontstyle}`;
           ctx.fillStyle = 'black';
-          ctx.fillText(`Age: ${metadata.age}`, cw/2 -cw/4.58 , ch/2 + ch/6.8);});
-          
+          ctx.fillText(`Age: ${metadata.age}`, cw/2 -cw/4.58 , ch/2 + ch/6.8);})
           const imageDataUrl = canvas.toDataURL('image/png');
-          img(imageDataUrl);
-
+          img(imageDataUrl);});   
         }
 
     }, [metadata, fontstyle, size])

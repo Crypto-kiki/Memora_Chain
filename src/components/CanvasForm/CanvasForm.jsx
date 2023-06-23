@@ -42,13 +42,18 @@ function CanvasForm({metadata,  fontstyle, size, img}) {
     const image = new Image();
     image.src = `${process.env.PUBLIC_URL}/image/test4.jpg`; 
 
-      image.onload = () => {
-
-          font.load().then(() => {
+      image.onload =  () => {
+            
+            font.load().then(()=>{
+              document.fonts.add(font); // 폰트를 document.fonts에 추가
+            document.fonts.ready.then(() => {
             ctx.font = `20px ${fontstyle}`;
             ctx.fillText(`Name: ${metadata.name}`, cw/11, ch/12.5);
-            ctx.fillText(`Age: ${metadata.age}`, cw/11, ch/8.3);  
-          });
+            ctx.fillText(`Age: ${metadata.age}`, cw/11, ch/8.3);})
+            const imageDataUrl = canvas.toDataURL('image/png');
+            img(imageDataUrl) 
+            });
+          
            //임시캔버스에 그리기
           tempCanvas.width = zoomedWidth;
           tempCanvas.height = zoomedHeight;
@@ -74,6 +79,7 @@ function CanvasForm({metadata,  fontstyle, size, img}) {
         ctx.fillRect(cw/2 - cw/7.33, ch/2 -ch/18.18, rectWidth2, rectheight2);
 
        
+       
 
         //삽화 이미지 그리기 (원본 크기)
         const additionalImage = new Image();
@@ -86,17 +92,17 @@ function CanvasForm({metadata,  fontstyle, size, img}) {
           cw/1.84,cw/1.84
           );
 
-          const imageDataUrl = canvas.toDataURL('image/png');
-          img(imageDataUrl);
+          ;
+        
         }
+        
 
-    }, [ metadata, fontstyle, size])
+    }, [ metadata, fontstyle, size, img])
     
 
     return (
     <div>       
       <canvas ref={canvasRef} width={size.width} height={size.height}/>
-      {/* <button onClick={imageDataUrl}>Complete</button> */}
     </div>
 
   );

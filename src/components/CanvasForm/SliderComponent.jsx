@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
 
@@ -9,13 +9,25 @@ import "swiper/css/navigation";
 // import required modules
 import { Navigation } from "swiper";
 
-export default function SliderComponent({imgurl1, imgurl2, imgurl3, imgurl4}) {
+export default function SliderComponent({imgurl1,imgurl2,imgurl3,imgurl4}) {
+    // const [swiperIs, setSwiperInstance]  =useState();
+
+    // useEffect(()=>{
+    //     if(swiperIs) {
+    //         swiperIs.update();
+    //     }
+    // }, [imgurl])
+
+    // const handleSwiperInit = (swiper) => {
+    //     setSwiperInstance(swiper);
+    //   };
     return (
         <>
             <Swiper
                 navigation={true}
                 modules={[Navigation]}
                 className="mySwiper"
+                // onSwiper={handleSwiperInit}
             >
                 <SwiperSlide>
                     <img

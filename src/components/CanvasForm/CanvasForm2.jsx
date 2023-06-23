@@ -43,10 +43,14 @@ function CanvasForm2({metadata, fontstyle, size, img}) {
     ctx.beginPath();
     ctx.rect(0, 0,cw, ch);
     font.load().then(() => {
+      document.fonts.add(font); // 폰트를 document.fonts에 추가
+      document.fonts.ready.then(() => {
       ctx.font = `20px ${fontstyle} `;
       ctx.fillStyle = 'white';
       ctx.fillText(`Name: ${metadata.name}`, cw/11, ch/5.55);
-      ctx.fillText(`Age: ${metadata.age}`, cw/11, ch/4.54);
+      ctx.fillText(`Age: ${metadata.age}`, cw/11, ch/4.54);})
+      const imageDataUrl = canvas.toDataURL('image/png');
+      img(imageDataUrl);
     });
 
     ctx.clip();
@@ -73,8 +77,7 @@ function CanvasForm2({metadata, fontstyle, size, img}) {
           
         ctx.drawImage(tempCanvas,x, y, width, height);
 
-        const imageDataUrl = canvas.toDataURL('image/png');
-        img(imageDataUrl);
+
 
         }
       
