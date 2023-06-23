@@ -62,15 +62,18 @@ function CanvasForm4({metadata, fontstyle,size, img}) {
 
  
       font.load().then(() => {
+        document.fonts.add(font); // 폰트를 document.fonts에 추가
+        document.fonts.ready.then(() => {
         ctx.font = `20px  ${fontstyle} `;
         ctx.fillStyle = 'black';
         ctx.fillText(`Name: ${metadata.name}`, cw/2 - cw/4.6, ch/2 + ch/8.33);
         ctx.font = `15px ${fontstyle} `;
         ctx.fillStyle = 'black';
-        ctx.fillText(`Age: ${metadata.age}`, cw/2 -cw/4.6 , ch/2 + ch/6.66);    
+        ctx.fillText(`Age: ${metadata.age}`, cw/2 -cw/4.6 , ch/2 + ch/6.66);  })
+        const imageDataUrl = canvas.toDataURL('image/png');
+        img(imageDataUrl);  
       });
-      const imageDataUrl = canvas.toDataURL('image/png');
-      img(imageDataUrl);
+
     
         }
 

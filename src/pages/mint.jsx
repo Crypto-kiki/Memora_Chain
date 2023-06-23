@@ -316,7 +316,7 @@ const Mint = ({ account }) => {
                 />
               </>
             )}
-            <div>{/* <FileUpload /> */}</div>
+            <div><FileUpload /></div>
           </>
         </>
       )}

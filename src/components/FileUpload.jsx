@@ -13,10 +13,12 @@ const FileUpload = () => {
     width: 550,
     height: 900,
   });
+  // const [CanvasImage, setCanvasImage] = useState([]);
   const [CanvasImage1, setCanvasImage1] = useState();
   const [CanvasImage2, setCanvasImage2] = useState();
   const [CanvasImage3, setCanvasImage3] = useState();
   const [CanvasImage4, setCanvasImage4] = useState();
+
 
 
 
@@ -65,11 +67,16 @@ const FileUpload = () => {
     };
 
     window.addEventListener('resize', handleResize);
-    console.log(canvasSize);
+    // console.log(canvasSize);
     return () => {
       window.removeEventListener('resize', handleResize);
     };
   }, []);
+
+  // useEffect(() => {
+  //   setCanvasImage([CanvasImage1, CanvasImage2, CanvasImage3, CanvasImage4]);
+  //   console.log(CanvasImage);
+  // }, [CanvasImage1, CanvasImage2, CanvasImage3, CanvasImage4]);
 
 
   return (
@@ -108,11 +115,11 @@ const FileUpload = () => {
           <CanvasForm4 metadata = {metaData2} fontstyle={fontstyle} size={canvasSize} img={setCanvasImage4} />
         </div>
         <div>
-          <SliderComponent imgurl1={CanvasImage1} imgurl2={CanvasImage2} imgurl3={CanvasImage3} imgurl4={CanvasImage4}/>
+          <SliderComponent imgurl1={CanvasImage1} imgurl2={CanvasImage2} imgurl3={CanvasImage3} imgurl4={CanvasImage4} metadata = {metaData2} />
         </div>        
     </>
   );
 };
-
+{/*imgurl1={CanvasImage1} imgurl2={CanvasImage2} imgurl3={CanvasImage3} imgurl4={CanvasImage4}*/} 
 export default FileUpload;
 
