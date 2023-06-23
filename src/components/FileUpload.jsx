@@ -74,8 +74,9 @@ const FileUpload = ({ file }) => {
           </div>
         </div>
       </div>
+      
       <div className="flex justify-center mb-4">
-        <div className="xl:w-[1000px] lg:w-[800px] md:w-[500px] sm:w-[300px]">
+        {file &&<div className="xl:w-[1000px] lg:w-[800px] md:w-[500px] sm:w-[300px]">
           <SliderComponent
             imgurl1={CanvasImage1}
             imgurl2={CanvasImage2}
@@ -83,7 +84,7 @@ const FileUpload = ({ file }) => {
             imgurl4={CanvasImage4}
             metadata={metaData2}
           />
-        </div>
+        </div>}
       </div>
       <div className="grid grid-cols-2 gap-2 justify-items-center">
         <CanvasForm

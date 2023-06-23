@@ -22,9 +22,11 @@ function CanvasForm4({ metadata, fontstyle, size, img, file }) {
 
     image.onload = () => {
       ctx.drawImage(image, 0, ch / 2 - ch / 20, 550, 550);
+      // console.log(image.width);
+      // console.log(image.height);
 
       const x1 = image.width / 2;
-      const y1 = image.height / 2 + image.height / 2;
+      const y1 = image.height / 2 +(ch/2);
       const pixel = ctx.getImageData(x1, y1, 1, 1);
       const data = pixel.data;
       const rgba = `rgba(${data[0]}, ${data[1]}, ${data[2]}, ${data[3] / 255})`;

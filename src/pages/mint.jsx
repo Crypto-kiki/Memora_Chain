@@ -320,10 +320,7 @@ const Mint = ({ account }) => {
           </div>
           <>
             <label>Choose File</label>
-            <input type="file" onChange={handleFileChange} />
-            {selectedFileURL && (
-              <img src={selectedFileURL} alt="Selected File" />
-            )}
+            <input type="file" onChange={handleFileChange} />      
             <button onClick={upLoadImage}>
               Upload Image to Firebase and Pinata
             </button>

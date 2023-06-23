@@ -17,7 +17,6 @@ export default function SliderComponent({
   imgurl3,
   imgurl4,
 }) {
-  console.log(imgurl1);
   const width = "250px";
   const height = "420px";
   return (

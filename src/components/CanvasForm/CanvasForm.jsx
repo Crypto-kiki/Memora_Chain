@@ -24,7 +24,7 @@ function CanvasForm({ metadata, fontstyle, size, img, file }) {
 
     const width = 275; // 이미지의 너비
     const height = 1000; // 이미지의 높이
-    const zoomFactor = 0.8; // 확대 배율
+    const zoomFactor = 1; // 확대 배율
 
     // 확대된 크기 계산
     const zoomedWidth = width * zoomFactor;
