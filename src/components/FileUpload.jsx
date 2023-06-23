@@ -38,6 +38,47 @@ const FileUpload = ({ file }) => {
       />
     </button>
   );
+  useEffect(() => {
+    const handleResize = () => {
+      const screenWidth = window.innerWidth;
+
+      if (screenWidth < 640) {
+        // sm 화면 크기
+        setCanvasSize({
+          width: 200,
+          height: 324,
+        });
+      } else if (screenWidth < 768) {
+        // md 화면 크기
+        setCanvasSize({
+          width: 250,
+          height: 420,
+        });
+      } else if (screenWidth < 1024) {
+        // lg 화면 크기 이상
+        setCanvasSize({
+          width: 400,
+          height: 648,
+        });
+      } else {
+        setCanvasSize({
+          width: 550,
+          height: 900,
+        });
+      }
+    };
+
+    window.addEventListener("resize", handleResize);
+    // console.log(canvasSize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
+  // useEffect(() => {
+  //   setCanvasImage([CanvasImage1, CanvasImage2, CanvasImage3, CanvasImage4]);
+  //   console.log(CanvasImage);
+  // }, [CanvasImage1, CanvasImage2, CanvasImage3, CanvasImage4]);
 
   return (
     <>
@@ -74,41 +115,39 @@ const FileUpload = ({ file }) => {
           </div>
         </div>
       </div>
-      <div className="flex justify-center mb-4">
-        <div className="xl:w-[1000px] lg:w-[800px] md:w-[500px] sm:w-[300px]">
-          <SliderComponent
-            imgurl1={CanvasImage1}
-            imgurl2={CanvasImage2}
-            imgurl3={CanvasImage3}
-            imgurl4={CanvasImage4}
-            metadata={metaData2}
-          />
-        </div>
-      </div>
-      <div className="grid grid-cols-2 gap-2 justify-items-center">
+      <div className="grid grid-cols-2 gap-4 justify-items-center">
         <CanvasForm
           metadata={metaData2}
           fontstyle={fontstyle}
+          size={canvasSize}
           img={setCanvasImage1}
-          file={file}
         />
         <CanvasForm2
           metadata={metaData2}
           fontstyle={fontstyle}
+          size={canvasSize}
           img={setCanvasImage2}
-          file={file}
         />
         <CanvasForm3
           metadata={metaData2}
           fontstyle={fontstyle}
+          size={canvasSize}
           img={setCanvasImage3}
-          file={file}
         />
         <CanvasForm4
           metadata={metaData2}
           fontstyle={fontstyle}
+          size={canvasSize}
           img={setCanvasImage4}
-          file={file}
+        />
+      </div>
+      <div>
+        <SliderComponent
+          imgurl1={CanvasImage1}
+          imgurl2={CanvasImage2}
+          imgurl3={CanvasImage3}
+          imgurl4={CanvasImage4}
+          metadata={metaData2}
         />
       </div>
     </>

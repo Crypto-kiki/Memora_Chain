@@ -18,7 +18,7 @@ function CanvasForm3({ metadata, fontstyle, size, img, file }) {
 
     // 이미지 그리기
     const image = new Image();
-    image.src = file;
+    image.src = `${process.env.PUBLIC_URL}/image/test4.jpg`;
 
     image.onload = () => {
       ctx.filter = "blur(6px)";
@@ -82,16 +82,16 @@ function CanvasForm3({ metadata, fontstyle, size, img, file }) {
             cw / 2 - cw / 4.58,
             ch / 2 + ch / 6.8
           );
-          const imageDataUrl = canvas.toDataURL("image/png");
-          img(imageDataUrl);
         });
+        const imageDataUrl = canvas.toDataURL("image/png");
+        img(imageDataUrl);
       });
     };
-  }, [metadata, fontstyle, size, file]);
+  }, [metadata, fontstyle, size]);
 
   return (
-    <div className="hidden">
-      <canvas ref={canvasRef} width={550} height={900} />
+    <div>
+      <canvas ref={canvasRef} width={size.width} height={size.height} />
     </div>
   );
 }

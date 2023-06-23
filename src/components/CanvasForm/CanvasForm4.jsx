@@ -18,13 +18,13 @@ function CanvasForm4({ metadata, fontstyle, size, img, file }) {
 
     // 이미지 그리기
     const image = new Image();
-    image.src = file;
+    image.src = `${process.env.PUBLIC_URL}/image/test4.jpg`;
 
     image.onload = () => {
       ctx.drawImage(image, 0, ch / 2 - ch / 20, 550, 550);
 
       const x1 = image.width / 2;
-      const y1 = image.height / 2 + image.height / 2;
+      const y1 = image.height / 2 + ch / 2;
       const pixel = ctx.getImageData(x1, y1, 1, 1);
       const data = pixel.data;
       const rgba = `rgba(${data[0]}, ${data[1]}, ${data[2]}, ${data[3] / 255})`;
@@ -75,16 +75,16 @@ function CanvasForm4({ metadata, fontstyle, size, img, file }) {
             cw / 2 - cw / 4.6,
             ch / 2 + ch / 6.66
           );
-          const imageDataUrl = canvas.toDataURL("image/png");
-          img(imageDataUrl);
         });
+        const imageDataUrl = canvas.toDataURL("image/png");
+        img(imageDataUrl);
       });
     };
-  }, [metadata, fontstyle, size, file]);
+  }, [metadata, fontstyle, size]);
 
   return (
-    <div className="hidden">
-      <canvas ref={canvasRef} width={550} height={900} />
+    <div>
+      <canvas ref={canvasRef} width={size.width} height={size.height} />
     </div>
   );
 }
