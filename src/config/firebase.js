@@ -1,7 +1,7 @@
 import firebase from "firebase/app";
 import "firebase/database";
 import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
+import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDsFA5Rc1u5gTtmv2ArgVM1a0AMbW1oh3E",
@@ -13,10 +13,10 @@ const firebaseConfig = {
   measurementId: "G-BWV8CWSHJT",
 };
 
-const database = firebase.database();
-
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
+
+// Initialize Cloud Firestore and get a reference to the service
+const db = getFirestore(app);
 
 export default database;

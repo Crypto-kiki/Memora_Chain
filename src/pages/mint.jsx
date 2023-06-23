@@ -3,7 +3,12 @@ import { useCallback, useState, useEffect, useRef, useContext } from "react";
 import axios from "axios";
 import CryptoJS from "crypto-js";
 import { storage } from "../firebase";
-import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import {
+  ref,
+  uploadBytes,
+  getDownloadURL,
+  updateMetadata,
+} from "firebase/storage";
 import FileUpload from "../components/FileUpload";
 import { v4 } from "uuid";
 import { v4 as uuidv4 } from "uuid";
@@ -155,13 +160,22 @@ const Mint = ({ account }) => {
 
   // Firebase 파일 업로드 후 업로드 된 주소 받아오기
   const upLoadImage = async () => {
-    // if (selectedFile == null) return;
     if (selectedFile && account) {
       const imageRef = ref(storage, `images/${selectedFile.name + v4()}`);
       try {
         await uploadBytes(imageRef, selectedFile);
+
+        const metadata = {
+          customMetadata: {
+            account: account,
+          },
+        };
+        await updateMetadata(imageRef, metadata);
+
         const url = await getDownloadURL(imageRef);
         setDownloadURL(url);
+
+        console.log("메타데이터 업데이트 성공");
       } catch (error) {
         console.log(error);
       }
@@ -241,6 +255,7 @@ const Mint = ({ account }) => {
           Country: country,
           City: city,
           Address: formatted_address,
+          Account: account,
         },
       };
 
