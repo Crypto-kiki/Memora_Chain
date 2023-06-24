@@ -16,9 +16,12 @@ export default function SliderComponent({
   imgurl2,
   imgurl3,
   imgurl4,
+  setIndex,
+
 }) {
-  const width = "250px";
-  const height = "420px";
+  const handleSlideChange = (swiper) => {
+    setIndex(swiper.activeIndex);
+  }
   return (
     <>
       <Swiper
@@ -26,6 +29,7 @@ export default function SliderComponent({
         navigation={true}
         modules={[Navigation, Pagination]}
         className="mySwiper"
+        onSlideChange={handleSlideChange}
       >
         <SwiperSlide>
           <div className="flex justify-center">
@@ -33,8 +37,9 @@ export default function SliderComponent({
               className="object-fill xl:w-[550px] lg:w-[400px] md:w-[250px] sm:w-[200px]"
               src={`${imgurl1}`}
               alt="1"
-            />
+            />            
           </div>
+          {/* <div>현재 슬라이드 인덱스: {activeSlideIndex}</div> */}
         </SwiperSlide>
         <SwiperSlide>
           <div className="flex justify-center">
@@ -44,6 +49,7 @@ export default function SliderComponent({
               alt="2"
             />
           </div>
+          {/* <div>현재 슬라이드 인덱스: {activeSlideIndex}</div> */}
         </SwiperSlide>
         <SwiperSlide>
           <div className="flex justify-center">
@@ -53,6 +59,7 @@ export default function SliderComponent({
               alt="3"
             />
           </div>
+          {/* <div>현재 슬라이드 인덱스: {activeSlideIndex}</div> */}
         </SwiperSlide>
         <SwiperSlide>
           <div className="flex justify-center">
@@ -62,6 +69,7 @@ export default function SliderComponent({
               alt="4"
             />
           </div>
+          {/* <div>현재 슬라이드 인덱스: {activeSlideIndex}</div> */}
         </SwiperSlide>
       </Swiper>
     </>
