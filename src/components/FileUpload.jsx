@@ -6,13 +6,14 @@ import CanvasForm3 from "./CanvasForm/CanvasForm3";
 import CanvasForm4 from "./CanvasForm/CanvasForm4";
 import SliderComponent from "./CanvasForm/SliderComponent";
 
-const FileUpload = ({ file }) => {
+const FileUpload = ({ file, setUrl }) => {
   const [metaData2, setMetaData] = useState({ name: "", age: 0 });
   const [fontstyle, setFontStyle] = useState("roboto");
   const [CanvasImage1, setCanvasImage1] = useState();
   const [CanvasImage2, setCanvasImage2] = useState();
   const [CanvasImage3, setCanvasImage3] = useState();
   const [CanvasImage4, setCanvasImage4] = useState();
+  const [index, setIndex] = useState(0);
   // console.log(file);
   //폰트 배열
   const FontArray = ["Inter", "Montserrat", "Popppins", "roboto"];
@@ -38,6 +39,20 @@ const FileUpload = ({ file }) => {
       />
     </button>
   );
+  useEffect(() => {
+    FileToMint();
+  }, [index, CanvasImage1]);
+  const FileToMint = () => {
+    if (index == 0 && CanvasImage1) {
+      setUrl(CanvasImage1);
+    } else if (index == 1) {
+      setUrl(CanvasImage2);
+    } else if (index == 2) {
+      setUrl(CanvasImage3);
+    } else if (index == 3) {
+      setUrl(CanvasImage4);
+    }
+  };
 
   return (
     <>
@@ -74,16 +89,21 @@ const FileUpload = ({ file }) => {
           </div>
         </div>
       </div>
+
       <div className="flex justify-center mb-4">
-        <div className="xl:w-[1000px] lg:w-[800px] md:w-[500px] sm:w-[300px]">
-          <SliderComponent
-            imgurl1={CanvasImage1}
-            imgurl2={CanvasImage2}
-            imgurl3={CanvasImage3}
-            imgurl4={CanvasImage4}
-            metadata={metaData2}
-          />
-        </div>
+        {file && (
+          <div className="xl:w-[1000px] lg:w-[800px] md:w-[500px] sm:w-[300px]">
+            <SliderComponent
+              imgurl1={CanvasImage1}
+              imgurl2={CanvasImage2}
+              imgurl3={CanvasImage3}
+              imgurl4={CanvasImage4}
+              metadata={metaData2}
+              setIndex={setIndex}
+              index={index}
+            />
+          </div>
+        )}
       </div>
       <div className="grid grid-cols-2 gap-2 justify-items-center">
         <CanvasForm

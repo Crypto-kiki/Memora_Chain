@@ -12,8 +12,8 @@ function CanvasForm4({ metadata, fontstyle, size, img, file }) {
 
     //폰트 기능
     const font = new FontFace(
-      `${fontstyle}`,
-      `url(${process.env.PUBLIC_URL}/font/${fontstyle}.ttf)`
+      "Montserrat",
+      `url(${process.env.PUBLIC_URL}/font/Montserrat.ttf)`
     );
 
     // 이미지 그리기
@@ -21,20 +21,23 @@ function CanvasForm4({ metadata, fontstyle, size, img, file }) {
     image.src = file;
 
     image.onload = () => {
-      ctx.drawImage(image, 0, ch / 2 - ch / 20, 550, 550);
-
-      const x1 = image.width / 2;
-      const y1 = image.height / 2 + image.height / 2;
-      const pixel = ctx.getImageData(x1, y1, 1, 1);
-      const data = pixel.data;
-      const rgba = `rgba(${data[0]}, ${data[1]}, ${data[2]}, ${data[3] / 255})`;
+      // 배경 사각형 그리기
+      const rectWidth3 = cw / 2;
+      const rectheight3 = ch;
+      ctx.fillStyle = "#F9E7B6";
+      ctx.fillRect(0, 0, rectWidth3 * 2, rectheight3);
 
       // 아래에 사각형 그리기
       const rectWidth2 = cw;
       const rectheight2 = ch / 2;
-      console.log(rgba);
-      ctx.fillStyle = rgba;
-      ctx.fillRect(0, ch / 2 - ch / 10, rectWidth2, rectheight2 + ch / 10);
+      // console.log(rgba);
+      ctx.fillStyle = "gray";
+      ctx.fillRect(
+        15,
+        ch / 2 - ch / 10,
+        rectWidth2 - 30,
+        rectheight2 + ch / 10 - 15
+      );
 
       ctx.filter = "none";
 
@@ -42,39 +45,49 @@ function CanvasForm4({ metadata, fontstyle, size, img, file }) {
       const rectWidth = cw;
       const rectheight = ch / 2 - ch / 10;
       ctx.fillStyle = "#ffffff";
-      ctx.fillRect(0, 0, rectWidth, rectheight);
-      //사각형 아웃라인
-      ctx.strokeRect(0, 0, cw, ch);
+      ctx.fillRect(15, 15, rectWidth - 30, rectheight - 15);
 
-      //삽화 이미지 그리기 (원본 크기)
-      const additionalImage = new Image();
-      additionalImage.src = image.src;
+      //이미지 크기
+      const iw = image.width;
+      const ih = image.height;
+      const iar = iw / ih;
+      if (iar < 0.9) {
+        const x = cw / 2 - cw / 3.23;
+        const y = ch / 2 - ch / 3.7 - (rectheight2 * (2 - iar) - rectheight2);
+        const width = cw / 1.6;
+        const height = (cw / 1.6) * (2 - iar);
+
+        ctx.drawImage(image, x, y, width, height);
+      } else if (iar > 1.1) {
+        const width = (cw / 1.6) * iar;
+        const height = cw / 1.6;
+        const x = cw / 2 - width / 2;
+        const y = ch / 2 - ch / 3.7;
+
+        ctx.drawImage(image, x, y, width, height);
+      } else {
+        //삽화 이미지 그리기 (원본 크기)
+        const x = cw / 2 - cw / 3.23;
+        const y = ch / 2 - ch / 3.7;
+        const width = cw / 1.6;
+        const height = cw / 1.6;
+
+        ctx.drawImage(image, x, y, width, height);
+      }
 
       const x = cw / 2 - cw / 3.23;
       const y = ch / 2 - ch / 3.7;
       const width = cw / 1.6;
       const height = cw / 1.6;
-      // const cornerRadius = 20;
-
-      ctx.drawImage(image, x, y, width, height);
-
       font.load().then(() => {
         document.fonts.add(font); // 폰트를 document.fonts에 추가
         document.fonts.ready.then(() => {
-          ctx.font = `20px  ${fontstyle} `;
-          ctx.fillStyle = "black";
-          ctx.fillText(
-            `Name: ${metadata.name}`,
-            cw / 2 - cw / 4.6,
-            ch / 2 + ch / 8.33
-          );
+          ctx.font = "20px Montserrat";
+          ctx.fillStyle = "white";
+          ctx.fillText(`Name: ${metadata.name}`, x + 3, y + height + 30);
           ctx.font = `15px ${fontstyle} `;
-          ctx.fillStyle = "black";
-          ctx.fillText(
-            `Age: ${metadata.age}`,
-            cw / 2 - cw / 4.6,
-            ch / 2 + ch / 6.66
-          );
+          ctx.fillStyle = "white";
+          ctx.fillText(`Age: ${metadata.age}`, x + 3, y + height + 55);
           const imageDataUrl = canvas.toDataURL("image/png");
           img(imageDataUrl);
         });
@@ -90,3 +103,11 @@ function CanvasForm4({ metadata, fontstyle, size, img, file }) {
 }
 
 export default CanvasForm4;
+
+//색깔
+
+// const x1 = image.width / 2;
+// const y1 = image.height / 2 +(ch/2);
+// const pixel = ctx.getImageData(x1, y1, 1, 1);
+// const data = pixel.data;
+// const rgba = `rgba(${data[0]}, ${data[1]}, ${data[2]}, ${data[3] / 255})`;

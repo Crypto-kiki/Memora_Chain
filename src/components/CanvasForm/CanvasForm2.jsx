@@ -1,5 +1,6 @@
 import React, { useRef } from "react";
 import { useEffect } from "react";
+
 function CanvasForm2({ metadata, fontstyle, size, img, file }) {
   const canvasRef = useRef(null);
 
@@ -10,12 +11,10 @@ function CanvasForm2({ metadata, fontstyle, size, img, file }) {
     const cw = canvas.width;
     const ch = canvas.height;
 
-    // console.log(fontstyle);
-
-    //폰트 기능
+    // 폰트 기능
     const font = new FontFace(
-      `${fontstyle}`,
-      `url(${process.env.PUBLIC_URL}/font/${fontstyle}.ttf)`
+      "roboto",
+      `url(${process.env.PUBLIC_URL}/font/roboto.ttf)`
     );
 
     const tempCanvas = document.createElement("canvas");
@@ -32,19 +31,35 @@ function CanvasForm2({ metadata, fontstyle, size, img, file }) {
     image.src = file;
 
     image.onload = () => {
-      ctx.filter = "blur(6px)";
-      ctx.drawImage(image, 0, 0, cw, ch);
+      // 부모 요소 생성하여 크기 제한
+      const parentDiv = document.createElement("div");
+      parentDiv.style.width = `${cw}px`;
+      parentDiv.style.height = `${ch}px`;
+      parentDiv.style.overflow = "hidden";
+      parentDiv.appendChild(canvas);
 
+      // 배경 사각형 그리기
+      const rectWidth = cw / 2;
+      const rectheight = ch;
+      ctx.fillStyle = "#F9E7B6";
+      ctx.fillRect(0, 0, rectWidth * 2, rectheight);
+
+      // 배경 삽화 그리기
+      ctx.filter = "blur(6px)";
+      ctx.drawImage(image, 15, 15, cw - 30, ch - 30);
+
+      // 사각형 아웃라인
       ctx.filter = "none";
-      //사각형 아웃라인
-      ctx.strokeRect(0, 0, cw, ch);
+      ctx.strokeStyle = "#ffffff";
+      ctx.lineWidth = 2;
+      ctx.strokeRect(15, 15, cw - 30, ch - 30);
 
       ctx.beginPath();
       ctx.rect(0, 0, cw, ch);
       font.load().then(() => {
         document.fonts.add(font); // 폰트를 document.fonts에 추가
         document.fonts.ready.then(() => {
-          ctx.font = `20px ${fontstyle} `;
+          ctx.font = "20px roboto";
           ctx.fillStyle = "white";
           ctx.fillText(`Name: ${metadata.name}`, cw / 11, ch / 5.55);
           ctx.fillText(`Age: ${metadata.age}`, cw / 11, ch / 4.54);
@@ -56,7 +71,7 @@ function CanvasForm2({ metadata, fontstyle, size, img, file }) {
       ctx.clip();
       ctx.restore();
 
-      //삽화 이미지 그리기 (원본 크기)
+      // 삽화 이미지 그리기 (원본 크기)
       tempCanvas.width = width;
       tempCanvas.height = height;
       tempCtx.drawImage(image, 0, 0, width, height);
@@ -76,12 +91,23 @@ function CanvasForm2({ metadata, fontstyle, size, img, file }) {
       tempCtx.fill();
 
       ctx.drawImage(tempCanvas, x, y, width, height);
+      const imageDataUrl = canvas.toDataURL("image/png");
+      img(imageDataUrl);
     };
   }, [metadata, fontstyle, size, file]);
 
   return (
     <div className="hidden">
-      <canvas ref={canvasRef} width={550} height={900} />
+      <div
+        style={{
+          width: "550px",
+          height: "900px",
+          overflow: "hidden",
+          position: "relative",
+        }}
+      >
+        <canvas ref={canvasRef} width={550} height={900} />
+      </div>
     </div>
   );
 }

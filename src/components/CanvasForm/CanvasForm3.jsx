@@ -12,8 +12,8 @@ function CanvasForm3({ metadata, fontstyle, size, img, file }) {
 
     //폰트 기능
     const font = new FontFace(
-      `${fontstyle}`,
-      `url(${process.env.PUBLIC_URL}/font/${fontstyle}.ttf)`
+      `Popppins`,
+      `url(${process.env.PUBLIC_URL}/font/Popppins.ttf)`
     );
 
     // 이미지 그리기
@@ -21,71 +21,159 @@ function CanvasForm3({ metadata, fontstyle, size, img, file }) {
     image.src = file;
 
     image.onload = () => {
-      ctx.filter = "blur(6px)";
-      // const scaleFactor = window.devicePixelRatio; // 현재 디스플레이의 픽셀 비율
+      // 배경 사각형 그리기
+      const rectWidth = cw / 2;
+      const rectheight = ch;
+      ctx.fillStyle = "#F9E7B6";
+      ctx.fillRect(0, 0, rectWidth * 2, rectheight);
 
-      // ctx.drawImage(image, 0,0, image.width, image.height, 0,0,255,1000)
-      ctx.drawImage(image, 0, 0, cw, ch);
+      //이미지 크기
+      const iw = image.width;
+      const ih = image.height;
+      const iar = iw / ih;
+      ctx.filter = "blur(6px)";
+      ctx.drawImage(image, 15, 15, cw - 30, ch - 30);
 
       ctx.filter = "none";
-      //사각형 아웃라인
-      ctx.strokeRect(0, 0, cw, ch);
+      // 사각형 아웃라인
+      ctx.filter = "none";
+      ctx.strokeStyle = "#F9E7B6";
+      ctx.lineWidth = 2;
+      ctx.strokeRect(15, 15, cw - 30, ch - 30);
 
-      //삽화 배경사각형
-      const rectWidth2 = cw / 1.83;
-      const rectheight2 = ch / 2.63;
-      ctx.fillStyle = "#ffffff";
-      ctx.fillRect(
-        cw / 2 - cw / 3.66,
-        ch / 2 - ch / 5.128,
-        rectWidth2,
-        rectheight2
-      );
-      //삽화 이미지 그리기 (원본 크기)
-      const additionalImage = new Image();
-      additionalImage.src = image.src;
-
-      const x = cw / 2 - cw / 4.4;
-      const y = ch / 2 - ch / 5.88;
-      const width = cw / 2.2;
-      const height = cw / 2.2;
-      // const cornerRadius = 20;
-      // (((ch/2 -ch/5.128) + (ch/2.63) - (ch/2 - ch/5.88) + (cw/2.2))/2)
-      ctx.drawImage(image, x, y, width, height);
-      font.load().then(() => {
-        ctx.font = `20px ${fontstyle} `;
-        ctx.fillStyle = "black";
-        ctx.fillText(
-          `Name: ${metadata.name}`,
-          cw / 2 - cw / 4.58,
-          ch / 2 + ch / 8
+      //세로가 김
+      if (iar < 0.9) {
+        //삽화 배경사각형
+        const rectWidth2 = cw / 1.83;
+        const rectheight2 = ch / 2.23;
+        ctx.fillStyle = "#ffffff";
+        ctx.fillRect(
+          cw / 2 - cw / 3.66,
+          ch / 2 - ch / 4.5 - (rectheight2 * (2 - iar) - rectheight2),
+          rectWidth2,
+          rectheight2 * (2 - iar)
         );
-      });
-
-      const textWidth = ctx.measureText(`Name: ${metadata.name}`).width;
-      const underLineY = ch / 2 + ch / 7.8;
-      ctx.fill();
-      ctx.beginPath();
-      ctx.strokeStyle = "black";
-      ctx.lineWidth = 1;
-      ctx.moveTo(cw / 2 - cw / 4.58, underLineY);
-      ctx.lineTo(x + textWidth, underLineY);
-      ctx.stroke();
-
-      font.load().then(() => {
-        document.fonts.add(font); // 폰트를 document.fonts에 추가
-        document.fonts.ready.then(() => {
-          ctx.font = `15px ${fontstyle}`;
+        //삽화 이미지 그리기 (원본 크기)
+        const x = cw / 2 - cw / 3.66 + 16;
+        const y = ch / 2 - ch / 5.2 - (rectheight2 * (2 - iar) - rectheight2);
+        const width = cw / 2.05;
+        const height = (cw / 2.05) * (2 - iar);
+        ctx.drawImage(image, x, y, width, height);
+        font.load().then(() => {
+          ctx.font = "20px Popppins";
           ctx.fillStyle = "black";
-          ctx.fillText(
-            `Age: ${metadata.age}`,
-            cw / 2 - cw / 4.58,
-            ch / 2 + ch / 6.8
-          );
-          const imageDataUrl = canvas.toDataURL("image/png");
-          img(imageDataUrl);
+          ctx.fillText(`Name: ${metadata.name}`, x + 3, y + height + 30);
         });
-      });
+
+        const textWidth = ctx.measureText(`Name: `).width;
+        const underLineY = y + height + 34;
+        ctx.fill();
+        ctx.beginPath();
+        ctx.strokeStyle = "black";
+        ctx.lineWidth = 1;
+        ctx.moveTo(x + 3, underLineY);
+        ctx.lineTo(x + textWidth + 10, underLineY);
+        ctx.stroke();
+
+        font.load().then(() => {
+          document.fonts.add(font); // 폰트를 document.fonts에 추가
+          document.fonts.ready.then(() => {
+            ctx.font = `15px ${fontstyle}`;
+            ctx.fillStyle = "black";
+            ctx.fillText(`Age: ${metadata.age}`, x + 3, y + height + 50);
+            const imageDataUrl = canvas.toDataURL("image/png");
+            img(imageDataUrl);
+          });
+        });
+      }
+      //가로가 김
+      else if (iar > 1.1) {
+        //삽화 배경사각형
+        const rectWidth2 = cw / 1.83;
+        const rectheight2 = ch / 2.23;
+        ctx.fillStyle = "#ffffff";
+        ctx.fillRect(
+          cw / 2 - (cw / 3.66) * iar,
+          ch / 2 - ch / 4.5,
+          rectWidth2 * iar,
+          rectheight2
+        );
+        //삽화 이미지 그리기 (원본 크기)
+        const x = cw / 2 - (cw / 3.66) * iar + 22;
+        const y = ch / 2 - ch / 5.2;
+        const width = (cw / 2.05) * iar;
+        const height = cw / 2.05;
+        ctx.drawImage(image, x, y, width, height);
+        font.load().then(() => {
+          ctx.font = `20px ${fontstyle} `;
+          ctx.fillStyle = "black";
+          ctx.fillText(`Name: ${metadata.name}`, x + 3, y + height + 30);
+        });
+
+        const textWidth = ctx.measureText(`Name: `).width;
+        const underLineY = y + height + 34;
+        ctx.fill();
+        ctx.beginPath();
+        ctx.strokeStyle = "black";
+        ctx.lineWidth = 1;
+        ctx.moveTo(x + 3, underLineY);
+        ctx.lineTo(x + textWidth + 10, underLineY);
+        ctx.stroke();
+
+        font.load().then(() => {
+          document.fonts.add(font); // 폰트를 document.fonts에 추가
+          document.fonts.ready.then(() => {
+            ctx.font = `15px ${fontstyle}`;
+            ctx.fillStyle = "black";
+            ctx.fillText(`Age: ${metadata.age}`, x + 3, y + height + 50);
+            const imageDataUrl = canvas.toDataURL("image/png");
+            img(imageDataUrl);
+          });
+        });
+      } else {
+        //삽화 배경사각형
+        const rectWidth2 = cw / 1.83;
+        const rectheight2 = ch / 2.23;
+        ctx.fillStyle = "#ffffff";
+        ctx.fillRect(
+          cw / 2 - cw / 3.66,
+          ch / 2 - ch / 4.5,
+          rectWidth2,
+          rectheight2
+        );
+        //삽화 이미지 그리기 (원본 크기)
+        const x = cw / 2 - cw / 3.66 + 16;
+        const y = ch / 2 - ch / 5.2;
+        const width = cw / 2.05;
+        const height = cw / 2.05;
+        ctx.drawImage(image, x, y, width, height);
+        font.load().then(() => {
+          ctx.font = `20px ${fontstyle} `;
+          ctx.fillStyle = "black";
+          ctx.fillText(`Name: ${metadata.name}`, x + 3, y + height + 30);
+        });
+
+        const textWidth = ctx.measureText(`Name: `).width;
+        const underLineY = y + height + 34;
+        ctx.fill();
+        ctx.beginPath();
+        ctx.strokeStyle = "black";
+        ctx.lineWidth = 1;
+        ctx.moveTo(x + 3, underLineY);
+        ctx.lineTo(x + textWidth + 10, underLineY);
+        ctx.stroke();
+
+        font.load().then(() => {
+          document.fonts.add(font); // 폰트를 document.fonts에 추가
+          document.fonts.ready.then(() => {
+            ctx.font = `15px ${fontstyle}`;
+            ctx.fillStyle = "black";
+            ctx.fillText(`Age: ${metadata.age}`, x + 3, y + height + 50);
+            const imageDataUrl = canvas.toDataURL("image/png");
+            img(imageDataUrl);
+          });
+        });
+      }
     };
   }, [metadata, fontstyle, size, file]);
 

@@ -157,6 +157,10 @@ const Mint = ({ account }) => {
   // Firebase updload 하기
   const [downloadURL, setDownloadURL] = useState();
   const [metadataURI, setMetadataURI] = useState();
+  const [canvasImgurl, setCanvasImgurl] = useState();
+  useEffect(() => {
+    console.log(canvasImgurl);
+  }, [canvasImgurl]);
 
   const [selectedFileURL, setSelectedFileURL] = useState();
 
@@ -167,17 +171,24 @@ const Mint = ({ account }) => {
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
+    console.log(file);
     setSelectedFile(file);
     setSelectedFileURL(URL.createObjectURL(file));
   };
 
   // Firebase 파일 업로드 후 업로드 된 주소 받아오기
   const upLoadImage = async () => {
-    console.log(selectedFile);
     if (selectedFile && account) {
-      const imageRef = ref(storage, `images/${selectedFile.name + v4()}`);
       try {
-        await uploadBytes(imageRef, selectedFile);
+        // base64 데이터를 Blob으로 변환
+        const blob = await fetch(canvasImgurl).then((res) => res.blob());
+
+        // Blob을 파일로 변환
+        const file = new File([blob], "image.jpg", { type: blob.type });
+
+        const imageRef = ref(storage, `images/${selectedFile.name + v4()}`);
+
+        await uploadBytes(imageRef, file);
 
         const metadata = {
           customMetadata: {
@@ -211,15 +222,22 @@ const Mint = ({ account }) => {
       return;
     }
 
-    const formData = new FormData();
-    formData.append("file", selectedFile);
-
-    const options = JSON.stringify({
-      cidVersion: 0,
-    });
-    formData.append("pinataOptions", options);
-
     try {
+      // base64 데이터를 Blob으로 변환
+      const response = await fetch(canvasImgurl);
+      const data = await response.blob();
+
+      // Blob을 File 객체로 변환
+      const file = new File([data], selectedFile.name, { type: data.type });
+
+      const formData = new FormData();
+      formData.append("file", file);
+
+      const options = JSON.stringify({
+        cidVersion: 0,
+      });
+      formData.append("pinataOptions", options);
+
       const res = await axios.post(
         "https://api.pinata.cloud/pinning/pinFileToIPFS",
         formData,
@@ -231,6 +249,7 @@ const Mint = ({ account }) => {
           },
         }
       );
+
       setIpfsHash(res.data.IpfsHash);
       console.log(ipfsHash);
     } catch (error) {
@@ -321,9 +340,6 @@ const Mint = ({ account }) => {
           <>
             <label>Choose File</label>
             <input type="file" onChange={handleFileChange} />
-            {selectedFileURL && (
-              <img src={selectedFileURL} alt="Selected File" />
-            )}
             <button onClick={upLoadImage}>
               Upload Image to Firebase and Pinata
             </button>
@@ -333,6 +349,7 @@ const Mint = ({ account }) => {
               <div>Pinata에 업로드 된 EncryptedImg주소: {encryptedIpfs}</div>
               <div>Pinata에 업로드 된 Metadata 주소 : {metadataURI}</div>
               <div>지갑주소 : {account}</div>
+              {/* <div>현재 슬라이드 index 주소 :</div> */}
               {/* <div>Pinata에 업로드 된 DecryptedImg주소: {decryptedIpfs}</div> */}
             </div>
             {ipfsHash && (
@@ -344,7 +361,7 @@ const Mint = ({ account }) => {
               </>
             )}
             <div>
-              <FileUpload file={selectedFileURL} />
+              <FileUpload file={selectedFileURL} setUrl={setCanvasImgurl} />
             </div>
           </>
         </>
