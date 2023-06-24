@@ -29,7 +29,6 @@ export default function SliderComponent({
         modules={[Navigation, Pagination]}
         className="mySwiper"
         onSlideChange={handleSlideChange}
-        onSlideChange={handleSlideChange}
       >
         <SwiperSlide>
           <div className="flex justify-center">
@@ -39,8 +38,6 @@ export default function SliderComponent({
               alt="1"
             />
           </div>
-          {/* <div>현재 슬라이드 인덱스: {activeSlideIndex}</div> */}
-          {/* <div>현재 슬라이드 인덱스: {activeSlideIndex}</div> */}
         </SwiperSlide>
         <SwiperSlide>
           <div className="flex justify-center">
@@ -50,7 +47,6 @@ export default function SliderComponent({
               alt="2"
             />
           </div>
-          {/* <div>현재 슬라이드 인덱스: {activeSlideIndex}</div> */}
         </SwiperSlide>
         <SwiperSlide>
           <div className="flex justify-center">
@@ -60,8 +56,6 @@ export default function SliderComponent({
               alt="3"
             />
           </div>
-          {/* <div>현재 슬라이드 인덱스: {activeSlideIndex}</div> */}
-          {/* <div>현재 슬라이드 인덱스: {activeSlideIndex}</div> */}
         </SwiperSlide>
         <SwiperSlide>
           <div className="flex justify-center">
@@ -71,8 +65,6 @@ export default function SliderComponent({
               alt="4"
             />
           </div>
-          {/* <div>현재 슬라이드 인덱스: {activeSlideIndex}</div> */}
-          {/* <div>현재 슬라이드 인덱스: {activeSlideIndex}</div> */}
         </SwiperSlide>
       </Swiper>
     </>

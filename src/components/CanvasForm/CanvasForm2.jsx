@@ -48,9 +48,11 @@ function CanvasForm2({ metadata, fontstyle, size, img, file }) {
       ctx.filter = "blur(6px)";
       ctx.drawImage(image, 15, 15, cw - 30, ch - 30);
 
+      // 사각형 아웃라인
       ctx.filter = "none";
-      //사각형 아웃라인
-      ctx.strokeRect(0, 0, cw, ch);
+      ctx.strokeStyle = "#ffffff";
+      ctx.lineWidth = 2;
+      ctx.strokeRect(15, 15, cw - 30, ch - 30);
 
       ctx.beginPath();
       ctx.rect(0, 0, cw, ch);
@@ -89,6 +91,8 @@ function CanvasForm2({ metadata, fontstyle, size, img, file }) {
       tempCtx.fill();
 
       ctx.drawImage(tempCanvas, x, y, width, height);
+      const imageDataUrl = canvas.toDataURL("image/png");
+      img(imageDataUrl);
     };
   }, [metadata, fontstyle, size, file]);
 
