@@ -6,8 +6,26 @@ import CanvasForm3 from "./CanvasForm/CanvasForm3";
 import CanvasForm4 from "./CanvasForm/CanvasForm4";
 import SliderComponent from "./CanvasForm/SliderComponent";
 
-const FileUpload = ({ file, setUrl }) => {
-  const [metaData2, setMetaData] = useState({ name: "", age: 0 });
+const FileUpload = ({
+  file,
+  setUrl,
+  lat,
+  lon,
+  country,
+  city,
+  address,
+  account,
+}) => {
+  const [metaData2, setMetaData] = useState({
+    name: "",
+    age: 0,
+    lat: lat,
+    lon: lon,
+    country: country,
+    city: city,
+    address: address,
+    account: account,
+  });
   const [fontstyle, setFontStyle] = useState("roboto");
   const [CanvasImage1, setCanvasImage1] = useState();
   const [CanvasImage2, setCanvasImage2] = useState();

@@ -104,6 +104,8 @@ function CanvasForm({ metadata, fontstyle, size, img, file }) {
           ctx.font = "20px Popppins";
           ctx.fillText(`Name: ${metadata.name}`, cw / 11, ch / 12.5);
           ctx.fillText(`Age: ${metadata.age}`, cw / 11, ch / 8.3);
+          ctx.fillText(`address: ${metadata.address}`, cw / 11, ch / 6.3);
+          ctx.fillText(`account: ${metadata.account}`, cw / 11, ch / 4.3);
           const imageDataUrl = canvas.toDataURL("image/png"); // 파일 url 저장부분
           img(imageDataUrl);
         });

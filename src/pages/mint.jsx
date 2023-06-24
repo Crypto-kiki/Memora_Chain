@@ -12,10 +12,15 @@ import {
 import FileUpload from "../components/FileUpload";
 import { v4 } from "uuid";
 import { v4 as uuidv4 } from "uuid";
+import Web3 from "web3";
+import { CONTRACT_ABI, CONTRACT_ADDRESS } from "../web3.config";
 
 const Mint = ({ account }) => {
   const GOOGLEMAP_API = process.env.REACT_APP_GOOGLEMAP_API;
   const PINATA_JWT = process.env.REACT_APP_PINATA_JWT; // Bearer Token 사용해야 됨.
+
+  const web3 = new Web3(window.ethereum);
+  const contract = new web3.eth.Contract(CONTRACT_ABI, CONTRACT_ADDRESS);
 
   const [lat, setLat] = useState(null);
   const [lon, setLon] = useState(null);
@@ -284,7 +289,7 @@ const Mint = ({ account }) => {
     try {
       const metadata = {
         Name: "test",
-        ImgUrl: downloadURL,
+        image: downloadURL,
         EncryptedIPFSImgUrl: encryptedIpfs,
         GeolocationInfo: {
           Latitude: lat,
@@ -316,6 +321,26 @@ const Mint = ({ account }) => {
     }
   };
 
+  useEffect(() => {
+    const onClickMint = async () => {
+      if (!metadataURI) {
+        alert("메타데이터를 업로드해야 합니다.");
+        return;
+      }
+      try {
+        const mintNft = await contract.methods
+          .mintNft(metadataURI)
+          .send({ from: account });
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    if (metadataURI) {
+      onClickMint();
+    }
+  }, [metadataURI]);
+
   /* 복호화
   const decryptIpfs = () => {
     const decrypted = CryptoJS.AES.decrypt(encryptedIpfs, "1234");
@@ -344,9 +369,7 @@ const Mint = ({ account }) => {
           <>
             <label>Choose File</label>
             <input type="file" onChange={handleFileChange} />
-            <button onClick={upLoadImage}>
-              Upload Image to Firebase and Pinata
-            </button>
+            <button onClick={upLoadImage}>민팅하기 </button>
             <div>
               <div>Firebase에 업로드 된 img주소: {downloadURL}</div>
               <div>Pinata에 업로드 된 IPFS 주소 : {ipfsHash}</div>
@@ -365,7 +388,16 @@ const Mint = ({ account }) => {
               </>
             )}
             <div>
-              <FileUpload file={selectedFileURL} setUrl={setCanvasImgurl} />
+              <FileUpload
+                file={selectedFileURL}
+                setUrl={setCanvasImgurl}
+                lat={lat}
+                lon={lon}
+                country={country}
+                city={city}
+                address={formatted_address}
+                account={account}
+              />
             </div>
           </>
         </>
