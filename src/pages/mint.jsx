@@ -22,6 +22,10 @@ const Mint = ({ account }) => {
   const [country, setCountry] = useState();
   const [city, setCity] = useState();
   const [formatted_address, setFormatted_address] = useState();
+  const [Imgurl, setImgurl] = useState();
+  useEffect(() => {
+    console.log(Imgurl);
+  }, [Imgurl]);
 
   const [isLocationAllowed, setIsLocationAllowed] = useState(false); // 위치 정보 동의 상태를 저장
 

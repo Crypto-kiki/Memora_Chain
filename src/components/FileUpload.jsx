@@ -39,20 +39,6 @@ const FileUpload = ({ file, setUrl }) => {
       />
     </button>
   );
-  useEffect(() => {
-    FileToMint();
-  }, [index, CanvasImage1]);
-  const FileToMint = () => {
-    if (index == 0 && CanvasImage1) {
-      setUrl(CanvasImage1);
-    } else if (index == 1) {
-      setUrl(CanvasImage2);
-    } else if (index == 2) {
-      setUrl(CanvasImage3);
-    } else if (index == 3) {
-      setUrl(CanvasImage4);
-    }
-  };
 
   return (
     <>
@@ -89,21 +75,16 @@ const FileUpload = ({ file, setUrl }) => {
           </div>
         </div>
       </div>
-
       <div className="flex justify-center mb-4">
-        {file && (
-          <div className="xl:w-[1000px] lg:w-[800px] md:w-[500px] sm:w-[300px]">
-            <SliderComponent
-              imgurl1={CanvasImage1}
-              imgurl2={CanvasImage2}
-              imgurl3={CanvasImage3}
-              imgurl4={CanvasImage4}
-              metadata={metaData2}
-              setIndex={setIndex}
-              index={index}
-            />
-          </div>
-        )}
+        <div className="xl:w-[1000px] lg:w-[800px] md:w-[500px] sm:w-[300px]">
+          <SliderComponent
+            imgurl1={CanvasImage1}
+            imgurl2={CanvasImage2}
+            imgurl3={CanvasImage3}
+            imgurl4={CanvasImage4}
+            metadata={metaData2}
+          />
+        </div>
       </div>
       <div className="grid grid-cols-2 gap-2 justify-items-center">
         <CanvasForm
