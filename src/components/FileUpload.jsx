@@ -6,17 +6,58 @@ import CanvasForm3 from "./CanvasForm/CanvasForm3";
 import CanvasForm4 from "./CanvasForm/CanvasForm4";
 import SliderComponent from "./CanvasForm/SliderComponent";
 
-const FileUpload = ({ file, setUrl }) => {
-  const [metaData2, setMetaData] = useState({ name: "", age: 0 });
+const FileUpload = ({
+  file,
+  setUrl,
+  lat,
+  lon,
+  country,
+  city,
+  address,
+  account,
+}) => {
+  const [metaData2, setMetaData] = useState({
+    name: "",
+    age: 0,
+    lat: lat,
+    lon: lon,
+    country: country,
+    city: city,
+    address: address,
+    account: account,
+  });
   const [fontstyle, setFontStyle] = useState("roboto");
   const [CanvasImage1, setCanvasImage1] = useState();
   const [CanvasImage2, setCanvasImage2] = useState();
   const [CanvasImage3, setCanvasImage3] = useState();
   const [CanvasImage4, setCanvasImage4] = useState();
   const [index, setIndex] = useState(0);
+  const [size, setSize] = useState();
   // console.log(file);
+  useEffect(()=>{
+      const image = new Image();
+      image.src = file;
+      image.onload =() => {
+        const iw = image.width;
+        const ih = image.height;      
+        if(iw/ih > 1.1) //가로가 김
+        {
+          setSize(1);
+          
+        }else if(iw/ih < 0.9) // 세로가 김 
+        {
+          setSize(2);
+        }else // 가로 세로 비율이 비슷함
+        {
+          setSize(3);
+        } 
+        // console.log(size);
+      }  
+  },[file])
+
   //폰트 배열
   const FontArray = ["Inter", "Montserrat", "Popppins", "roboto"];
+
   const handleSubmit = (event) => {
     event.preventDefault();
     // name, age 값을 업데이트하는 함수
@@ -26,19 +67,7 @@ const FileUpload = ({ file, setUrl }) => {
     });
     // console.log(metaData2);
   };
-  const ButtonWithImage = ({ fonturl, alt }) => (
-    <button
-      className="w-[150px] h-[100px] border-2"
-      onClick={() => {
-        setFontStyle(fonturl);
-      }}
-    >
-      <img
-        src={`${process.env.PUBLIC_URL}/fontimage/${fonturl}.png`}
-        alt={alt}
-      />
-    </button>
-  );
+
   useEffect(() => {
     FileToMint();
   }, [index, CanvasImage1]);
@@ -53,7 +82,11 @@ const FileUpload = ({ file, setUrl }) => {
       setUrl(CanvasImage4);
     }
   };
+  useEffect(()=>{
+    // console.log(CanvasImage1);
+    // console.log(file);
 
+  },[CanvasImage1]);
   return (
     <>
       <div className="flex">
@@ -78,18 +111,7 @@ const FileUpload = ({ file, setUrl }) => {
           <br />
           <button type="submit">Submit</button>
         </form>
-        <div className="border-2 border-black rounded-md p-4 ml-[350px] w-[700px] h-[200px] mb-4">
-          <div className="mb-4 ml-4 text-bold text-2xl">Font Example</div>
-          <div className="grid grid-cols-4 gap-2 justify-items-center">
-            {FontArray.map((v, i) => {
-              return (
-                <ButtonWithImage key={i} fonturl={v} alt={`Image ${i + 1}`} />
-              );
-            })}
-          </div>
-        </div>
       </div>
-
       <div className="flex justify-center mb-4">
         {file && (
           <div className="xl:w-[1000px] lg:w-[800px] md:w-[500px] sm:w-[300px]">
@@ -100,36 +122,41 @@ const FileUpload = ({ file, setUrl }) => {
               imgurl4={CanvasImage4}
               metadata={metaData2}
               setIndex={setIndex}
+              size={size}
             />
           </div>
         )}
       </div>
-      <div className="grid grid-cols-2 gap-2 justify-items-center">
+      {file && (<div className="grid grid-cols-2 gap-2 justify-items-center">        
         <CanvasForm
           metadata={metaData2}
-          fontstyle={fontstyle}
           img={setCanvasImage1}
           file={file}
+          size={size}
         />
         <CanvasForm2
           metadata={metaData2}
           fontstyle={fontstyle}
           img={setCanvasImage2}
           file={file}
+          size={size}
         />
         <CanvasForm3
           metadata={metaData2}
           fontstyle={fontstyle}
           img={setCanvasImage3}
           file={file}
+          size={size}
         />
         <CanvasForm4
           metadata={metaData2}
           fontstyle={fontstyle}
           img={setCanvasImage4}
           file={file}
+          size={size}
         />
-      </div>
+      </div>)}
+  
     </>
   );
 };

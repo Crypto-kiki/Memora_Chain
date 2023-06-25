@@ -24,7 +24,7 @@ function CanvasForm4({ metadata, fontstyle, size, img, file }) {
       // 배경 사각형 그리기
       const rectWidth3 = cw / 2;
       const rectheight3 = ch;
-      ctx.fillStyle = "#F9E7B6";
+      ctx.fillStyle = "#ffffff";
       ctx.fillRect(0, 0, rectWidth3 * 2, rectheight3);
 
       // 아래에 사각형 그리기

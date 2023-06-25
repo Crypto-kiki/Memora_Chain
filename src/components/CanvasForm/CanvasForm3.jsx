@@ -24,7 +24,7 @@ function CanvasForm3({ metadata, fontstyle, size, img, file }) {
       // 배경 사각형 그리기
       const rectWidth = cw / 2;
       const rectheight = ch;
-      ctx.fillStyle = "#F9E7B6";
+      ctx.fillStyle = "#ffffff";
       ctx.fillRect(0, 0, rectWidth * 2, rectheight);
 
       //이미지 크기
@@ -37,8 +37,8 @@ function CanvasForm3({ metadata, fontstyle, size, img, file }) {
       ctx.filter = "none";
       // 사각형 아웃라인
       ctx.filter = "none";
-      ctx.strokeStyle = "#F9E7B6";
-      ctx.lineWidth = 2;
+      ctx.strokeStyle = "#ffffff";
+      ctx.lineWidth = 15;
       ctx.strokeRect(15, 15, cw - 30, ch - 30);
 
       //세로가 김

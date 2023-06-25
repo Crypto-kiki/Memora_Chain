@@ -23,9 +23,6 @@ const Mint = ({ account }) => {
   const [city, setCity] = useState();
   const [formatted_address, setFormatted_address] = useState();
   const [Imgurl, setImgurl] = useState();
-  useEffect(() => {
-    console.log(Imgurl);
-  }, [Imgurl]);
 
   const [isLocationAllowed, setIsLocationAllowed] = useState(false); // 위치 정보 동의 상태를 저장
 
@@ -162,19 +159,16 @@ const Mint = ({ account }) => {
   const [downloadURL, setDownloadURL] = useState();
   const [metadataURI, setMetadataURI] = useState();
   const [canvasImgurl, setCanvasImgurl] = useState();
-  useEffect(() => {
-    console.log(canvasImgurl);
-  }, [canvasImgurl]);
+
 
   const [selectedFileURL, setSelectedFileURL] = useState();
 
   // 이미지 선택하면 selectedFile 값 저장하기
-  useEffect(() => {
-    console.log(selectedFile);
-  }, [selectedFile]);
-
   const handleFileChange = (event) => {
     const file = event.target.files[0];
+    if (!file) {
+      return;
+    }
     console.log(file);
     setSelectedFile(file);
     setSelectedFileURL(URL.createObjectURL(file));
@@ -365,7 +359,16 @@ const Mint = ({ account }) => {
               </>
             )}
             <div>
-              <FileUpload file={selectedFileURL} setUrl={setCanvasImgurl} />
+              <FileUpload
+                file={selectedFileURL}
+                setUrl={setCanvasImgurl}
+                lat={lat}
+                lon={lon}
+                country={country}
+                city={city}
+                address={formatted_address}
+                account={account}
+              />
             </div>
           </>
         </>
