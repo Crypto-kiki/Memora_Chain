@@ -22,8 +22,13 @@ const Header = () => {
   };
 
   return (
-    <header className="relative w-full flex justify-between py-2 px-4 z-10">
-      <Link to="/">Memora Chain</Link>
+    <header className="relative w-[1702px] mx-auto flex justify-between items-center py-2 px-4 z-10 bg-transparent">
+      <Link to="/">
+        <img
+          src={`${process.env.PUBLIC_URL}/image/Logo.png`}
+          className="w-20"
+        ></img>
+      </Link>
       <div className="hidden md:flex">
         <Link to="/mint" className="px-4">
           Mint
@@ -42,7 +47,7 @@ const Header = () => {
           </div>
         ) : (
           <button
-            className="flex items-center btn-style"
+            className="flex items-center btn-style pl-4"
             onClick={connectWithMetamask}
           >
             Login

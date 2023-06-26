@@ -1,6 +1,6 @@
 import React, { useRef } from "react";
 import { useEffect } from "react";
-function CanvasForm4({ metadata, size, img, file }) {
+function CanvasForm5({ metadata, size, img, file }) {
   const canvasRef = useRef(null);
 
   //폰트 기능
@@ -134,7 +134,7 @@ function CanvasForm4({ metadata, size, img, file }) {
   );
 }
 
-export default CanvasForm4;
+export default CanvasForm5;
 
 //색깔
 

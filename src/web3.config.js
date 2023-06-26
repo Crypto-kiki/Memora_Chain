@@ -1,4 +1,4 @@
-export const CONTRACT_ADDRESS = "0xd5FfEeC17a58CE6443Ef5D49035Dff8E2f9f6eDe";
+export const CONTRACT_ADDRESS = "0x9b3C767e16dB339342955D53f57d7D94C022E22a";
 export const CONTRACT_ABI = [
   {
     anonymous: false,
@@ -166,6 +166,19 @@ export const CONTRACT_ABI = [
       },
     ],
     name: "safeTransferFrom",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "_admin",
+        type: "address",
+      },
+    ],
+    name: "setAdmin",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",

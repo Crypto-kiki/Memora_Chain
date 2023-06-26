@@ -6,7 +6,9 @@ module.exports = {
     fontFamily: {
       display: ["Poppins", "sans-serif"],
       display2: ["Kablammo", "cursive"],
-    }
+      jomolhari: ["Jomolhari", "serif"],
+      julius: ["Julius Sans One", "sans-serif"],
+    },
   },
   plugins: [],
 };

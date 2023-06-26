@@ -1,5 +1,6 @@
+import { Link } from "react-router-dom";
 import { AccountContext } from "../AccountContext";
-import { useCallback, useState, useEffect, useRef, useContext } from "react";
+import { useCallback, useState, useEffect, useRef } from "react";
 import axios from "axios";
 import CryptoJS from "crypto-js";
 import { storage } from "../firebase";
@@ -15,9 +16,12 @@ import { v4 as uuidv4 } from "uuid";
 import Web3 from "web3";
 import { CONTRACT_ABI, CONTRACT_ADDRESS } from "../web3.config";
 
-const Mint = ({ account }) => {
+const Mint = () => {
+  const { account, setAccount } = useState(); // Context에서 account 값 가져오기
+
   const GOOGLEMAP_API = process.env.REACT_APP_GOOGLEMAP_API;
   const PINATA_JWT = process.env.REACT_APP_PINATA_JWT; // Bearer Token 사용해야 됨.
+  const ENCRYPT_KEY = process.env.REACT_APP_ENCRYPT_KEY;
 
   const web3 = new Web3(window.ethereum);
   const contract = new web3.eth.Contract(CONTRACT_ABI, CONTRACT_ADDRESS);
@@ -33,6 +37,22 @@ const Mint = ({ account }) => {
   }, [Imgurl]);
 
   const [isLocationAllowed, setIsLocationAllowed] = useState(false); // 위치 정보 동의 상태를 저장
+
+  const connectWithMetamask = async () => {
+    try {
+      const accounts = await window.ethereum.request({
+        method: "eth_requestAccounts",
+      });
+      setAccount(accounts[0]); // Context의 account 값 설정
+    } catch (error) {
+      console.error(error);
+      alert("계정 정보를 불러오는데 실패하였습니다.");
+    }
+  };
+
+  const onClickLogOut = () => {
+    setAccount(""); // Context의 account 값 설정
+  };
 
   const getGeolocation = useCallback(async () => {
     try {
@@ -161,7 +181,7 @@ const Mint = ({ account }) => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [ipfsHash, setIpfsHash] = useState();
   const [encryptedIpfs, setEncryptedIpfs] = useState();
-  // const [decryptedIpfs, setDecryptedIpfs] = useState();
+  const [decryptedIpfs, setDecryptedIpfs] = useState();
 
   // Firebase updload 하기
   const [downloadURL, setDownloadURL] = useState();
@@ -180,6 +200,9 @@ const Mint = ({ account }) => {
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
+    if (!file) {
+      return;
+    }
     console.log(file);
     setSelectedFile(file);
     setSelectedFileURL(URL.createObjectURL(file));
@@ -194,14 +217,14 @@ const Mint = ({ account }) => {
 
         // Blob을 파일로 변환
         const file = new File([blob], "image.jpg", { type: blob.type });
-
         const imageRef = ref(storage, `images/${selectedFile.name + v4()}`);
-
         await uploadBytes(imageRef, file);
 
         const metadata = {
           customMetadata: {
             account: account,
+            country: country,
+            city: city,
           },
         };
         await updateMetadata(imageRef, metadata);
@@ -269,18 +292,23 @@ const Mint = ({ account }) => {
   useEffect(() => {
     if (ipfsHash) {
       encryptIpfs();
+      decryptIpfs();
     }
   }, [ipfsHash]);
 
   // 이미지 주소 CID값 (IpfsHash) 암호화
   const encryptIpfs = () => {
-    const encrypted = CryptoJS.AES.encrypt(ipfsHash, "1234"); // 1234 부분은 회원가입시 비밀번호 설정한 값을 키로 사용하게
+    const encrypted = CryptoJS.AES.encrypt(
+      `https://teal-rapid-mink-528.mypinata.cloud/ipfs/${ipfsHash}`,
+      ENCRYPT_KEY
+    );
     setEncryptedIpfs(encrypted.toString());
   };
 
   useEffect(() => {
     if (encryptedIpfs) {
       uploadMetadata();
+      decryptIpfs();
     }
   }, [encryptedIpfs]);
 
@@ -288,16 +316,35 @@ const Mint = ({ account }) => {
   const uploadMetadata = async () => {
     try {
       const metadata = {
-        Name: "test",
+        description: "Unforgettable Memories, Forever Immutable",
+        external_url: downloadURL,
         image: downloadURL,
+        name: "MemoraChain",
         EncryptedIPFSImgUrl: encryptedIpfs,
-        GeolocationInfo: {
-          Latitude: lat,
-          Longitude: lon,
-          Country: country,
-          City: city,
-          Address: formatted_address,
-          Account: account,
+        Account: account,
+        attributes: {
+          Geolocation: [
+            {
+              trait_type: "Latitude",
+              value: lat,
+            },
+            {
+              trait_type: "Longitude",
+              value: lon,
+            },
+            {
+              trait_type: "Country",
+              value: country,
+            },
+            {
+              trait_type: "City",
+              value: city,
+            },
+            {
+              trait_type: "Address",
+              value: formatted_address,
+            },
+          ],
         },
       };
 
@@ -341,44 +388,74 @@ const Mint = ({ account }) => {
     }
   }, [metadataURI]);
 
-  /* 복호화
   const decryptIpfs = () => {
-    const decrypted = CryptoJS.AES.decrypt(encryptedIpfs, "1234");
-    const decryptedIpfs = decrypted.toString(CryptoJS.enc.Utf8);
-    setDecryptedIpfs(decryptedIpfs);
+    if (encryptedIpfs) {
+      try {
+        const decrypted = CryptoJS.AES.decrypt(encryptedIpfs, ENCRYPT_KEY);
+        const decryptedIpfs = decrypted.toString(CryptoJS.enc.Utf8);
+        setDecryptedIpfs(decryptedIpfs);
+      } catch (error) {
+        console.error(error);
+      }
+    }
   };
-  */
 
   return (
-    <div>
+    <div className="w-[1702px] mx-auto flex flex-col h-screen bg-gradient-to-b from-[#85A0BD] from-78.1% via-[#CEC3B7] via-86% via-[#D2B9A6] to-[#B4958D] to-100%">
+      <div className="flex justify-between items-center px-10 font-julius text-2xl tracking-wider text-[#686667]">
+        <Link to="/">
+          <div className="mt-6">
+            <img
+              src={`${process.env.PUBLIC_URL}/image/Logo.png`}
+              className="w-28"
+            />
+          </div>
+        </Link>
+        <div className="flex">
+          <Link to="/mint">
+            <div>Mint</div>
+          </Link>
+          <Link to="/dashboard">
+            <div className="mx-10">DashBoard</div>
+          </Link>
+          <Link to="/mypage">
+            <div>Mypage</div>
+          </Link>
+        </div>
+      </div>
+      <div>여기서부터 작성하면 됨</div>
+    </div>
+  );
+};
+
+export default Mint;
+
+/*
+<div>
+  <div>Firebase에 업로드 된 img주소: {downloadURL}</div>
+  <div>Pinata에 업로드 된 IPFS 주소 : {ipfsHash}</div>
+  <div>Pinata에 업로드 된 EncryptedImg주소: {encryptedIpfs}</div>
+  <div>Pinata에 업로드 된 Metadata 주소 : {metadataURI}</div>
+  <div>지갑주소 : {account}</div>
+  <div>Pinata에 업로드 된 DecryptedImg주소: {decryptedIpfs}</div>
+</div>
+  */
+
+{
+  /* <div>
       {!isLocationAllowed && (
         <button onClick={getGeolocation}>위치 정보 허용</button>
       )}
       <div>Pinata Pin Check</div>
       {isLocationAllowed && (
         <>
-          <div ref={mapElement} className="min-h-[400px]" />
-          <div className="flex flex-col my-20 border border-gray-500 p-12">
-            <div>현재 위치</div>
-            <div>위도 : {lat}</div>
-            <div>경도 : {lon}</div>
-            <div>국가 : {country}</div>
-            <div>도시 : {city}</div>
-            <div>상세주소 : {formatted_address}</div>
-          </div>
+          <div ref={mapElement} className="min-h-[400px] w-96" />
+          <div className="flex flex-col my-20 border border-gray-500 p-12"></div>
           <>
             <label>Choose File</label>
             <input type="file" onChange={handleFileChange} />
             <button onClick={upLoadImage}>민팅하기 </button>
-            <div>
-              <div>Firebase에 업로드 된 img주소: {downloadURL}</div>
-              <div>Pinata에 업로드 된 IPFS 주소 : {ipfsHash}</div>
-              <div>Pinata에 업로드 된 EncryptedImg주소: {encryptedIpfs}</div>
-              <div>Pinata에 업로드 된 Metadata 주소 : {metadataURI}</div>
-              <div>지갑주소 : {account}</div>
-              {/* <div>현재 슬라이드 index 주소 :</div> */}
-              {/* <div>Pinata에 업로드 된 DecryptedImg주소: {decryptedIpfs}</div> */}
-            </div>
+
             {ipfsHash && (
               <>
                 <img
@@ -402,8 +479,5 @@ const Mint = ({ account }) => {
           </>
         </>
       )}
-    </div>
-  );
-};
-
-export default Mint;
+    </div> */
+}
