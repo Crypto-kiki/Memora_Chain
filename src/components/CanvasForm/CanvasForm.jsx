@@ -1,49 +1,33 @@
 import React, { useRef, useState } from "react";
 import { useEffect } from "react";
 
-function CanvasForm({ metadata,  size, img, file }) {
-  // const [a, setA] = useState();
+function CanvasForm({ metadata,  size, img, file  }) {
   const canvasRef = useRef(null);
-  const [imaget, setImage] = useState();
+  
       //폰트 기능
       const font = new FontFace(
         "Popppins",
         `url(${process.env.PUBLIC_URL}/font/Popppins.ttf)`
         );        
         //1 가로가 김, 2 세로가 김, 3 비율 비슷함
-        useEffect(() => {
-          if (file) {
-            const image = new Image();
-            image.src = file;
-            image.onload = () => {
-              setImage(image);
-            };
-          }
-        }, [file]);
-
-
+        
         // 이미지 그리기
         useEffect(()=>{
+          //이미지 불러오기
+          const image = new Image();
+          image.src = file;  
           // 캔버스에 그리기
-          console.log(`file:${file}`);
-          console.log(`imaget:${imaget}`);
           const canvas = canvasRef.current;
           const ctx = canvas.getContext("2d");
           const cw = canvas.width;
           const ch = canvas.height;    
-          const image = new Image();
-          image.src = imaget;  
-          console.log(size);
-
-            if(size==1) {  
+          // 가로가 긴버전
+            if(size[0]==1) {  
               image.onload = () => {
-                console.log(size);
-              console.log("x");
-                // 가로가 긴버전
-            //배경테두리 사각형 그리기
+            //배경 프레임 그리기
             const rectWidth = cw / 2;
             const rectheight = ch;
-            ctx.fillStyle = "red";
+            ctx.fillStyle = "#ececec"; //바꿔야되는부분
             ctx.fillRect(0, 0, rectWidth * 2, rectheight);
     
             // 왼쪽에 사각형 그리기
@@ -54,8 +38,7 @@ function CanvasForm({ metadata,  size, img, file }) {
             // 오른쪽에 사각형 그리기
             ctx.fillStyle = "#ffffff";
             ctx.fillRect(cw/2 - 15, 15, rectWidth  , rectheight - 30);
-            //사각형 아웃라인
-    
+            //사각형 아웃라인    
             
             //삽화
             //이미지 크기
@@ -67,8 +50,7 @@ function CanvasForm({ metadata,  size, img, file }) {
             const rectheight2 = cw / 1.78;
     
             //가로가 김 
-            if (iar > 1.1) {
-              if(iar>1.4 || iw>1000){
+
                 ctx.fillStyle = "white";
                 ctx.fillRect(
                   cw / 2 - (rectWidth2 * iar *0.6)/2,
@@ -83,49 +65,35 @@ function CanvasForm({ metadata,  size, img, file }) {
                   (cw / 1.84) * iar *0.6,
                   cw / 1.84 * 0.6
                 );
-              }else{
-                ctx.fillStyle = "#ffffff";
-                ctx.fillRect(
-                  cw / 2 - iw/iar,
-                  ch / 2 - ch/ 3,
-                  rectWidth2 * iar,
-                  rectheight2
-                );
-                ctx.drawImage(
-                  image,
-                  cw / 2 - iw/iar ,
-                  ch / 2 - ch / 3.3,
-                  (cw / 1.84) * iar,
-                  cw / 1.84
-                );
-              }
-            }
     
             font.load().then(() => {
               document.fonts.add(font); // 폰트를 document.fonts에 추가
               document.fonts.ready.then(() => {         
                 // ctx.clearRect(0,0,cw,ch);
-                ctx.font = "20px Popppins";
+              ctx.font = "20px Popppins";
               ctx.fillText(`Name22: ${metadata.name}`, cw / 11, ch / 12.5);
               ctx.fillText(`Age: ${metadata.age}`, cw / 11, ch / 8.3);
               const imageDataUrl = canvas.toDataURL("image/png"); // 파일 url 저장부분
               img(imageDataUrl);
-    
+
             });
           });
           }
             }
-          else
-            {
-              console.log(size);
-              image.onload = () => {
-                  //세로가 긴 버전, 비율이 비슷한버전 
-          //배경테두리 사각형 그리기  
-          const rectWidth = cw / 2;
-          const rectheight = ch;
-          console.log(cw);
+          //세로가 긴 버전, 비율이 비슷한버전 
+          else{
+          image.onload = () => {                  
+            //배경테두리 사각형 그리기  
+            const rectWidth = cw / 2;
+            const rectheight = ch;
+            console.log(cw);
             ctx.fillStyle = '#ffffff';
             ctx.fillRect(0, 0, rectWidth * 2, rectheight);
+
+            //이미지 크기
+            const iw = image.width;
+            const ih = image.height;
+            const iar = iw / ih;      
     
             // 왼쪽에 사각형 그리기
             ctx.fillStyle = "black";
@@ -141,10 +109,7 @@ function CanvasForm({ metadata,  size, img, file }) {
             const rectheight2 = cw / 1.78;
     
             //삽화
-            //이미지 크기
-            const iw = image.width;
-            const ih = image.height;
-            const iar = iw / ih;        
+        
     
           //세로가 김
           if(iar <0.9){
@@ -208,25 +173,18 @@ function CanvasForm({ metadata,  size, img, file }) {
             ctx.fillText(`Age: ${metadata.age}`, cw / 11, ch / 8.3);
             const imageDataUrl = canvas.toDataURL("image/png"); // 파일 url 저장부분
             img(imageDataUrl);       
-            
           });
         });
       
             };
-          
-            return () => {
-              if (image) {
-                image.onload = null;
-              }
-            };
-        
-      }, [metadata, size , imaget]);   
+
+      }, [metadata, size ]);   
 
      
 
   return(
     <div className="hidden">
-       {size === 1  ? (
+       {size[0] == 1  ? (
       <canvas ref={canvasRef} width={900} height={550} />
     ) : (
       <canvas ref={canvasRef} width={550} height={900} />

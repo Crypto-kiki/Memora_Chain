@@ -23,7 +23,7 @@ export default function SliderComponent({
     setIndex(swiper.activeIndex);
   }
 
-    return (<div>{size && size!=1 ? ( <>
+    return (<div>{size[0] !=1 ? ( <>
       <Swiper
         pagination={true}
         navigation={true}
@@ -32,9 +32,9 @@ export default function SliderComponent({
         onSlideChange={handleSlideChange}
       >        
         <SwiperSlide>                      
-          <div className="flex justify-center">
+          <div className="flex items-center justify-center">
             <img
-              className="object-fill xl:w-[550px] lg:w-[400px] md:w-[250px] sm:w-[200px]"              
+              className="object-fill xl:w-[550px] lg:w-[400px] md:w-[300px] sm:w-[200px] "              
               src={`${imgurl1}`}
               alt="1"
             />            
@@ -59,11 +59,29 @@ export default function SliderComponent({
           </div>
         </SwiperSlide>
         <SwiperSlide>
-          <div className="flex justify-center">
+          <div className="my-[175px] flex justify-center">
             <img
-              className="object-fill xl:w-[550px] lg:w-[400px] md:w-[250px] sm:w-[200px]"
+              className="xl:w-[900px]  lg:w-[400px] md:w-[250px] sm:w-[200px]"
               src={`${imgurl4}`}
               alt="4"
+            />
+          </div>
+        </SwiperSlide>
+        <SwiperSlide>
+          <div className="my-[175px] flex justify-center">
+            <img
+              className="xl:w-[900px]  lg:w-[400px] md:w-[250px] sm:w-[200px]"
+              src={`${imgurl4}`}
+              alt="5"
+            />
+          </div>
+        </SwiperSlide>
+        <SwiperSlide>
+          <div className="my-[175px] flex justify-center">
+            <img
+              className="xl:w-[900px]  lg:w-[400px] md:w-[250px] sm:w-[200px]"
+              src={`${imgurl4}`}
+              alt="6"
             />
           </div>
         </SwiperSlide>
@@ -73,43 +91,61 @@ export default function SliderComponent({
         pagination={true}
         navigation={true}
         modules={[Navigation, Pagination]}
-        className="mySwiper flex items-center"
+        className="mySwiper "
         onSlideChange={handleSlideChange}
       >        
         <SwiperSlide>
           
-          <div className="flex justify-center ">
+          <div className="my-[175px] flex justify-center ">
             <img
-              className=" xl:w-[900px] lg:w-[400px] md:w-[250px] sm:w-[200px] "
+              className=" xl:w-[900px]  lg:w-[400px] md:w-[250px] sm:w-[200px] "
               src={`${imgurl1}`}
               alt="1"
             />            
           </div>
         </SwiperSlide>
         <SwiperSlide>
-          <div className="flex justify-center">
+          <div className="my-[175px] flex justify-center">
             <img
-              className="object-fill xl:w-[550px] lg:w-[400px] md:w-[250px] sm:w-[200px]"
+              className="xl:w-[900px]  lg:w-[400px] md:w-[250px] sm:w-[200px]"
               src={`${imgurl2}`}
               alt="2"
             />
           </div>
         </SwiperSlide>
         <SwiperSlide>
-          <div className="flex justify-center">
+          <div className="my-[175px] flex justify-center ">
             <img
-              className="object-fill xl:w-[550px] lg:w-[400px] md:w-[250px] sm:w-[200px]"
+              className="xl:w-[900px]  lg:w-[400px] md:w-[250px] sm:w-[200px]"
               src={`${imgurl3}`}
               alt="3"
             />
           </div>
         </SwiperSlide>
         <SwiperSlide>
-          <div className="flex justify-center">
+          <div className="my-[175px] flex justify-center ">
             <img
-              className="object-fill xl:w-[550px] lg:w-[400px] md:w-[250px] sm:w-[200px]"
+              className="xl:w-[900px]  lg:w-[400px] md:w-[250px] sm:w-[200px]"
               src={`${imgurl4}`}
               alt="4"
+            />
+          </div>
+        </SwiperSlide>        
+        <SwiperSlide>
+          <div className="my-[175px] flex justify-center "> 
+            <img
+              className="xl:w-[900px]  lg:w-[400px] md:w-[250px] sm:w-[200px]"
+              src={`${imgurl4}`}
+              alt="5"
+            />
+          </div>
+        </SwiperSlide>
+        <SwiperSlide>
+          <div className="my-[175px] flex justify-center ">
+            <img
+              className="xl:w-[900px]  lg:w-[400px] md:w-[250px] sm:w-[200px]"
+              src={`${imgurl4}`}
+              alt="6"
             />
           </div>
         </SwiperSlide>

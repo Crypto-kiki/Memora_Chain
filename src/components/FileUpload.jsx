@@ -4,7 +4,9 @@ import CanvasForm from "./CanvasForm/CanvasForm";
 import CanvasForm2 from "./CanvasForm/CanvasForm2";
 import CanvasForm3 from "./CanvasForm/CanvasForm3";
 import CanvasForm4 from "./CanvasForm/CanvasForm4";
+import CanvasForm5 from './CanvasForm/CanvasForm5';
 import SliderComponent from "./CanvasForm/SliderComponent";
+import CanvasForm6 from './CanvasForm/CanvasForm6';
 
 const FileUpload = ({
   file,
@@ -31,8 +33,10 @@ const FileUpload = ({
   const [CanvasImage2, setCanvasImage2] = useState();
   const [CanvasImage3, setCanvasImage3] = useState();
   const [CanvasImage4, setCanvasImage4] = useState();
+  const [CanvasImage5, setCanvasImage5] = useState();
+  const [CanvasImage6, setCanvasImage6] = useState();
   const [index, setIndex] = useState(0);
-  const [size, setSize] = useState();
+  const [size, setSize] = useState([]);
   // console.log(file);
   useEffect(()=>{
       const image = new Image();
@@ -42,21 +46,20 @@ const FileUpload = ({
         const ih = image.height;      
         if(iw/ih > 1.1) //가로가 김
         {
-          setSize(1);
+          setSize([1,...size]);
           
         }else if(iw/ih < 0.9) // 세로가 김 
         {
-          setSize(2);
+          setSize([2,...size]);
         }else // 가로 세로 비율이 비슷함
         {
-          setSize(3);
+          setSize([3,...size]);
         } 
-        // console.log(size);
       }  
   },[file])
 
   //폰트 배열
-  const FontArray = ["Inter", "Montserrat", "Popppins", "roboto"];
+  // const FontArray = ["Inter", "Montserrat", "Popppins", "roboto"];
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -67,6 +70,7 @@ const FileUpload = ({
     });
     // console.log(metaData2);
   };
+
 
   useEffect(() => {
     FileToMint();
@@ -80,13 +84,17 @@ const FileUpload = ({
       setUrl(CanvasImage3);
     } else if (index == 3) {
       setUrl(CanvasImage4);
+    } else if (index == 4) {
+      setUrl(CanvasImage5);
+    } else if (index == 5) {
+      setUrl(CanvasImage6);
     }
   };
   useEffect(()=>{
-    // console.log(CanvasImage1);
-    // console.log(file);
-
-  },[CanvasImage1]);
+    if(size.length>2 && size[0] == 1 ){
+      setSize([1]);
+    }
+  }, [size])
   return (
     <>
       <div className="flex">
@@ -120,6 +128,8 @@ const FileUpload = ({
               imgurl2={CanvasImage2}
               imgurl3={CanvasImage3}
               imgurl4={CanvasImage4}
+              imgurl5={CanvasImage5}
+              imgurl6={CanvasImage6}
               metadata={metaData2}
               setIndex={setIndex}
               size={size}
@@ -136,22 +146,31 @@ const FileUpload = ({
         />
         <CanvasForm2
           metadata={metaData2}
-          fontstyle={fontstyle}
           img={setCanvasImage2}
           file={file}
           size={size}
         />
         <CanvasForm3
           metadata={metaData2}
-          fontstyle={fontstyle}
           img={setCanvasImage3}
           file={file}
           size={size}
         />
         <CanvasForm4
           metadata={metaData2}
-          fontstyle={fontstyle}
           img={setCanvasImage4}
+          file={file}
+          size={size}
+        />    
+        <CanvasForm5
+        metadata={metaData2}
+        img={setCanvasImage5}
+        file={file}
+        size={size}
+        />
+        <CanvasForm6
+          metadata={metaData2}
+          img={setCanvasImage6}
           file={file}
           size={size}
         />
