@@ -1,7 +1,17 @@
 import React, { useRef, useState } from "react";
 import { useEffect } from "react";
 
-function CanvasForm({ metadata, size, img, file }) {
+function CanvasForm({
+  lat,
+  lon,
+  city,
+  country,
+  size,
+  img,
+  file,
+  setEnd,
+  account,
+}) {
   const canvasRef = useRef(null);
 
   //폰트 기능
@@ -13,9 +23,12 @@ function CanvasForm({ metadata, size, img, file }) {
 
   // 이미지 그리기
   useEffect(() => {
+    console.log(lat);
+    console.log(city);
+    if (size.length == 1) {
+    }
     //이미지 불러오기
-    const image = new Image();
-    image.src = file;
+
     // 캔버스에 그리기
     const canvas = canvasRef.current;
     const ctx = canvas.getContext("2d");
@@ -23,6 +36,9 @@ function CanvasForm({ metadata, size, img, file }) {
     const ch = canvas.height;
     // 가로가 긴버전
     if (size[0] == 1) {
+      // console.log(size);
+      const image = new Image();
+      image.src = file;
       image.onload = () => {
         //배경 프레임 그리기
         const rectWidth = cw / 2;
@@ -65,24 +81,34 @@ function CanvasForm({ metadata, size, img, file }) {
           (cw / 1.84) * iar * 0.6,
           (cw / 1.84) * 0.6
         );
-
         font.load().then(() => {
           document.fonts.add(font); // 폰트를 document.fonts에 추가
           document.fonts.ready.then(() => {
-            // ctx.clearRect(0,0,cw,ch);
-            ctx.font = "20px Popppins";
-            ctx.fillText(`Name22: ${metadata.name}`, cw / 11, ch / 12.5);
-            ctx.fillText(`Age: ${metadata.age}`, cw / 11, ch / 8.3);
+            ctx.font = "24px Popppins ";
+            ctx.fillStyle = "white";
+            ctx.font = "15px Popppins";
+            ctx.fillText(`Current Location: ${lat}, ${lon}`, cw / 11, ch / 1.1);
+            ctx.fillStyle = "black";
+            ctx.fillText(
+              `Country & City: ${country}, ${city}`,
+              cw / 2,
+              ch / 12.5
+            );
+            ctx.font = "15px Popppins";
             const imageDataUrl = canvas.toDataURL("image/png"); // 파일 url 저장부분
             img(imageDataUrl);
+            setEnd(false);
           });
         });
       };
     }
     //세로가 긴 버전, 비율이 비슷한버전
-    else {
+    if (size[0] == 2 || size[0] == 3) {
+      const image = new Image();
+      image.src = file;
       image.onload = () => {
         //배경테두리 사각형 그리기
+
         const rectWidth = cw / 2;
         const rectheight = ch;
         console.log(cw);
@@ -163,16 +189,14 @@ function CanvasForm({ metadata, size, img, file }) {
       font.load().then(() => {
         document.fonts.add(font); // 폰트를 document.fonts에 추가
         document.fonts.ready.then(() => {
-          // ctx.clearRect(0,0,cw,ch);
           ctx.font = "20px Popppins";
-          ctx.fillText(`Name22: ${metadata.name}`, cw / 11, ch / 12.5);
-          ctx.fillText(`Age: ${metadata.age}`, cw / 11, ch / 8.3);
           const imageDataUrl = canvas.toDataURL("image/png"); // 파일 url 저장부분
           img(imageDataUrl);
+          setEnd(false);
         });
       });
     }
-  }, [metadata, size]);
+  }, [size]);
 
   return (
     <div className="hidden">

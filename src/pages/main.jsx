@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import MainSlider from "../components/MainSlider";
+import { AccountContext } from "../AccountContext";
 
 const Main = () => {
-  const [account, setAccount] = useState(); // Context에서 account 값 가져오기
+  const { account, setAccount } = useContext(AccountContext); // Context에서 account 값과 setAccount 함수 가져오기
 
   const slideImages = [
     { url: `${process.env.PUBLIC_URL}/image/1.png` },

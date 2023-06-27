@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { AccountContext } from "../AccountContext";
-import { useCallback, useState, useEffect, useRef } from "react";
+import { useCallback, useState, useEffect, useRef, useContext } from "react";
 import axios from "axios";
 import CryptoJS from "crypto-js";
 import { storage } from "../firebase";
@@ -18,7 +18,7 @@ import { CONTRACT_ABI, CONTRACT_ADDRESS } from "../web3.config";
 import SimpleImageSlider from "react-simple-image-slider";
 
 const Mint = () => {
-  const [account, setAccount] = useState(); // Context에서 account 값 가져오기
+  const { account, setAccount } = useContext(AccountContext); // Context에서 account 값과 setAccount 함수 가져오기
 
   const slideImages = [
     { url: `${process.env.PUBLIC_URL}/image/1.png` },
@@ -39,9 +39,6 @@ const Mint = () => {
   const [city, setCity] = useState();
   const [formatted_address, setFormatted_address] = useState();
   const [Imgurl, setImgurl] = useState();
-  useEffect(() => {
-    console.log(Imgurl);
-  }, [Imgurl]);
 
   const [isLocationAllowed, setIsLocationAllowed] = useState(false); // 위치 정보 동의 상태를 저장
 
@@ -50,7 +47,7 @@ const Mint = () => {
       const accounts = await window.ethereum.request({
         method: "eth_requestAccounts",
       });
-      setAccount(accounts[0]); // Context의 account 값 설정
+      setAccount(accounts[0]);
     } catch (error) {
       console.error(error);
       alert("계정 정보를 불러오는데 실패하였습니다.");
@@ -58,8 +55,26 @@ const Mint = () => {
   };
 
   const onClickLogOut = () => {
-    setAccount(""); // Context의 account 값 설정
+    setAccount("");
   };
+
+  const getWeatherInfo = useCallback(async () => {
+    try {
+      const response = await axios.get(
+        `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${process.env.REACT_APP_WEATHER_API}&units=metric`
+      );
+
+      if (response.status !== 200) {
+        alert("날씨 정보를 가져오지 못했습니다.");
+        return;
+      }
+      setCity(response.data.name);
+      setCountry(response.data.sys.country);
+      console.log(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  }, [lat, lon]);
 
   const getGeolocation = useCallback(async () => {
     try {
@@ -84,24 +99,6 @@ const Mint = () => {
       console.error(error);
     }
   }, []);
-
-  const getWeatherInfo = useCallback(async () => {
-    try {
-      const response = await axios.get(
-        `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${process.env.REACT_APP_WEATHER_API}&units=metric`
-      );
-
-      if (response.status !== 200) {
-        alert("날씨 정보를 가져오지 못했습니다.");
-        return;
-      }
-      setCity(response.data.name);
-      setCountry(response.data.sys.country);
-      console.log(response.data);
-    } catch (error) {
-      console.error(error);
-    }
-  }, [lat, lon]);
 
   const mapElement = useRef(null);
   const mapLoaded = useRef(false);
@@ -157,7 +154,7 @@ const Mint = () => {
           const geocoding = await axios.get(
             `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lon}&key=${GOOGLEMAP_API}&language=en`
           );
-          console.log(geocoding);
+          // console.log(geocoding);
           setCountry(
             geocoding.data.results[geocoding.data.results.length - 1]
               .formatted_address
@@ -185,7 +182,7 @@ const Mint = () => {
     loadScript();
   }, [loadScript]);
 
-  const [selectedFile, setSelectedFile] = useState(null);
+  const [selectedFile, setSelectedFile] = useState();
   const [ipfsHash, setIpfsHash] = useState();
   const [encryptedIpfs, setEncryptedIpfs] = useState();
   const [decryptedIpfs, setDecryptedIpfs] = useState();
@@ -194,26 +191,49 @@ const Mint = () => {
   const [downloadURL, setDownloadURL] = useState();
   const [metadataURI, setMetadataURI] = useState();
   const [canvasImgurl, setCanvasImgurl] = useState();
-  useEffect(() => {
-    console.log(canvasImgurl);
-  }, [canvasImgurl]);
+  const [size, setSize] = useState([]);
 
   const [selectedFileURL, setSelectedFileURL] = useState();
 
   // 이미지 선택하면 selectedFile 값 저장하기
-  useEffect(() => {
-    console.log(selectedFile);
-  }, [selectedFile]);
-
-  const handleFileChange = (event) => {
-    const file = event.target.files[0];
-    if (!file) {
-      return;
+  const handleFileChange = async (event) => {
+    try {
+      if (!account) {
+        await connectWithMetamask();
+        const file = event.target.files[0];
+        if (!file) {
+          return;
+        }
+        console.log(file);
+        setSelectedFile(file);
+        setSelectedFileURL(URL.createObjectURL(file));
+        return;
+      } else {
+        const file = event.target.files[0];
+        if (!file) {
+          return;
+        }
+        console.log(file);
+        setSelectedFile(file);
+        setSelectedFileURL(URL.createObjectURL(file));
+        console.log(lat);
+        console.log(lon);
+        console.log(account);
+        console.log(formatted_address);
+        console.log(country);
+        console.log(city);
+      }
+    } catch (error) {
+      console.error(error);
     }
-    console.log(file);
-    setSelectedFile(file);
-    setSelectedFileURL(URL.createObjectURL(file));
   };
+
+  useEffect(() => {
+    if (size.length > 2 && size[0] == 1) {
+      setSize([1]);
+    }
+    console.log(size);
+  }, [size]);
 
   // Firebase 파일 업로드 후 업로드 된 주소 받아오기
   const upLoadImage = async () => {
@@ -244,7 +264,12 @@ const Mint = () => {
         console.log(error);
       }
     } else {
-      alert("지갑을 연결해 주세요.");
+      if (!account && selectedFile) {
+        alert("지갑을 연결해 주세요.");
+      }
+      if (!selectedFile && !account) {
+        alert("지갑 연결 후 이미지를 선택해 주세요.");
+      }
     }
   };
 
@@ -489,7 +514,7 @@ const Mint = () => {
           </div>
         </div>
       </div>
-      {/* <FileUpload
+      <FileUpload
         file={selectedFileURL}
         setUrl={setCanvasImgurl}
         lat={lat}
@@ -498,7 +523,7 @@ const Mint = () => {
         city={city}
         address={formatted_address}
         account={account}
-      /> */}
+      />
       <div>
         <img
           src={`${process.env.PUBLIC_URL}/image/left.png`}
@@ -555,6 +580,7 @@ export default Mint;
                 city={city}
                 address={formatted_address}
                 account={account}
+                size = {size}
               />
             </div>
           </>

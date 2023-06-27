@@ -1,6 +1,16 @@
 import React, { useRef } from "react";
 import { useEffect } from "react";
-function CanvasForm5({ metadata, size, img, file }) {
+function CanvasForm5({
+  lat,
+  lon,
+  city,
+  country,
+  size,
+  img,
+  file,
+  setEnd,
+  account,
+}) {
   const canvasRef = useRef(null);
 
   //폰트 기능
@@ -50,9 +60,9 @@ function CanvasForm5({ metadata, size, img, file }) {
         ctx.drawImage(
           image,
           cw / 2 - ((cw / 1.39) * 0.8) / 2,
-          ch / 4.2,
+          ch / 4.5,
           (cw / 1.39) * 0.8,
-          ch / 1.2 / 2.1
+          ch / 1.2 / 1.65
         );
 
         font.load().then(() => {
@@ -60,22 +70,24 @@ function CanvasForm5({ metadata, size, img, file }) {
           document.fonts.ready.then(() => {
             ctx.fillStyle = "black";
             ctx.font = "25px Montserrat";
-            ctx.fillText(
-              `Name22: ${metadata.name}`,
-              cw / 2 - ((cw / 1.39) * 0.8) / 2 + 20,
-              ch / 4.2 - 30
-            );
-            ctx.fillText(
-              `Age: ${metadata.age}`,
-              cw / 2 - ((cw / 1.39) * 0.8) / 2 + 20,
-              ch / 4.2 + ch / 1.2 / 2.1 + 35
-            );
+            // ctx.fillText(
+            //   `Name22: ${metadata.name}`,
+            //   cw / 2 - ((cw / 1.39) * 0.8) / 2 + 20,
+            //   ch / 4.4 - 25
+            // );
+            // ctx.font = "20px Montserrat";
+            // ctx.fillText(
+            //   `Age: ${metadata.age}`,
+            //   cw / 2 - ((cw / 1.39) * 0.8) / 2 + 20,
+            //   ch / 4.5 + ch / 1.2 / 1.7 + 45
+            // );
             const imageDataUrl = canvas.toDataURL("image/png"); // 파일 url 저장부분
             img(imageDataUrl);
           });
         });
       };
-    } else {
+    }
+    if (size[0] == 2 || size[0] == 3) {
       image.onload = () => {
         //배경 프레임 그리기
         const rectWidth = cw / 2;
@@ -109,19 +121,19 @@ function CanvasForm5({ metadata, size, img, file }) {
           document.fonts.ready.then(() => {
             ctx.fillStyle = "black";
             ctx.font = "25px Montserrat";
-            ctx.fillText(
-              `Name22: ${metadata.name}`,
-              cw / 2 + 90,
-              ch / 4.2 - 30
-            );
-            ctx.fillText(`Age: ${metadata.age}`, cw / 2 + 90, ch / 4.2 + 50);
+            // ctx.fillText(
+            //   `Name22: ${metadata.name}`,
+            //   cw / 2 + 90,
+            //   ch / 4.2 - 30
+            // );
+            // ctx.fillText(`Age: ${metadata.age}`, cw / 2 + 90, ch / 4.2 + 50);
             const imageDataUrl = canvas.toDataURL("image/png"); // 파일 url 저장부분
             img(imageDataUrl);
           });
         });
       };
     }
-  }, [metadata, size]);
+  }, [size]);
 
   return (
     <div className="hidden">

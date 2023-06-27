@@ -1,6 +1,16 @@
 import React, { useRef } from "react";
 import { useEffect } from "react";
-function CanvasForm3({ metadata, size, img, file }) {
+function CanvasForm3({
+  lat,
+  lon,
+  city,
+  country,
+  size,
+  img,
+  file,
+  setEnd,
+  account,
+}) {
   const canvasRef = useRef(null);
 
   //폰트 기능
@@ -21,13 +31,6 @@ function CanvasForm3({ metadata, size, img, file }) {
     //가로가 긴 사진
     if (size[0] == 1) {
       image.onload = () => {
-        // // 부모 요소 생성하여 크기 제한
-        // const parentDiv = document.createElement("div");
-        // parentDiv.style.width = `${cw}px`;
-        // parentDiv.style.height = `${ch}px`;
-        // parentDiv.style.overflow = "hidden";
-        // parentDiv.appendChild(canvas);
-
         // 배경 프레임 그리기
         const rectWidth = cw / 2;
         const rectheight = ch;
@@ -71,7 +74,6 @@ function CanvasForm3({ metadata, size, img, file }) {
         font.load().then(() => {
           ctx.font = "20px Popppins";
           ctx.fillStyle = "black";
-          ctx.fillText(`Name: ${metadata.name}`, x + 3, y + height * 0.6 + 30);
         });
 
         // const textWidth = ctx.measureText(`Name: `).width;
@@ -89,7 +91,6 @@ function CanvasForm3({ metadata, size, img, file }) {
           document.fonts.ready.then(() => {
             ctx.font = "15px Popppins";
             ctx.fillStyle = "black";
-            ctx.fillText(`Age: ${metadata.age}`, x + 3, y + height * 0.6 + 50);
             const imageDataUrl = canvas.toDataURL("image/png");
             img(imageDataUrl);
           });
@@ -97,7 +98,7 @@ function CanvasForm3({ metadata, size, img, file }) {
       };
     }
     //세로가 긴사진, 비율이 비슷한 사진
-    else {
+    if (size[0] == 2 || size[0] == 3) {
       image.onload = () => {
         // 배경 사각형 그리기
         const rectWidth = cw / 2;
@@ -141,7 +142,6 @@ function CanvasForm3({ metadata, size, img, file }) {
             font.load().then(() => {
               ctx.font = "20px Popppins";
               ctx.fillStyle = "black";
-              ctx.fillText(`Name: ${metadata.name}`, x + 3, y + height + 30);
             });
 
             font.load().then(() => {
@@ -149,7 +149,6 @@ function CanvasForm3({ metadata, size, img, file }) {
               document.fonts.ready.then(() => {
                 ctx.font = "15px Popppins";
                 ctx.fillStyle = "black";
-                ctx.fillText(`Age: ${metadata.age}`, x + 3, y + height + 50);
                 const imageDataUrl = canvas.toDataURL("image/png");
                 img(imageDataUrl);
               });
@@ -172,7 +171,6 @@ function CanvasForm3({ metadata, size, img, file }) {
             font.load().then(() => {
               ctx.font = "20px Popppins";
               ctx.fillStyle = "black";
-              ctx.fillText(`Name: ${metadata.name}`, x + 3, y + height + 30);
             });
 
             font.load().then(() => {
@@ -180,7 +178,6 @@ function CanvasForm3({ metadata, size, img, file }) {
               document.fonts.ready.then(() => {
                 ctx.font = "15px Popppins";
                 ctx.fillStyle = "black";
-                ctx.fillText(`Age: ${metadata.age}`, x + 3, y + height + 50);
                 const imageDataUrl = canvas.toDataURL("image/png");
                 img(imageDataUrl);
               });
@@ -206,14 +203,12 @@ function CanvasForm3({ metadata, size, img, file }) {
           font.load().then(() => {
             ctx.font = "20px Popppins";
             ctx.fillStyle = "black";
-            ctx.fillText(`Name: ${metadata.name}`, x + 3, y + height + 30);
           });
           font.load().then(() => {
             document.fonts.add(font); // 폰트를 document.fonts에 추가
             document.fonts.ready.then(() => {
               ctx.font = "15px Popppins";
               ctx.fillStyle = "black";
-              ctx.fillText(`Age: ${metadata.age}`, x + 3, y + height + 50);
               const imageDataUrl = canvas.toDataURL("image/png");
               img(imageDataUrl);
             });
@@ -221,7 +216,7 @@ function CanvasForm3({ metadata, size, img, file }) {
         }
       };
     }
-  }, [metadata, size]);
+  }, [size]);
 
   return (
     <div className="hidden">

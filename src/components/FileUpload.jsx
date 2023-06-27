@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import CanvasForm from "./CanvasForm/CanvasForm";
 import CanvasForm2 from "./CanvasForm/CanvasForm2";
 import CanvasForm3 from "./CanvasForm/CanvasForm3";
-import CanvasForm4 from "./CanvasForm/CanvasForm4";
+import CanvasForm4 from "./CanvasForm/CanvasForm6";
 import CanvasForm5 from "./CanvasForm/CanvasForm5";
 import CanvasForm6 from "./CanvasForm/CanvasForm6";
 import SliderComponent from "./CanvasForm/SliderComponent";
@@ -18,17 +18,6 @@ const FileUpload = ({
   address,
   account,
 }) => {
-  const [metaData2, setMetaData] = useState({
-    name: "",
-    age: 0,
-    lat: lat,
-    lon: lon,
-    country: country,
-    city: city,
-    address: address,
-    account: account,
-  });
-  const [fontstyle, setFontStyle] = useState("roboto");
   const [CanvasImage1, setCanvasImage1] = useState();
   const [CanvasImage2, setCanvasImage2] = useState();
   const [CanvasImage3, setCanvasImage3] = useState();
@@ -37,38 +26,37 @@ const FileUpload = ({
   const [CanvasImage6, setCanvasImage6] = useState();
   const [index, setIndex] = useState(0);
   const [size, setSize] = useState([]);
-  // console.log(file);
+  const [end, setEnd] = useState(false);
+
   useEffect(() => {
     const image = new Image();
     image.src = file;
+
     image.onload = () => {
       const iw = image.width;
       const ih = image.height;
       if (iw / ih > 1.1) {
         //가로가 김
         setSize([1, ...size]);
+        setEnd(true);
       } else if (iw / ih < 0.9) {
         // 세로가 김
         setSize([2, ...size]);
+        setEnd(true);
       } // 가로 세로 비율이 비슷함
       else {
         setSize([3, ...size]);
+        setEnd(true);
       }
     };
   }, [file]);
 
-  //폰트 배열
-  // const FontArray = ["Inter", "Montserrat", "Popppins", "roboto"];
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    // name, age 값을 업데이트하는 함수
-    setMetaData({
-      name: event.target.name.value,
-      age: event.target.age.value,
-    });
-    // console.log(metaData2);
-  };
+  useEffect(() => {
+    if (size.length > 2 && size[0] == 1) {
+      setSize([1]);
+    }
+    console.log(size);
+  }, [size]);
 
   useEffect(() => {
     FileToMint();
@@ -76,8 +64,10 @@ const FileUpload = ({
   const FileToMint = () => {
     if (index == 0 && CanvasImage1) {
       setUrl(CanvasImage1);
+      return;
     } else if (index == 1) {
       setUrl(CanvasImage2);
+      return;
     } else if (index == 2) {
       setUrl(CanvasImage3);
     } else if (index == 3) {
@@ -88,36 +78,13 @@ const FileUpload = ({
       setUrl(CanvasImage6);
     }
   };
+
   useEffect(() => {
-    if (size.length > 2 && size[0] == 1) {
-      setSize([1]);
-    }
-  }, [size]);
+    console.log(end);
+  }, [end]);
+
   return (
     <>
-      <div className="flex">
-        <form onSubmit={handleSubmit} className="mr-8 ml-6">
-          <label>
-            Name:
-            <input
-              type="text"
-              name="name"
-              className="border-2 rounded-md ml-2  m-1"
-            />
-          </label>
-          <br />
-          <label className="font-display2">
-            Age:
-            <input
-              type="text"
-              name="age"
-              className="border-2 rounded-md ml-2 m-1"
-            />
-          </label>
-          <br />
-          <button type="submit">Submit</button>
-        </form>
-      </div>
       <div className="flex justify-center mb-4">
         {file && (
           <div className="xl:w-[1000px] lg:w-[800px] md:w-[500px] sm:w-[300px]">
@@ -128,57 +95,95 @@ const FileUpload = ({
               imgurl4={CanvasImage4}
               imgurl5={CanvasImage5}
               imgurl6={CanvasImage6}
-              metadata={metaData2}
               setIndex={setIndex}
               size={size}
             />
           </div>
         )}
       </div>
-      {file && (
-        <div className="grid grid-cols-2 gap-2 justify-items-center">
+      {end && (
+        <div>
           <CanvasForm
-            metadata={metaData2}
             img={setCanvasImage1}
+            lat={lat}
+            lon={lon}
+            country={country}
+            city={city}
+            address={address}
+            account={account}
             file={file}
             size={size}
+            setEnd={setEnd}
+            setSize={setSize}
           />
           <CanvasForm2
-            metadata={metaData2}
             img={setCanvasImage2}
+            lat={lat}
+            lon={lon}
+            country={country}
+            city={city}
+            address={address}
+            account={account}
             file={file}
             size={size}
+            setEnd={setEnd}
+            setSize={setSize}
           />
           <CanvasForm3
-            metadata={metaData2}
             img={setCanvasImage3}
+            lat={lat}
+            lon={lon}
+            country={country}
+            city={city}
+            address={address}
+            account={account}
             file={file}
             size={size}
+            setEnd={setEnd}
+            setSize={setSize}
           />
           <CanvasForm4
-            metadata={metaData2}
             img={setCanvasImage4}
+            lat={lat}
+            lon={lon}
+            country={country}
+            city={city}
+            address={address}
+            account={account}
             file={file}
             size={size}
+            setEnd={setEnd}
+            setSize={setSize}
           />
           <CanvasForm5
-            metadata={metaData2}
             img={setCanvasImage5}
+            lat={lat}
+            lon={lon}
+            country={country}
+            city={city}
+            address={address}
+            account={account}
             file={file}
             size={size}
+            setEnd={setEnd}
+            setSize={setSize}
           />
           <CanvasForm6
-            metadata={metaData2}
             img={setCanvasImage6}
+            lat={lat}
+            lon={lon}
+            country={country}
+            city={city}
+            address={address}
+            account={account}
             file={file}
             size={size}
+            setEnd={setEnd}
+            setSize={setSize}
           />
         </div>
       )}
     </>
   );
 };
-{
-  /*imgurl1={CanvasImage1} imgurl2={CanvasImage2} imgurl3={CanvasImage3} imgurl4={CanvasImage4}*/
-}
 export default FileUpload;

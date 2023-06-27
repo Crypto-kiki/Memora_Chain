@@ -1,7 +1,17 @@
 import React, { useRef } from "react";
 import { useEffect } from "react";
 
-function CanvasForm2({ metadata, size, img, file }) {
+function CanvasForm2({
+  lat,
+  lon,
+  city,
+  country,
+  size,
+  img,
+  file,
+  setEnd,
+  account,
+}) {
   const canvasRef = useRef(null);
 
   // 폰트 기능
@@ -55,8 +65,6 @@ function CanvasForm2({ metadata, size, img, file }) {
           document.fonts.ready.then(() => {
             ctx.font = "20px roboto";
             ctx.fillStyle = "white";
-            ctx.fillText(`Name: ${metadata.name}`, x + width + 40, y + 40);
-            ctx.fillText(`Age: ${metadata.age}`, x + width + 40, y + 80);
             const imageDataUrl = canvas.toDataURL("image/png");
             img(imageDataUrl);
           });
@@ -91,10 +99,11 @@ function CanvasForm2({ metadata, size, img, file }) {
         tempCtx.fill();
 
         ctx.drawImage(tempCanvas, x, y, width, height);
-        const imageDataUrl = canvas.toDataURL("image/png");
-        img(imageDataUrl);
+        // const imageDataUrl = canvas.toDataURL("image/png");
+        // img(imageDataUrl);
       };
-    } else {
+    }
+    if (size[0] == 2 || size[0] == 3) {
       const tempCanvas = document.createElement("canvas");
       const tempCtx = tempCanvas.getContext("2d");
 
@@ -128,8 +137,6 @@ function CanvasForm2({ metadata, size, img, file }) {
           document.fonts.ready.then(() => {
             ctx.font = "20px roboto";
             ctx.fillStyle = "white";
-            ctx.fillText(`Name: ${metadata.name}`, cw / 11, ch / 5.55);
-            ctx.fillText(`Age: ${metadata.age}`, cw / 11, ch / 4.54);
             const imageDataUrl = canvas.toDataURL("image/png");
             img(imageDataUrl);
           });
@@ -164,11 +171,11 @@ function CanvasForm2({ metadata, size, img, file }) {
         tempCtx.fill();
 
         ctx.drawImage(tempCanvas, x, y, width, height);
-        const imageDataUrl = canvas.toDataURL("image/png");
-        img(imageDataUrl);
+        // const imageDataUrl = canvas.toDataURL("image/png");
+        // img(imageDataUrl);
       };
     }
-  }, [metadata, size]);
+  }, [size]);
 
   return (
     <div className="hidden">
