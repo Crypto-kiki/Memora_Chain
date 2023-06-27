@@ -548,8 +548,7 @@ export default Mint;
 </div>
   */
 
-{
-  /* <div>
+/* <div>
       {!isLocationAllowed && (
         <button onClick={getGeolocation}>위치 정보 허용</button>
       )}
@@ -588,4 +587,3 @@ export default Mint;
         </>
       )}
     </div> */
-}
