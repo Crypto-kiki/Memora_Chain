@@ -433,14 +433,14 @@ const Mint = () => {
   };
 
   return (
-    <div className="flex justify-between min-h-screen">
+    <div className="flex justify-between h-screen bg-gradient-to-b from-[#85A0BD] from-78.1% via-[#CEC3B7] via-86% via-[#D2B9A6] to-[#B4958D] to-100%">
       <div>
         <img
           src={`${process.env.PUBLIC_URL}/image/left.png`}
           className="w-14"
         />
       </div>
-      <div className="w-full mx-auto flex flex-col h-screen bg-gradient-to-b from-[#85A0BD] from-78.1% via-[#CEC3B7] via-86% via-[#D2B9A6] to-[#B4958D] to-100%">
+      <div className="w-full mx-auto flex flex-col">
         <div className="flex justify-between items-center px-10 font-julius text-2xl tracking-wider text-[#686667]">
           <Link to="/">
             <div className="mt-6">
@@ -465,27 +465,27 @@ const Mint = () => {
             </Link>
           </div>
         </div>
-        <div className="flex justify-between mt-16 px-20">
-          <div className="p-3">
-            <span className="block mb-2 text-[#686667] font-julius">
-              Sample
-            </span>
-            <SimpleImageSlider
-              width={423}
-              height={752}
-              images={slideImages}
-              showBullets={true}
-              showNavs={true}
-              navMargin={-13}
-              slideDuration={1}
-            />
-          </div>
-          <div className="w-full flex flex-col justify-center items-center">
-            <div className="flex flex-col">
-              <div className="text-2xl mb-10 tracking-widest">
-                "Capture your Memories forever on the Blockchains."
-              </div>
-              <div className="flex w-full justify-between">
+        <div>
+          <div className="flex flex-col justify-center items-center">
+            <div>
+              <span className="block mb-2 text-[#686667] font-julius">
+                Sample
+              </span>
+              <SimpleImageSlider
+                width={423}
+                height={752}
+                images={slideImages}
+                showBullets={true}
+                showNavs={true}
+                navMargin={-13}
+                slideDuration={1}
+              />
+            </div>
+            <div className="text-2xl mb-10 tracking-widest">
+              "Capture your Memories forever on the Blockchains."
+            </div>
+            <div className="flex">
+              <div>
                 {!isLocationAllowed && (
                   <button
                     onClick={getGeolocation}
@@ -497,36 +497,37 @@ const Mint = () => {
                 {isLocationAllowed && (
                   <div ref={mapElement} className="w-80 h-80" />
                 )}
-                <div className="flex flex-col w-full">
-                  <label className="border border-blue-500">
-                    <input
-                      type="file"
-                      onChange={handleFileChange}
-                      className="hidden"
-                    />
-                    Image Upload
-                  </label>
-                  <div>텍스트</div>
-                </div>
               </div>
-              <button onClick={upLoadImage}>MINT </button>
+              <div className="flex flex-col w-full">
+                <label className="border border-blue-500">
+                  <input
+                    type="file"
+                    onChange={handleFileChange}
+                    className="hidden"
+                  />
+                  Image Upload
+                </label>
+                <div>텍스트</div>
+              </div>
             </div>
+            <FileUpload
+              file={selectedFileURL}
+              setUrl={setCanvasImgurl}
+              lat={lat}
+              lon={lon}
+              country={country}
+              city={city}
+              address={formatted_address}
+              account={account}
+            />
           </div>
         </div>
+
+        <button onClick={upLoadImage}>MINT</button>
       </div>
-      <FileUpload
-        file={selectedFileURL}
-        setUrl={setCanvasImgurl}
-        lat={lat}
-        lon={lon}
-        country={country}
-        city={city}
-        address={formatted_address}
-        account={account}
-      />
       <div>
         <img
-          src={`${process.env.PUBLIC_URL}/image/left.png`}
+          src={`${process.env.PUBLIC_URL}/image/right.png`}
           className="w-14"
         />
       </div>
