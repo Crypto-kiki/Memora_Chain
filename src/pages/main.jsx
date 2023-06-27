@@ -1,8 +1,19 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import MainSlider from "../components/MainSlider";
 
 const Main = () => {
-  const { account, setAccount } = useState(); // Context에서 account 값 가져오기
+  const [account, setAccount] = useState(); // Context에서 account 값 가져오기
+
+  const slideImages = [
+    { url: `${process.env.PUBLIC_URL}/image/1.png` },
+    { url: `${process.env.PUBLIC_URL}/image/2.png` },
+    { url: `${process.env.PUBLIC_URL}/image/3.png` },
+    { url: `${process.env.PUBLIC_URL}/image/4.png` },
+    { url: `${process.env.PUBLIC_URL}/image/5.png` },
+    { url: `${process.env.PUBLIC_URL}/image/6.png` },
+    { url: `${process.env.PUBLIC_URL}/image/7.png` },
+  ];
 
   const connectWithMetamask = async () => {
     try {
@@ -21,10 +32,11 @@ const Main = () => {
   };
 
   return (
-    <div className="w-[1702px] mx-auto flex flex-col">
-      <div className="w-full flex flex-col bg-[#ccdbe7]">
-        <div className="bg-[#F3EED4] h-[1080px] flex flex-col justify-center">
-          <div className="flex justify-between items-center px-10 font-julius text-2xl tracking-wider text-[#686667]">
+    <div className="flex justify-between">
+      <div className="film-left w-20" />
+      <div className="w-full flex flex-col bg-pink-100">
+        <div className="bg-[#F3EED4]">
+          <header className="flex justify-between items-center px-10 font-julius text-2xl tracking-wider text-[#686667]">
             <Link to="/">
               <div className="mt-6">
                 <img
@@ -40,52 +52,40 @@ const Main = () => {
               <Link to="/dashboard">
                 <div className="mx-10">DashBoard</div>
               </Link>
-              <Link to="/mypage">
-                <div>Mypage</div>
+              <Link
+                to={account ? "/mypage" : ""}
+                onClick={!account ? connectWithMetamask : null}
+              >
+                {account ? <div>MyPage</div> : <div>Login</div>}
               </Link>
             </div>
-          </div>
-          <video autoPlay muted loop width="100%" height="100%">
-            <source
-              src={`${process.env.PUBLIC_URL}/image/memorachain.mp4`}
-              type="video/mp4"
-            />
-          </video>
+          </header>
         </div>
-        <div className="bg-[#E3C9B2] h-[1200px] mt-6">
-          <div className="w-3/4 relative">
-            <div>Logo</div>
-            <img
-              src={`${process.env.PUBLIC_URL}/image/3.png`}
-              alt="image1"
-              className="h-[800px] absolute left-20 top-20 border-8 z-10 border-[#f3eed4]"
-            />
-            <img
-              src={`${process.env.PUBLIC_URL}/image/2.png`}
-              alt="image2"
-              className="h-[800px] absolute left-1/2 top-56 border-8 border-[#f3eed4]"
-            />
-            <img
-              src={`${process.env.PUBLIC_URL}/image/7.png`}
-              alt="image7"
-              className="h-[300px] absolute left-[700px] top-[650px] z-10 border-8 border-[#f3eed4]"
-            />
-          </div>
+        <video autoPlay muted loop width="100%" height="100%">
+          <source
+            src={`${process.env.PUBLIC_URL}/image/memorachain.mp4`}
+            type="video/mp4"
+          />
+        </video>
+        <div className="bg-[#E3C9B2] h-screen relative justify-center items-center">
+          <img
+            src={`${process.env.PUBLIC_URL}/image/mainSecond(2).png`}
+            className="absolute z-10 top-1/3 left-1/3 transform -translate-x-1/2 -translate-y-1/2"
+          />
+          <img
+            src={`${process.env.PUBLIC_URL}/image/mainSecond(1).png`}
+            className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+          />
+          <img
+            src={`${process.env.PUBLIC_URL}/image/mainSecond(3).png`}
+            className="absolute z-10 top-1/2 left-3/4 transform -translate-x-1/2 -translate-y-1/2"
+          />
         </div>
-        <div className="bg-[#F3EED4] h-[700px] flex flex-col items-center justify-center mt-6">
-          <div className="w-3/4">
-            <div className="text-2xl text-[#C6BBA4]">
-              Unforgettable Memories, Forever Immutable
-            </div>
-            <div className="text-8xl tracking-widest mt-4 mb-10">
-              MEMORA CHAIN.
-            </div>
-            <span className="border border-[#c6bba4] p-2 text-[#c6bba4]">
-              Made by Kimshinjo
-            </span>
-          </div>
+        <div className="flex justify-center items-center">
+          <MainSlider />
         </div>
       </div>
+      <div className="film-right w-20" />
     </div>
   );
 };

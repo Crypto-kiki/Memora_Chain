@@ -63,3 +63,13 @@
 #fontChange {
   font-family: "Inter", sans-serif;
 }
+
+.film-left {
+  background-image: url(../public/image/left.png);
+  background-size: cover;
+}
+
+.film-right {
+  background-image: url(../public/image/right.png);
+  background-size: cover;
+}

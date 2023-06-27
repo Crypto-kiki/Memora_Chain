@@ -15,9 +15,16 @@ import { v4 } from "uuid";
 import { v4 as uuidv4 } from "uuid";
 import Web3 from "web3";
 import { CONTRACT_ABI, CONTRACT_ADDRESS } from "../web3.config";
+import SimpleImageSlider from "react-simple-image-slider";
 
 const Mint = () => {
-  const { account, setAccount } = useState(); // Context에서 account 값 가져오기
+  const [account, setAccount] = useState(); // Context에서 account 값 가져오기
+
+  const slideImages = [
+    { url: `${process.env.PUBLIC_URL}/image/1.png` },
+    { url: `${process.env.PUBLIC_URL}/image/2.png` },
+    { url: `${process.env.PUBLIC_URL}/image/3.png` },
+  ];
 
   const GOOGLEMAP_API = process.env.REACT_APP_GOOGLEMAP_API;
   const PINATA_JWT = process.env.REACT_APP_PINATA_JWT; // Bearer Token 사용해야 됨.
@@ -401,29 +408,103 @@ const Mint = () => {
   };
 
   return (
-    <div className="w-[1702px] mx-auto flex flex-col h-screen bg-gradient-to-b from-[#85A0BD] from-78.1% via-[#CEC3B7] via-86% via-[#D2B9A6] to-[#B4958D] to-100%">
-      <div className="flex justify-between items-center px-10 font-julius text-2xl tracking-wider text-[#686667]">
-        <Link to="/">
-          <div className="mt-6">
-            <img
-              src={`${process.env.PUBLIC_URL}/image/Logo.png`}
-              className="w-28"
+    <div className="flex justify-between min-h-screen">
+      <div>
+        <img
+          src={`${process.env.PUBLIC_URL}/image/left.png`}
+          className="w-14"
+        />
+      </div>
+      <div className="w-full mx-auto flex flex-col h-screen bg-gradient-to-b from-[#85A0BD] from-78.1% via-[#CEC3B7] via-86% via-[#D2B9A6] to-[#B4958D] to-100%">
+        <div className="flex justify-between items-center px-10 font-julius text-2xl tracking-wider text-[#686667]">
+          <Link to="/">
+            <div className="mt-6">
+              <img
+                src={`${process.env.PUBLIC_URL}/image/Logo.png`}
+                className="w-28"
+              />
+            </div>
+          </Link>
+          <div className="flex">
+            <Link to="/mint">
+              <div>Mint</div>
+            </Link>
+            <Link to="/dashboard">
+              <div className="mx-10">DashBoard</div>
+            </Link>
+            <Link
+              to={account ? "/mypage" : ""}
+              onClick={!account ? connectWithMetamask : null}
+            >
+              {account ? <div>MyPage</div> : <div>Login</div>}
+            </Link>
+          </div>
+        </div>
+        <div className="flex justify-between mt-16 px-20">
+          <div className="p-3">
+            <span className="block mb-2 text-[#686667] font-julius">
+              Sample
+            </span>
+            <SimpleImageSlider
+              width={423}
+              height={752}
+              images={slideImages}
+              showBullets={true}
+              showNavs={true}
+              navMargin={-13}
+              slideDuration={1}
             />
           </div>
-        </Link>
-        <div className="flex">
-          <Link to="/mint">
-            <div>Mint</div>
-          </Link>
-          <Link to="/dashboard">
-            <div className="mx-10">DashBoard</div>
-          </Link>
-          <Link to="/mypage">
-            <div>Mypage</div>
-          </Link>
+          <div className="w-full flex flex-col justify-center items-center">
+            <div className="flex flex-col">
+              <div className="text-2xl mb-10 tracking-widest">
+                "Capture your Memories forever on the Blockchains."
+              </div>
+              <div className="flex w-full justify-between">
+                {!isLocationAllowed && (
+                  <button
+                    onClick={getGeolocation}
+                    className="flex justify-center items-center"
+                  >
+                    위치 정보 허용
+                  </button>
+                )}
+                {isLocationAllowed && (
+                  <div ref={mapElement} className="w-80 h-80" />
+                )}
+                <div className="flex flex-col w-full">
+                  <label className="border border-blue-500">
+                    <input
+                      type="file"
+                      onChange={handleFileChange}
+                      className="hidden"
+                    />
+                    Image Upload
+                  </label>
+                  <div>텍스트</div>
+                </div>
+              </div>
+              <button onClick={upLoadImage}>MINT </button>
+            </div>
+          </div>
         </div>
       </div>
-      <div>여기서부터 작성하면 됨</div>
+      {/* <FileUpload
+        file={selectedFileURL}
+        setUrl={setCanvasImgurl}
+        lat={lat}
+        lon={lon}
+        country={country}
+        city={city}
+        address={formatted_address}
+        account={account}
+      /> */}
+      <div>
+        <img
+          src={`${process.env.PUBLIC_URL}/image/left.png`}
+          className="w-14"
+        />
+      </div>
     </div>
   );
 };
