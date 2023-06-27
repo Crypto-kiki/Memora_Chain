@@ -98,7 +98,7 @@ function CanvasForm3({ metadata, size, img, file }) {
       }
     }
     //세로가 긴사진, 비율이 비슷한 사진
-    else{
+    if(size[0]==2 || size[0]==3){
       image.onload = () => {
         // 배경 사각형 그리기
         const rectWidth = cw / 2;

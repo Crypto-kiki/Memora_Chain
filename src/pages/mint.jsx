@@ -122,7 +122,7 @@ const Mint = ({ account }) => {
           const geocoding = await axios.get(
             `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lon}&key=${GOOGLEMAP_API}&language=en`
           );
-          console.log(geocoding);
+          // console.log(geocoding);
           setCountry(
             geocoding.data.results[geocoding.data.results.length - 1]
               .formatted_address
@@ -150,7 +150,7 @@ const Mint = ({ account }) => {
     loadScript();
   }, [loadScript]);
 
-  const [selectedFile, setSelectedFile] = useState(null);
+  const [selectedFile, setSelectedFile] = useState();
   const [ipfsHash, setIpfsHash] = useState();
   const [encryptedIpfs, setEncryptedIpfs] = useState();
   // const [decryptedIpfs, setDecryptedIpfs] = useState();
@@ -159,6 +159,7 @@ const Mint = ({ account }) => {
   const [downloadURL, setDownloadURL] = useState();
   const [metadataURI, setMetadataURI] = useState();
   const [canvasImgurl, setCanvasImgurl] = useState();
+  const [size, setSize] = useState([]);
 
 
   const [selectedFileURL, setSelectedFileURL] = useState();
@@ -169,10 +170,15 @@ const Mint = ({ account }) => {
     if (!file) {
       return;
     }
-    console.log(file);
     setSelectedFile(file);
     setSelectedFileURL(URL.createObjectURL(file));
   };
+  useEffect(()=>{
+    if(size.length>2 && size[0] == 1 ){
+      setSize([1]);
+    }
+    console.log(size);
+  }, [size])
 
   // Firebase 파일 업로드 후 업로드 된 주소 받아오기
   const upLoadImage = async () => {
@@ -368,6 +374,7 @@ const Mint = ({ account }) => {
                 city={city}
                 address={formatted_address}
                 account={account}
+                size = {size}
               />
             </div>
           </>

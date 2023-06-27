@@ -86,11 +86,11 @@ function CanvasForm2({ metadata, size, img, file }) {
         tempCtx.fill();
   
         ctx.drawImage(tempCanvas, x, y, width, height);
-        const imageDataUrl = canvas.toDataURL("image/png");
-        img(imageDataUrl);
+        // const imageDataUrl = canvas.toDataURL("image/png");
+        // img(imageDataUrl);
       };
     } 
-    else{
+    if(size[0]==2 || size[0]==3){
       const tempCanvas = document.createElement("canvas");
       const tempCtx = tempCanvas.getContext("2d");
   
@@ -155,8 +155,8 @@ function CanvasForm2({ metadata, size, img, file }) {
         tempCtx.fill();
   
         ctx.drawImage(tempCanvas, x, y, width, height);
-        const imageDataUrl = canvas.toDataURL("image/png");
-        img(imageDataUrl);
+        // const imageDataUrl = canvas.toDataURL("image/png");
+        // img(imageDataUrl);
       };
     }
 

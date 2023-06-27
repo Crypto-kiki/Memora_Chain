@@ -64,7 +64,7 @@ function CanvasForm5({ metadata, size, img, file }) {
           })
         });
       }
-      }else{
+      }if(size[0]==2 || size[0]==3){
         image.onload = () => {
           //배경 프레임 그리기
           const rectWidth = cw / 2;

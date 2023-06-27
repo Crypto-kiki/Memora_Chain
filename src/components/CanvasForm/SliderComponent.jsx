@@ -16,6 +16,8 @@ export default function SliderComponent({
   imgurl2,
   imgurl3,
   imgurl4,
+  imgurl5,
+  imgurl6,
   setIndex,
   size
 }) {
@@ -71,7 +73,7 @@ export default function SliderComponent({
           <div className="my-[175px] flex justify-center">
             <img
               className="xl:w-[900px]  lg:w-[400px] md:w-[250px] sm:w-[200px]"
-              src={`${imgurl4}`}
+              src={`${imgurl5}`}
               alt="5"
             />
           </div>
@@ -80,7 +82,7 @@ export default function SliderComponent({
           <div className="my-[175px] flex justify-center">
             <img
               className="xl:w-[900px]  lg:w-[400px] md:w-[250px] sm:w-[200px]"
-              src={`${imgurl4}`}
+              src={`${imgurl6}`}
               alt="6"
             />
           </div>
@@ -135,7 +137,7 @@ export default function SliderComponent({
           <div className="my-[175px] flex justify-center "> 
             <img
               className="xl:w-[900px]  lg:w-[400px] md:w-[250px] sm:w-[200px]"
-              src={`${imgurl4}`}
+              src={`${imgurl5}`}
               alt="5"
             />
           </div>
@@ -144,7 +146,7 @@ export default function SliderComponent({
           <div className="my-[175px] flex justify-center ">
             <img
               className="xl:w-[900px]  lg:w-[400px] md:w-[250px] sm:w-[200px]"
-              src={`${imgurl4}`}
+              src={`${imgurl6}`}
               alt="6"
             />
           </div>
