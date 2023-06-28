@@ -68,9 +68,8 @@ const Mint = () => {
         alert("날씨 정보를 가져오지 못했습니다.");
         return;
       }
-      setCity(response.data.name);
+      // setCity(response.data.name);
       setCountry(response.data.sys.country);
-      console.log(response.data);
     } catch (error) {
       console.error(error);
     }
@@ -154,23 +153,24 @@ const Mint = () => {
           const geocoding = await axios.get(
             `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lon}&key=${GOOGLEMAP_API}&language=en`
           );
-          // console.log(geocoding);
-          setCountry(
-            geocoding.data.results[geocoding.data.results.length - 1]
-              .formatted_address
-          );
+          // setCountry(
+          //   geocoding.data.results[geocoding.data.results.length - 1]
+          //     .formatted_address
+          // );
           setCity(
             geocoding.data.results[geocoding.data.results.length - 2]
               .address_components[0].long_name
           );
           setFormatted_address(geocoding.data.results[0].formatted_address);
+          console.log(country);
         } catch (error) {
           console.error(error);
         }
       };
       fetchGeocoding();
+      console.log(country);
     }
-  }, [isLocationAllowed, getGeolocation, lat, lon, setCountry]);
+  }, [isLocationAllowed, getGeolocation /*setCountry*/]);
 
   useEffect(() => {
     if (lat !== null && lon !== null && mapLoaded.current) {
@@ -186,13 +186,13 @@ const Mint = () => {
   const [ipfsHash, setIpfsHash] = useState();
   const [encryptedIpfs, setEncryptedIpfs] = useState();
   const [decryptedIpfs, setDecryptedIpfs] = useState();
+  const [message, setMessage] = useState("");
 
   // Firebase updload 하기
   const [downloadURL, setDownloadURL] = useState();
   const [metadataURI, setMetadataURI] = useState();
   const [canvasImgurl, setCanvasImgurl] = useState();
   const [size, setSize] = useState([]);
-
   const [selectedFileURL, setSelectedFileURL] = useState();
 
   // 이미지 선택하면 selectedFile 값 저장하기
@@ -216,12 +216,6 @@ const Mint = () => {
         console.log(file);
         setSelectedFile(file);
         setSelectedFileURL(URL.createObjectURL(file));
-        console.log(lat);
-        console.log(lon);
-        console.log(account);
-        console.log(formatted_address);
-        console.log(country);
-        console.log(city);
       }
     } catch (error) {
       console.error(error);
@@ -432,6 +426,12 @@ const Mint = () => {
     }
   };
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setMessage(e.target.elements.message.value);
+    console.log(message);
+  };
+
   return (
     <div className="flex justify-between h-screen bg-gradient-to-b from-[#85A0BD] from-78.1% via-[#CEC3B7] via-86% via-[#D2B9A6] to-[#B4958D] to-100%">
       <div>
@@ -507,7 +507,17 @@ const Mint = () => {
                   />
                   Image Upload
                 </label>
-                <div>텍스트</div>
+                <form onSubmit={handleSubmit} className="mr-8 ml-6">
+                  <label>
+                    Name:
+                    <input
+                      type="text"
+                      name="message"
+                      className="border-2 rounded-md ml-2 m-1"
+                    />
+                  </label>
+                  <button type="submit">Submit</button>
+                </form>
               </div>
             </div>
             <FileUpload
@@ -519,10 +529,10 @@ const Mint = () => {
               city={city}
               address={formatted_address}
               account={account}
+              message={message}
             />
           </div>
         </div>
-
         <button onClick={upLoadImage}>MINT</button>
       </div>
       <div>

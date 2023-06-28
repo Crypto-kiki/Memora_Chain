@@ -11,6 +11,7 @@ function CanvasForm2({
   file,
   setEnd,
   account,
+  message,
 }) {
   const canvasRef = useRef(null);
 

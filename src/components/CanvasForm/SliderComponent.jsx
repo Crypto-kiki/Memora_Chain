@@ -27,15 +27,16 @@ export default function SliderComponent({
 
   return (
     <div>
-      {size[0] != 1 ? (
-        <>
-          <Swiper
-            pagination={true}
-            navigation={true}
-            modules={[Navigation, Pagination]}
-            className="mySwiper"
-            onSlideChange={handleSlideChange}
-          >
+      <Swiper
+        pagination={true}
+        navigation={true}
+        modules={[Navigation, Pagination]}
+        className="mySwiper"
+        onSlideChange={handleSlideChange}
+        slidesPerView={1}
+      >
+        {size[0] != 1 ? (
+          <>
             <SwiperSlide>
               <div className="flex items-center justify-center">
                 <img
@@ -90,17 +91,9 @@ export default function SliderComponent({
                 />
               </div>
             </SwiperSlide>
-          </Swiper>
-        </>
-      ) : (
-        <>
-          <Swiper
-            pagination={true}
-            navigation={true}
-            modules={[Navigation, Pagination]}
-            className="mySwiper "
-            onSlideChange={handleSlideChange}
-          >
+          </>
+        ) : (
+          <>
             <SwiperSlide>
               <div className="my-[175px] flex justify-center ">
                 <img
@@ -155,9 +148,9 @@ export default function SliderComponent({
                 />
               </div>
             </SwiperSlide>
-          </Swiper>
-        </>
-      )}
+          </>
+        )}{" "}
+      </Swiper>
     </div>
   );
 }

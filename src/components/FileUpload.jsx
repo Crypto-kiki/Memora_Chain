@@ -17,6 +17,7 @@ const FileUpload = ({
   city,
   address,
   account,
+  message,
 }) => {
   const [CanvasImage1, setCanvasImage1] = useState();
   const [CanvasImage2, setCanvasImage2] = useState();
@@ -27,8 +28,9 @@ const FileUpload = ({
   const [index, setIndex] = useState(0);
   const [size, setSize] = useState([]);
   const [end, setEnd] = useState(false);
+  console.log(message);
 
-  useEffect(() => {
+  const loadImage = () => {
     const image = new Image();
     image.src = file;
 
@@ -36,20 +38,24 @@ const FileUpload = ({
       const iw = image.width;
       const ih = image.height;
       if (iw / ih > 1.1) {
-        //가로가 김
+        // 가로가 김
         setSize([1, ...size]);
         setEnd(true);
       } else if (iw / ih < 0.9) {
         // 세로가 김
         setSize([2, ...size]);
         setEnd(true);
-      } // 가로 세로 비율이 비슷함
-      else {
+      } else {
+        // 가로 세로 비율이 비슷함
         setSize([3, ...size]);
         setEnd(true);
       }
     };
-  }, [file]);
+  };
+
+  useEffect(() => {
+    loadImage();
+  }, [file, message]);
 
   useEffect(() => {
     if (size.length > 2 && size[0] == 1) {
@@ -115,6 +121,7 @@ const FileUpload = ({
             size={size}
             setEnd={setEnd}
             setSize={setSize}
+            message={message}
           />
           <CanvasForm2
             img={setCanvasImage2}
@@ -128,6 +135,7 @@ const FileUpload = ({
             size={size}
             setEnd={setEnd}
             setSize={setSize}
+            message={message}
           />
           <CanvasForm3
             img={setCanvasImage3}
@@ -141,6 +149,7 @@ const FileUpload = ({
             size={size}
             setEnd={setEnd}
             setSize={setSize}
+            message={message}
           />
           <CanvasForm4
             img={setCanvasImage4}
@@ -154,6 +163,7 @@ const FileUpload = ({
             size={size}
             setEnd={setEnd}
             setSize={setSize}
+            message={message}
           />
           <CanvasForm5
             img={setCanvasImage5}
@@ -167,6 +177,7 @@ const FileUpload = ({
             size={size}
             setEnd={setEnd}
             setSize={setSize}
+            message={message}
           />
           <CanvasForm6
             img={setCanvasImage6}
@@ -180,6 +191,7 @@ const FileUpload = ({
             size={size}
             setEnd={setEnd}
             setSize={setSize}
+            message={message}
           />
         </div>
       )}

@@ -11,6 +11,7 @@ function CanvasForm({
   file,
   setEnd,
   account,
+  message,
 }) {
   const canvasRef = useRef(null);
 
@@ -23,8 +24,7 @@ function CanvasForm({
 
   // 이미지 그리기
   useEffect(() => {
-    console.log(lat);
-    console.log(city);
+    console.log(message);
     if (size.length == 1) {
     }
     //이미지 불러오기
@@ -88,6 +88,7 @@ function CanvasForm({
             ctx.fillStyle = "white";
             ctx.font = "15px Popppins";
             ctx.fillText(`Current Location: ${lat}, ${lon}`, cw / 11, ch / 1.1);
+            ctx.fillText(`message: ${message}`, cw / 11, ch / 1.6);
             ctx.fillStyle = "black";
             ctx.fillText(
               `Country & City: ${country}, ${city}`,
@@ -104,6 +105,7 @@ function CanvasForm({
     }
     //세로가 긴 버전, 비율이 비슷한버전
     if (size[0] == 2 || size[0] == 3) {
+      console.log(message);
       const image = new Image();
       image.src = file;
       image.onload = () => {

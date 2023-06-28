@@ -10,6 +10,7 @@ function CanvasForm4({
   file,
   setEnd,
   account,
+  message,
 }) {
   const canvasRef = useRef(null);
 
