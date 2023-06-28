@@ -163,8 +163,9 @@ const Mint = () => {
               .formatted_address
           );
           setCity(
-            geocoding.data.results[geocoding.data.results.length - 2]
-              .address_components[0].long_name
+            geocoding.data.results[
+              geocoding.data.results.length - 2
+            ].address_components[0].long_name.toUpperCase()
           );
           setFormatted_address(geocoding.data.results[0].formatted_address);
           getWeatherInfo();
@@ -437,11 +438,11 @@ const Mint = () => {
   };
 
   return (
-    <div className="flex justify-between h-screen bg-gradient-to-b from-[#85A0BD] from-78.1% via-[#CEC3B7] via-86% via-[#D2B9A6] to-[#B4958D] to-100%">
+    <div className="flex justify-between min-h-screen bg-gradient-to-b from-[#85A0BD] from-78.1% via-[#CEC3B7] via-86% via-[#D2B9A6] to-[#B4958D] to-100%">
       <div>
         <img
           src={`${process.env.PUBLIC_URL}/image/left.png`}
-          className="w-14"
+          className="w-14 z-20"
         />
       </div>
       <div className="w-full mx-auto flex flex-col">
@@ -544,8 +545,8 @@ const Mint = () => {
       </div>
       <div>
         <img
-          src={`${process.env.PUBLIC_URL}/image/right.png`}
-          className="w-14"
+          src={`${process.env.PUBLIC_URL}/image/left.png`}
+          className="w-14 z-20"
         />
       </div>
     </div>

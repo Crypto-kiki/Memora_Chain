@@ -13,23 +13,21 @@ const MainSlider = () => {
       pagination={false}
       navigation={false}
       modules={[Navigation, Pagination, Autoplay]}
-      spaceBetween={40}
+      // spaceBetween={40}
       autoplay={{ delay: 2000, disableOnInteraction: false }}
       loop={true}
       breakpoints={{
         640: {
-          slidesPerView: 2,
+          slidesPerView: 1,
         },
         768: {
-          slidesPerView: 3,
+          slidesPerView: 2,
         },
         1024: {
-          slidesPerView: 4,
-        },
-        1280: {
-          slidesPerView: 5,
+          slidesPerView: 3,
         },
       }}
+      className="mx-auto w-[1400px]"
     >
       <SwiperSlide>
         <img

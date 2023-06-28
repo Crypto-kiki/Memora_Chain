@@ -73,3 +73,10 @@
   background-image: url(../public/image/right.png);
   background-size: cover;
 }
+
+.airplane {
+  background-image: url(../public/image/AIRPLANE.png);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-size: cover;
+}

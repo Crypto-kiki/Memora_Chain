@@ -33,9 +33,9 @@ const Main = () => {
   };
 
   return (
-    <div className="flex justify-between">
-      <div className="film-left w-20" />
-      <div className="w-full flex flex-col bg-pink-100">
+    <div className="flex justify-between bg-[#CCDBE7] min-w-[1630px]">
+      <div className="film-left w-24" />
+      <div className="w-full flex flex-col px-4">
         <div className="bg-[#F3EED4]">
           <header className="flex justify-between items-center px-10 font-julius text-2xl tracking-wider text-[#686667]">
             <Link to="/">
@@ -68,7 +68,7 @@ const Main = () => {
             type="video/mp4"
           />
         </video>
-        <div className="bg-[#E3C9B2] h-screen relative justify-center items-center">
+        <div className="bg-[#E3C9B2] h-screen relative justify-center items-center mt-6">
           <img
             src={`${process.env.PUBLIC_URL}/image/mainSecond(2).png`}
             className="absolute z-10 top-1/3 left-1/3 transform -translate-x-1/2 -translate-y-1/2"
@@ -82,11 +82,65 @@ const Main = () => {
             className="absolute z-10 top-1/2 left-3/4 transform -translate-x-1/2 -translate-y-1/2"
           />
         </div>
-        <div className="flex justify-center items-center">
+        <div className="justify-center items-center mt-6">
           <MainSlider />
         </div>
+        <div className="flex mt-6 bg-gradient-to-b from-[#85A0BD] from-78.1% via-[#CEC3B7] via-86% via-[#D2B9A6] to-[#B4958D] to-100% justify-around px-40 py-32">
+          <div>
+            <div className="border-4 border-yellow-100">
+              <img
+                src={`${process.env.PUBLIC_URL}/image/mainMap.png`}
+                className="w-[350px]"
+              />
+            </div>
+          </div>
+          <div className="flex flex-col justify-center items-center">
+            <div className="text-4xl mb-10 text-white">
+              my stream of consciousness
+            </div>
+            <div className="text-[#857464] font-semibold flex flex-col justify-center items-center text-lg tracking-widest">
+              "Capture Your Memories Forever on the<div>BlockChain"</div>
+            </div>
+            <div className="text-[#857464] font-semibold flex flex-col justify-center items-center text-lg">
+              "Preserve Your Memories Forever as
+              <div>NFTs on the Blockchain"</div>
+            </div>
+            <div className="text-[#857464] font-semibold flex flex-col justify-center items-center text-lg">
+              "Savor Your Memories Forever with
+              <div>NFTs"</div>
+            </div>
+          </div>
+        </div>
+        <div className="flex flex-col justify-center items-center mt-6 bg-[#96A9C2] pt-20 pb-10">
+          <img
+            src={`${process.env.PUBLIC_URL}/image/airplane.png`}
+            className="w-1/2"
+          />
+          <Link to="mint">
+            <button className="bg-[#D9D9D9] px-16 py-4 text-2xl mt-10 tracking-wider text-[#857464]">
+              mint now
+            </button>
+          </Link>
+        </div>
+        <div className="bg-[#F3EED4] grid grid-cols-3 items-center text-[#857464]">
+          <img
+            src={`${process.env.PUBLIC_URL}/image/Logo.png`}
+            className="w-36"
+          />
+          <div className="flex flex-col justify-center items-center">
+            <div className="text-2xl mb-4">contact us</div>
+            <div className="flex flex-col justify-center items-center">
+              <div>2023. 06. 23</div>
+              <div>copyright@ made by kimshinjo</div>
+            </div>
+          </div>
+          <div className="flex flex-col justify-center items-center">
+            <div>Tel: 010-0000-0000</div>
+            <div>Email: memorachain@gmail.com</div>
+          </div>
+        </div>
       </div>
-      <div className="film-right w-20" />
+      <div className="film-right w-24" />
     </div>
   );
 };
