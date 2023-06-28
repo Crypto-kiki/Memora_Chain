@@ -10,7 +10,9 @@ function CanvasForm2({
   img,
   file,
   setEnd,
+  address,
   account,
+  message,
 }) {
   const canvasRef = useRef(null);
 
@@ -26,14 +28,15 @@ function CanvasForm2({
     // 캔버스에 그리기
     const canvas = canvasRef.current;
     const ctx = canvas.getContext("2d");
+    const tempCanvas = document.createElement("canvas");
+    const tempCtx = tempCanvas.getContext("2d");
     const cw = canvas.width;
     const ch = canvas.height;
     if (size[0] == 1) {
       const iw = image.width;
       const ih = image.height;
       const iar = iw / ih;
-      const tempCanvas = document.createElement("canvas");
-      const tempCtx = tempCanvas.getContext("2d");
+  
 
       const height = (cw / 1.83) * 0.8;
       const width = (ch / 2.2) * iar;
@@ -63,50 +66,43 @@ function CanvasForm2({
         font.load().then(() => {
           document.fonts.add(font); // 폰트를 document.fonts에 추가
           document.fonts.ready.then(() => {
-            ctx.font = "20px roboto";
-            ctx.fillStyle = "white";
-            const imageDataUrl = canvas.toDataURL("image/png");
+       
+            const imageDataUrl = canvas.toDataURL("image/png"); // 파일 url 저장부분
             img(imageDataUrl);
+            setEnd(false);
           });
         });
 
-        ctx.clip();
-        ctx.restore();
+             // 삽화 이미지 그리기 (원본 크기)     
+             tempCanvas.width = width;
+             tempCanvas.height = height;
+             tempCtx.drawImage(image, 0, 0, width, height);
+     
+             tempCtx.globalCompositeOperation = "destination-in";
+             tempCtx.beginPath();
+             tempCtx.moveTo(cornerRadius, 0);
+             tempCtx.lineTo(width - cornerRadius, 0);
+             tempCtx.arcTo(width, 0, width, cornerRadius, cornerRadius);
+             tempCtx.lineTo(width, height - cornerRadius);
+             tempCtx.arcTo(
+               width,
+               height,
+               width - cornerRadius,
+               height,
+               cornerRadius
+             );
+             tempCtx.lineTo(cornerRadius, height);
+             tempCtx.arcTo(0, height, 0, height - cornerRadius, cornerRadius);
+             tempCtx.lineTo(0, cornerRadius);
+             tempCtx.arcTo(0, 0, cornerRadius, 0, cornerRadius);
+             tempCtx.closePath();
+             tempCtx.fill();
+     
+             ctx.drawImage(tempCanvas, x, y, width, height);  
 
-        // 삽화 이미지 그리기 (원본 크기)
-        tempCanvas.width = width;
-        tempCanvas.height = height;
-        tempCtx.drawImage(image, 0, 0, width, height);
-
-        tempCtx.globalCompositeOperation = "destination-in";
-        tempCtx.beginPath();
-        tempCtx.moveTo(cornerRadius, 0);
-        tempCtx.lineTo(width - cornerRadius, 0);
-        tempCtx.arcTo(width, 0, width, cornerRadius, cornerRadius);
-        tempCtx.lineTo(width, height - cornerRadius);
-        tempCtx.arcTo(
-          width,
-          height,
-          width - cornerRadius,
-          height,
-          cornerRadius
-        );
-        tempCtx.lineTo(cornerRadius, height);
-        tempCtx.arcTo(0, height, 0, height - cornerRadius, cornerRadius);
-        tempCtx.lineTo(0, cornerRadius);
-        tempCtx.arcTo(0, 0, cornerRadius, 0, cornerRadius);
-        tempCtx.closePath();
-        tempCtx.fill();
-
-        ctx.drawImage(tempCanvas, x, y, width, height);
-        // const imageDataUrl = canvas.toDataURL("image/png");
-        // img(imageDataUrl);
       };
     }
     if (size[0] == 2 || size[0] == 3) {
-      const tempCanvas = document.createElement("canvas");
-      const tempCtx = tempCanvas.getContext("2d");
-
       const width = cw / 1.83;
       const height = ch / 2.5;
       const x = cw / 2 - cw / 3.66;
@@ -135,15 +131,29 @@ function CanvasForm2({
         font.load().then(() => {
           document.fonts.add(font); // 폰트를 document.fonts에 추가
           document.fonts.ready.then(() => {
-            ctx.font = "20px roboto";
+            ctx.font = "24px Popppins ";
+            ctx.fillStyle = "black";
+            ctx.font = "14px Popppins";
+            ctx.fillText(`Country & City: ${country}, ${city}`, cw / 2., ch / 1.15);
+            ctx.font = "13px Popppins";
+            ctx.fillText(`address: ${address}`, cw / 2, ch / 1.1);
+            ctx.fillStyle = "black";
+            ctx.fillText(
+              `Current Location: ${lat}, ${lon}`,             
+              cw / 2,
+              ch / 12.5
+            );
+            ctx.font = "14px Popppins";
             ctx.fillStyle = "white";
-            const imageDataUrl = canvas.toDataURL("image/png");
+            ctx.fillText(
+              `accout: ${account}`,cw / 25,ch / 1.1);
+            const imageDataUrl = canvas.toDataURL("image/png"); // 파일 url 저장부분
             img(imageDataUrl);
+            setEnd(false);
           });
         });
 
-        ctx.clip();
-        ctx.restore();
+
 
         // 삽화 이미지 그리기 (원본 크기)
         tempCanvas.width = width;
