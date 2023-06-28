@@ -35,6 +35,8 @@ const Mint = () => {
 
   const [lat, setLat] = useState(null);
   const [lon, setLon] = useState(null);
+  const [temperature, setTemperature] = useState();
+  const [weather, setWeather] = useState();
   const [country, setCountry] = useState();
   const [countryCode, setCountryCode] = useState();
   const [city, setCity] = useState();
@@ -70,6 +72,9 @@ const Mint = () => {
         return;
       }
       setCountryCode(response.data.sys.country);
+      setWeather(response.data.weather[0].main);
+      setTemperature(response.data.main.temp);
+      console.log(response);
     } catch (error) {
       console.error(error);
     }
@@ -530,6 +535,8 @@ const Mint = () => {
               account={account}
               message={message}
               countryCode={countryCode}
+              temperature={temperature}
+              weather={weather}
             />
           </div>
         </div>

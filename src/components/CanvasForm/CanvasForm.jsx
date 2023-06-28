@@ -7,25 +7,32 @@ function CanvasForm({
   city,
   country,
   countryCode,
+  address,
   size,
   img,
   file,
   setEnd,
   account,
   message,
+  temperature,
+  weather,
 }) {
   const canvasRef = useRef(null);
 
   //폰트 기능
-  const font = new FontFace(
-    "Popppins",
-    `url(${process.env.PUBLIC_URL}/font/Popppins.ttf)`
-  );
+  const fonts = [
+    new FontFace(
+      "Popppins",
+      `url(${process.env.PUBLIC_URL}/font/Popppins.ttf)`
+    ),
+  ];
+
   //1 가로가 김, 2 세로가 김, 3 비율 비슷함
 
   // 이미지 그리기
   useEffect(() => {
-    console.log(message);
+    console.log(lat);
+    console.log(city);
     if (size.length == 1) {
     }
     //이미지 불러오기
@@ -82,22 +89,39 @@ function CanvasForm({
           (cw / 1.84) * iar * 0.6,
           (cw / 1.84) * 0.6
         );
-        font.load().then(() => {
-          document.fonts.add(font); // 폰트를 document.fonts에 추가
-          document.fonts.ready.then(() => {
+
+        fonts.forEach((font) => {
+          font.load().then((loadedFont) => {
+            document.fonts.add(loadedFont);
             ctx.font = "24px Popppins ";
-            ctx.fillStyle = "white";
-            ctx.font = "15px Popppins";
-            ctx.fillText(`Current Location: ${lat}, ${lon}`, cw / 11, ch / 1.1);
-            ctx.fillText(`message: ${message}`, cw / 11, ch / 1.6);
-            ctx.fillText(`countryCode: ${countryCode}`, cw / 12, ch / 2.6);
             ctx.fillStyle = "black";
+            ctx.fillText("Title", cw / 2, ch / 12.5 + 60);
+            ctx.fillStyle = "black";
+            ctx.font = "15px Montserrat ";
             ctx.fillText(
               `Country & City: ${country}, ${city}`,
-              cw / 2,
-              ch / 12.5
+              cw / 2.05,
+              ch / 1.2
             );
-            ctx.font = "15px Popppins";
+            ctx.font = "10px Popppins";
+            const text = `address: \n${address}`;
+            const lineHeight = 20; // 줄 간격 설정
+            const lines = text.split("\n");
+            lines.forEach((line, index) => {
+              const yPos = ch / 1.15 + index * lineHeight;
+              ctx.fillText(line, cw / 2.08, yPos);
+            });
+            ctx.font = "12px Montserrat";
+            ctx.fillStyle = "white";
+            ctx.fillText(`Location: ${lat}, ${lon}`, cw / 15, ch / 1.15 + 20);
+            ctx.font = "10px Montserrat";
+            ctx.fillStyle = "black";
+            const text2 = `account: \n${account}`;
+            const lines2 = text2.split("\n");
+            lines2.forEach((line, index) => {
+              const yPos = ch / 12.5 + index * lineHeight;
+              ctx.fillText(line, cw / 2.05, yPos);
+            });
             const imageDataUrl = canvas.toDataURL("image/png"); // 파일 url 저장부분
             img(imageDataUrl);
             setEnd(false);
@@ -107,7 +131,6 @@ function CanvasForm({
     }
     //세로가 긴 버전, 비율이 비슷한버전
     if (size[0] == 2 || size[0] == 3) {
-      console.log(message);
       const image = new Image();
       image.src = file;
       image.onload = () => {
@@ -172,6 +195,52 @@ function CanvasForm({
               (cw / 1.84) * (2 - iar)
             );
           }
+          fonts.forEach((font) => {
+            font.load().then((loadedFont) => {
+              document.fonts.add(loadedFont);
+              document.fonts.ready.then(() => {
+                ctx.font = "bold 32px Popppins ";
+                ctx.fillStyle = "black";
+                ctx.fillText(
+                  "MEMORIES",
+                  cw / 2.02,
+                  ch / 2 -
+                    ch / 18.18 -
+                    (rectheight2 * (2 - iar) - rectheight2) -
+                    52
+                );
+                ctx.fillText(
+                  "IN CHAIN.",
+                  cw / 2.02,
+                  ch / 2 -
+                    ch / 18.18 -
+                    (rectheight2 * (2 - iar) - rectheight2) -
+                    20
+                );
+                ctx.font = "bold 15px Popppins";
+                ctx.fillText("MEMO", cw / 2.03, ch / 1.1 - 90);
+                const text = `KR. ${city}`;
+                ctx.rotate((90 * Math.PI) / 180);
+                ctx.scale(-1, 1);
+                const reversedText = text.split("").reverse().join(""); // 문자열 역순으로 반전
+                ctx.font = "40px Popppins";
+                ctx.fillStyle = "red";
+                ctx.textAlign = "right";
+                ctx.textBaseline = "middle";
+                ctx.fillText(
+                  reversedText,
+                  -(cw / 2 - cw / 7.33),
+                  ch / 2 - ch / 18.18 - (rectheight2 * (2 - iar) - rectheight2)
+                );
+                ctx.rotate((-90 * Math.PI) / 180);
+                ctx.scale(-1, 1);
+
+                const imageDataUrl = canvas.toDataURL("image/png"); // 파일 url 저장부분
+                img(imageDataUrl);
+                setEnd(false);
+              });
+            });
+          });
         } else {
           ctx.fillStyle = "#ffffff";
           ctx.fillRect(
@@ -189,16 +258,6 @@ function CanvasForm({
           );
         }
       };
-
-      font.load().then(() => {
-        document.fonts.add(font); // 폰트를 document.fonts에 추가
-        document.fonts.ready.then(() => {
-          ctx.font = "20px Popppins";
-          const imageDataUrl = canvas.toDataURL("image/png"); // 파일 url 저장부분
-          img(imageDataUrl);
-          setEnd(false);
-        });
-      });
     }
   }, [size]);
 

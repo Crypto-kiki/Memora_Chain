@@ -19,6 +19,8 @@ const FileUpload = ({
   address,
   account,
   message,
+  weather,
+  temperature,
 }) => {
   const [CanvasImage1, setCanvasImage1] = useState();
   const [CanvasImage2, setCanvasImage2] = useState();
@@ -29,7 +31,6 @@ const FileUpload = ({
   const [index, setIndex] = useState(0);
   const [size, setSize] = useState([]);
   const [end, setEnd] = useState(false);
-  console.log(message);
 
   const loadImage = () => {
     const image = new Image();
@@ -65,9 +66,6 @@ const FileUpload = ({
     console.log(size);
   }, [size]);
 
-  useEffect(() => {
-    FileToMint();
-  }, [index, CanvasImage1]);
   const FileToMint = () => {
     if (index == 0 && CanvasImage1) {
       setUrl(CanvasImage1);
@@ -85,6 +83,10 @@ const FileUpload = ({
       setUrl(CanvasImage6);
     }
   };
+
+  useEffect(() => {
+    FileToMint();
+  }, [index, CanvasImage1]);
 
   useEffect(() => {
     console.log(end);
@@ -108,7 +110,7 @@ const FileUpload = ({
           </div>
         )}
       </div>
-      {end && (
+      {
         <div>
           <CanvasForm
             img={setCanvasImage1}
@@ -124,6 +126,8 @@ const FileUpload = ({
             setEnd={setEnd}
             setSize={setSize}
             message={message}
+            weather={weather}
+            temperature={temperature}
           />
           <CanvasForm2
             img={setCanvasImage2}
@@ -139,6 +143,8 @@ const FileUpload = ({
             setEnd={setEnd}
             setSize={setSize}
             message={message}
+            weather={weather}
+            temperature={temperature}
           />
           <CanvasForm3
             img={setCanvasImage3}
@@ -154,6 +160,8 @@ const FileUpload = ({
             setEnd={setEnd}
             setSize={setSize}
             message={message}
+            weather={weather}
+            temperature={temperature}
           />
           <CanvasForm4
             img={setCanvasImage4}
@@ -169,6 +177,8 @@ const FileUpload = ({
             setEnd={setEnd}
             setSize={setSize}
             message={message}
+            weather={weather}
+            temperature={temperature}
           />
           <CanvasForm5
             img={setCanvasImage5}
@@ -184,6 +194,8 @@ const FileUpload = ({
             setEnd={setEnd}
             setSize={setSize}
             message={message}
+            weather={weather}
+            temperature={temperature}
           />
           <CanvasForm6
             img={setCanvasImage6}
@@ -199,9 +211,11 @@ const FileUpload = ({
             setEnd={setEnd}
             setSize={setSize}
             message={message}
+            weather={weather}
+            temperature={temperature}
           />
         </div>
-      )}
+      }
     </>
   );
 };

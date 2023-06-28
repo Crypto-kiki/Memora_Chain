@@ -9,7 +9,6 @@ import "swiper/css/pagination";
 
 // import required modules
 import { Navigation } from "swiper";
-import { Pagination } from "swiper";
 
 export default function SliderComponent({
   imgurl1,
@@ -30,10 +29,10 @@ export default function SliderComponent({
       <Swiper
         pagination={true}
         navigation={true}
-        modules={[Navigation, Pagination]}
+        modules={Navigation}
         className="mySwiper"
         onSlideChange={handleSlideChange}
-        slidesPerView={1}
+        slidesPerGroup={1}
       >
         {size[0] != 1 ? (
           <>

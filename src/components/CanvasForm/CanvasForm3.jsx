@@ -6,12 +6,15 @@ function CanvasForm3({
   city,
   country,
   countryCode,
+  address,
   size,
   img,
   file,
   setEnd,
   account,
   message,
+  temperature,
+  weather,
 }) {
   const canvasRef = useRef(null);
 
