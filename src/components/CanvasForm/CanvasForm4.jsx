@@ -5,6 +5,7 @@ function CanvasForm4({
   lon,
   city,
   country,
+  countryCode,
   size,
   img,
   file,

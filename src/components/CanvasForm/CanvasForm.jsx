@@ -6,6 +6,7 @@ function CanvasForm({
   lon,
   city,
   country,
+  countryCode,
   size,
   img,
   file,
@@ -89,6 +90,7 @@ function CanvasForm({
             ctx.font = "15px Popppins";
             ctx.fillText(`Current Location: ${lat}, ${lon}`, cw / 11, ch / 1.1);
             ctx.fillText(`message: ${message}`, cw / 11, ch / 1.6);
+            ctx.fillText(`countryCode: ${countryCode}`, cw / 12, ch / 2.6);
             ctx.fillStyle = "black";
             ctx.fillText(
               `Country & City: ${country}, ${city}`,

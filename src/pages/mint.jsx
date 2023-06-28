@@ -36,6 +36,7 @@ const Mint = () => {
   const [lat, setLat] = useState(null);
   const [lon, setLon] = useState(null);
   const [country, setCountry] = useState();
+  const [countryCode, setCountryCode] = useState();
   const [city, setCity] = useState();
   const [formatted_address, setFormatted_address] = useState();
   const [Imgurl, setImgurl] = useState();
@@ -68,8 +69,7 @@ const Mint = () => {
         alert("날씨 정보를 가져오지 못했습니다.");
         return;
       }
-      // setCity(response.data.name);
-      setCountry(response.data.sys.country);
+      setCountryCode(response.data.sys.country);
     } catch (error) {
       console.error(error);
     }
@@ -153,24 +153,23 @@ const Mint = () => {
           const geocoding = await axios.get(
             `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lon}&key=${GOOGLEMAP_API}&language=en`
           );
-          // setCountry(
-          //   geocoding.data.results[geocoding.data.results.length - 1]
-          //     .formatted_address
-          // );
+          setCountry(
+            geocoding.data.results[geocoding.data.results.length - 1]
+              .formatted_address
+          );
           setCity(
             geocoding.data.results[geocoding.data.results.length - 2]
               .address_components[0].long_name
           );
           setFormatted_address(geocoding.data.results[0].formatted_address);
-          console.log(country);
+          getWeatherInfo();
         } catch (error) {
           console.error(error);
         }
       };
       fetchGeocoding();
-      console.log(country);
     }
-  }, [isLocationAllowed, getGeolocation /*setCountry*/]);
+  }, [isLocationAllowed, getGeolocation]);
 
   useEffect(() => {
     if (lat !== null && lon !== null && mapLoaded.current) {
@@ -530,6 +529,7 @@ const Mint = () => {
               address={formatted_address}
               account={account}
               message={message}
+              countryCode={countryCode}
             />
           </div>
         </div>
