@@ -438,15 +438,10 @@ const Mint = () => {
   };
 
   return (
-    <div className="flex justify-between min-h-screen bg-gradient-to-b from-[#85A0BD] from-78.1% via-[#CEC3B7] via-86% via-[#D2B9A6] to-[#B4958D] to-100%">
-      <div>
-        <img
-          src={`${process.env.PUBLIC_URL}/image/left.png`}
-          className="w-14 z-20"
-        />
-      </div>
-      <div className="w-full mx-auto flex flex-col">
-        <div className="flex justify-between items-center px-10 font-julius text-2xl tracking-wider text-[#686667]">
+    <div className="flex justify-between min-h-screen bg-gradient-to-b from-[#85A0BD] from-60% via-[#CEC3B7] via-90% via-[#D2B9A6] to-[#B4958D] to-100%">
+      <div className="film-left w-24" />
+      <div className="w-full flex flex-col">
+        <header className="flex justify-between items-center px-10 font-julius text-2xl tracking-wider text-[#686667]">
           <Link to="/">
             <div className="mt-6">
               <img
@@ -459,8 +454,8 @@ const Mint = () => {
             <Link to="/mint">
               <div>Mint</div>
             </Link>
-            <Link to="/dashboard">
-              <div className="mx-10">DashBoard</div>
+            <Link to="/partsshop">
+              <div className="mx-10">Parts Shop</div>
             </Link>
             <Link
               to={account ? "/mypage" : ""}
@@ -469,62 +464,78 @@ const Mint = () => {
               {account ? <div>MyPage</div> : <div>Login</div>}
             </Link>
           </div>
-        </div>
-        <div>
-          <div className="flex flex-col justify-center items-center">
+        </header>
+        <div className="flex flex-col justify-center items-center">
+          <span className="block text-[#686667] font-julius text-2xl font-bold">
+            "Samples."
+          </span>
+          <div className="my-10">
+            <SimpleImageSlider
+              width={423}
+              height={752}
+              images={slideImages}
+              showBullets={true}
+              showNavs={true}
+              navMargin={-18}
+              slideDuration={1}
+            />
+          </div>
+          <div className="text-2xl tracking-widest text-[#686667]">
+            "Capture your Memories forever on the Blockchains."
+          </div>
+          <div className="w-full flex mt-40 mb-10 justify-center items-center">
             <div>
-              <span className="block mb-2 text-[#686667] font-julius">
-                Sample
-              </span>
-              <SimpleImageSlider
-                width={423}
-                height={752}
-                images={slideImages}
-                showBullets={true}
-                showNavs={true}
-                navMargin={-13}
-                slideDuration={1}
-              />
+              {!isLocationAllowed && (
+                <button
+                  onClick={getGeolocation}
+                  className="flex justify-center items-center shadow-lg"
+                >
+                  위치 정보 허용
+                </button>
+              )}
+              {isLocationAllowed && (
+                <div ref={mapElement} className="w-[400px] h-80 shadow-2xl" />
+              )}
             </div>
-            <div className="text-2xl mb-10 tracking-widest">
-              "Capture your Memories forever on the Blockchains."
-            </div>
-            <div className="flex">
-              <div>
-                {!isLocationAllowed && (
-                  <button
-                    onClick={getGeolocation}
-                    className="flex justify-center items-center"
-                  >
-                    위치 정보 허용
-                  </button>
-                )}
-                {isLocationAllowed && (
-                  <div ref={mapElement} className="w-80 h-80" />
-                )}
-              </div>
-              <div className="flex flex-col w-full">
-                <label className="border border-blue-500">
-                  <input
-                    type="file"
-                    onChange={handleFileChange}
-                    className="hidden"
+            <div className="w-1/3 flex flex-col ml-20 items-center h-80">
+              <label className="w-full border border-[#8b8b8b] h-1/4 flex items-center justify-center shadow-lg">
+                <input
+                  type="file"
+                  onChange={handleFileChange}
+                  className="hidden"
+                />
+                Image Upload
+              </label>
+              <form
+                onSubmit={handleSubmit}
+                className="h-full flex flex-col w-full"
+              >
+                <label className="h-full my-4">
+                  <textarea
+                    name="message"
+                    className="h-full w-full bg-transparent border border-[#8b8b8b] text-center shadow-lg"
+                    maxLength={100}
+                    placeholder="Write this moment"
                   />
-                  Image Upload
                 </label>
-                <form onSubmit={handleSubmit} className="mr-8 ml-6">
-                  <label>
-                    Name:
-                    <input
-                      type="text"
-                      name="message"
-                      className="border-2 rounded-md ml-2 m-1"
-                    />
-                  </label>
-                  <button type="submit">Submit</button>
-                </form>
-              </div>
+                <button
+                  type="submit"
+                  className="w-full border border-[#8b8b8b] h-1/4 shadow-lg"
+                >
+                  Submit
+                </button>
+              </form>
             </div>
+          </div>
+          <div className="text-[#686667] text-xl mb-40">
+            "My location is with memories."
+          </div>
+          {!selectedFile ? (
+            <div className="h-[900px] w-[1000px] flex flex-col justify-center items-center border border-[#8b8b8b] text-2xl">
+              <div>Image Upload First,</div>
+              <div> And you can watch NFT Samples by your image</div>
+            </div>
+          ) : (
             <FileUpload
               file={selectedFileURL}
               setUrl={setCanvasImgurl}
@@ -539,16 +550,21 @@ const Mint = () => {
               temperature={temperature}
               weather={weather}
             />
-          </div>
+          )}
         </div>
-        <button onClick={upLoadImage}>MINT</button>
+        <div className="mt-20 text-[#686667] text-xl flex flex-col justify-center items-center">
+          "MINT, Your own memory"
+        </div>
+        <div className="flex justify-center items-center">
+          <button
+            onClick={upLoadImage}
+            className="w-56 border border-[#8b8b8b] shadow-lg py-3 mt-10 mb-32 text-4xl text-[#686667]"
+          >
+            MINT
+          </button>
+        </div>
       </div>
-      <div>
-        <img
-          src={`${process.env.PUBLIC_URL}/image/left.png`}
-          className="w-14 z-20"
-        />
-      </div>
+      <div className="film-right w-24" />
     </div>
   );
 };

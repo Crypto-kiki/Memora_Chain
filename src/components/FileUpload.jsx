@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import CanvasForm from "./CanvasForm/CanvasForm";
 import CanvasForm2 from "./CanvasForm/CanvasForm2";
 import CanvasForm3 from "./CanvasForm/CanvasForm3";
-import CanvasForm4 from "./CanvasForm/CanvasForm6";
+import CanvasForm4 from "./CanvasForm/CanvasForm4";
 import CanvasForm5 from "./CanvasForm/CanvasForm5";
 import CanvasForm6 from "./CanvasForm/CanvasForm6";
 import SliderComponent from "./CanvasForm/SliderComponent";
@@ -83,6 +83,30 @@ const FileUpload = ({
       setUrl(CanvasImage6);
     }
   };
+
+  //폰트 기능
+  const fonts = [
+    new FontFace(
+      "SB",
+      `url(${process.env.PUBLIC_URL}/font/SourceSans3-SemiBold.ttf)`
+    ),
+    new FontFace(
+      "EL",
+      `url(${process.env.PUBLIC_URL}/font/SourceSans3-Light.ttf)`
+    ),
+  ];
+
+  useEffect(() => {
+    const loadFonts = async () => {
+      // 폰트 로드
+      await Promise.all(fonts.map((font) => font.load()));
+
+      // 폰트가 모두 로드된 후에 document에 폰트 추가
+      fonts.forEach((font) => document.fonts.add(font));
+    };
+
+    loadFonts();
+  }, [fonts]);
 
   useEffect(() => {
     FileToMint();

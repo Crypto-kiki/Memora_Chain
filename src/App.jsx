@@ -14,7 +14,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Main />} />
           <Route path="/mint" element={<Mint />} />
-          <Route path="/dashboard" element={<MyPage />} />
+          <Route path="/partsshop" element={<MyPage />} />
           <Route path="/mypage" element={<MyPage />} />
         </Routes>
       </AccountContext.Provider>

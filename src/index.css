@@ -80,3 +80,17 @@
   background-repeat: no-repeat;
   background-size: cover;
 }
+
+.mainSecondDiv {
+  background-image: url(../public/image/mainSecondDiv.png);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.mainThirdDiv {
+  background-image: url(../public/image/mainThirdDiv.png);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}

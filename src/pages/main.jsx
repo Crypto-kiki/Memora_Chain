@@ -33,13 +33,13 @@ const Main = () => {
   };
 
   return (
-    <div className="flex justify-between bg-[#CCDBE7] min-w-[1630px]">
+    <div className="flex grow justify-between bg-[#CCDBE7]">
       <div className="film-left w-24" />
-      <div className="w-full flex flex-col px-4">
+      <div className="w-full flex flex-col">
         <div className="bg-[#F3EED4]">
           <header className="flex justify-between items-center px-10 font-julius text-2xl tracking-wider text-[#686667]">
             <Link to="/">
-              <div className="mt-6">
+              <div className="mt-3">
                 <img
                   src={`${process.env.PUBLIC_URL}/image/Logo.png`}
                   className="w-28"
@@ -50,8 +50,8 @@ const Main = () => {
               <Link to="/mint">
                 <div>Mint</div>
               </Link>
-              <Link to="/dashboard">
-                <div className="mx-10">DashBoard</div>
+              <Link to="/partsshop">
+                <div className="mx-10">Parts Shop</div>
               </Link>
               <Link
                 to={account ? "/mypage" : ""}
@@ -68,24 +68,9 @@ const Main = () => {
             type="video/mp4"
           />
         </video>
-        <div className="bg-[#E3C9B2] h-screen relative justify-center items-center mt-6">
-          <img
-            src={`${process.env.PUBLIC_URL}/image/mainSecond(2).png`}
-            className="absolute z-10 top-1/3 left-1/3 transform -translate-x-1/2 -translate-y-1/2"
-          />
-          <img
-            src={`${process.env.PUBLIC_URL}/image/mainSecond(1).png`}
-            className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
-          />
-          <img
-            src={`${process.env.PUBLIC_URL}/image/mainSecond(3).png`}
-            className="absolute z-10 top-1/2 left-3/4 transform -translate-x-1/2 -translate-y-1/2"
-          />
-        </div>
-        <div className="justify-center items-center mt-6">
-          <MainSlider />
-        </div>
-        <div className="flex mt-6 bg-gradient-to-b from-[#85A0BD] from-78.1% via-[#CEC3B7] via-86% via-[#D2B9A6] to-[#B4958D] to-100% justify-around px-40 py-32">
+        <div className="bg-[#E3C9B2] mainSecondDiv h-[80vh] relative justify-center items-center mt-3 w-full"></div>
+        <div className="mainThirdDiv w-full h-[80vh] mt-3"></div>
+        <div className="flex mt-3 bg-gradient-to-b from-[#85A0BD] from-78.1% via-[#CEC3B7] via-86% via-[#D2B9A6] to-[#B4958D] to-100% justify-around px-40 py-32">
           <div>
             <div className="border-4 border-yellow-100">
               <img
@@ -111,12 +96,12 @@ const Main = () => {
             </div>
           </div>
         </div>
-        <div className="flex flex-col justify-center items-center mt-6 bg-[#96A9C2] pt-20 pb-10">
+        <div className="flex flex-col justify-center items-center mt-3 bg-[#96A9C2] pt-20 pb-10">
           <img
             src={`${process.env.PUBLIC_URL}/image/airplane.png`}
             className="w-1/2"
           />
-          <Link to="mint">
+          <Link to="/mint">
             <button className="bg-[#D9D9D9] px-16 py-4 text-2xl mt-10 tracking-wider text-[#857464]">
               mint now
             </button>
