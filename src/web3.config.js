@@ -1,4 +1,4 @@
-export const CONTRACT_ADDRESS = "0x9b3C767e16dB339342955D53f57d7D94C022E22a";
+export const CONTRACT_ADDRESS = "0xc902e39c77825101478Ff8cE8FA72f98B0654453";
 export const CONTRACT_ABI = [
   {
     anonymous: false,
@@ -174,19 +174,6 @@ export const CONTRACT_ABI = [
     inputs: [
       {
         internalType: "address",
-        name: "_admin",
-        type: "address",
-      },
-    ],
-    name: "setAdmin",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
         name: "operator",
         type: "address",
       },
@@ -267,6 +254,25 @@ export const CONTRACT_ABI = [
         internalType: "uint256",
         name: "",
         type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "_nftOwner",
+        type: "address",
+      },
+    ],
+    name: "getAllNft",
+    outputs: [
+      {
+        internalType: "uint256[]",
+        name: "",
+        type: "uint256[]",
       },
     ],
     stateMutability: "view",

@@ -68,8 +68,8 @@ const Main = () => {
             type="video/mp4"
           />
         </video>
-        <div className="bg-[#E3C9B2] mainSecondDiv h-[80vh] relative justify-center items-center mt-3 w-full"></div>
-        <div className="mainThirdDiv w-full h-[80vh] mt-3"></div>
+        <div className="bg-[#E3C9B2] mainSecondDiv h-[100vh] relative justify-center items-center mt-3 w-full"></div>
+        <div className="mainThirdDiv w-full h-[100vh] mt-3"></div>
         <div className="flex mt-3 bg-gradient-to-b from-[#85A0BD] from-78.1% via-[#CEC3B7] via-86% via-[#D2B9A6] to-[#B4958D] to-100% justify-around px-40 py-32">
           <div>
             <div className="border-4 border-yellow-100">
@@ -95,6 +95,12 @@ const Main = () => {
               <div>NFTs"</div>
             </div>
           </div>
+        </div>
+        <div>
+          <img
+            src={`${process.env.PUBLIC_URL}/image/mainFourthDiv.png`}
+            className="w-full mt-3"
+          />
         </div>
         <div className="flex flex-col justify-center items-center mt-3 bg-[#96A9C2] pt-20 pb-10">
           <img

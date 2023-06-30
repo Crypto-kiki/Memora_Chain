@@ -83,7 +83,7 @@
 
 .mainSecondDiv {
   background-image: url(../public/image/mainSecondDiv.png);
-  background-size: cover;
+  background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
 }

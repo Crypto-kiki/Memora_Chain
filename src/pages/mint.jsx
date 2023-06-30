@@ -21,9 +21,10 @@ const Mint = () => {
   const { account, setAccount } = useContext(AccountContext); // Context에서 account 값과 setAccount 함수 가져오기
 
   const slideImages = [
-    { url: `${process.env.PUBLIC_URL}/image/1.png` },
-    { url: `${process.env.PUBLIC_URL}/image/2.png` },
-    { url: `${process.env.PUBLIC_URL}/image/3.png` },
+    { url: `${process.env.PUBLIC_URL}/image/mint/2.png` },
+    { url: `${process.env.PUBLIC_URL}/image/mint/3.png` },
+    { url: `${process.env.PUBLIC_URL}/image/mint/4.png` },
+    { url: `${process.env.PUBLIC_URL}/image/mint/5.png` },
   ];
 
   const GOOGLEMAP_API = process.env.REACT_APP_GOOGLEMAP_API;
@@ -44,6 +45,10 @@ const Mint = () => {
   const [Imgurl, setImgurl] = useState();
 
   const [isLocationAllowed, setIsLocationAllowed] = useState(false); // 위치 정보 동의 상태를 저장
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   const connectWithMetamask = async () => {
     try {
@@ -314,7 +319,6 @@ const Mint = () => {
       );
 
       setIpfsHash(res.data.IpfsHash);
-      console.log(ipfsHash);
     } catch (error) {
       console.log(error);
     }
@@ -350,33 +354,30 @@ const Mint = () => {
         description: "Unforgettable Memories, Forever Immutable",
         external_url: downloadURL,
         image: downloadURL,
-        name: "MemoraChain",
         EncryptedIPFSImgUrl: encryptedIpfs,
         Account: account,
-        attributes: {
-          Geolocation: [
-            {
-              trait_type: "Latitude",
-              value: lat,
-            },
-            {
-              trait_type: "Longitude",
-              value: lon,
-            },
-            {
-              trait_type: "Country",
-              value: country,
-            },
-            {
-              trait_type: "City",
-              value: city,
-            },
-            {
-              trait_type: "Address",
-              value: formatted_address,
-            },
-          ],
-        },
+        attributes: [
+          {
+            trait_type: "Latitude",
+            value: `${lat}`,
+          },
+          {
+            trait_type: "Longitude",
+            value: `${lon}`,
+          },
+          {
+            trait_type: "Country",
+            value: country,
+          },
+          {
+            trait_type: "City",
+            value: city,
+          },
+          {
+            trait_type: "Address",
+            value: formatted_address,
+          },
+        ],
       };
 
       const metadataRes = await axios.post(
@@ -452,7 +453,7 @@ const Mint = () => {
           </Link>
           <div className="flex">
             <Link to="/mint">
-              <div>Mint</div>
+              <div className="font-bold">Mint</div>
             </Link>
             <Link to="/partsshop">
               <div className="mx-10">Parts Shop</div>
