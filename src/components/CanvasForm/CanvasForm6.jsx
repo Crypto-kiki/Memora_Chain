@@ -43,43 +43,75 @@ function CanvasForm6({
         ctx.fillStyle = "#ffffff"; //바꿔야되는부분
         ctx.fillRect(0, 0, rectWidth * 2, rectheight);
 
+        // 그림자 스타일 초기화
+        ctx.shadowBlur = 0;
+        ctx.shadowColor = "rgba(0, 0, 0, 0)";
+        ctx.shadowOffsetX = 0;
+        ctx.shadowOffsetY = 0;
         //배경 사각형 그리기
-        ctx.fillStyle = "#ECECEC";
+        ctx.fillStyle = "#f5f5f5";
         ctx.fillRect(15, 15, rectWidth * 2 - 30, rectheight - 30);
         //이미지 크기
         const iw = image.width;
         const ih = image.height;
         const iar = iw / ih;
 
+        // 그림자 스타일 설정
+        ctx.shadowBlur = 15; // 그림자의 흐림 정도
+        ctx.shadowColor = "rgba(0, 0, 0, 0.5)"; // 그림자의 색상
+        ctx.shadowOffsetX = 5; // 그림자의 x축 오프셋
+        ctx.shadowOffsetY = 5; // 그림자의 y축 오프셋
         //배경 크기맞추기용 틀
         ctx.fillStyle = "#ffffff";
         ctx.fillRect(
-          cw / 2 - ((cw / 1.39) * 0.8) / 2,
-          ch / 2 - ch / 1.15 / 2,
-          (cw / 1.39) * 0.8,
-          ch / 1.15
+          cw / 2 - ((cw / 1.5) * 1.1) / 2,
+          ch / 2 - ch / 1.3 / 2,
+          (cw / 1.5) * 1.1,
+          ch / 1.3
         );
 
+        // 그림자 스타일 초기화
+        ctx.shadowBlur = 0;
+        ctx.shadowColor = "rgba(0, 0, 0, 0)";
+        ctx.shadowOffsetX = 0;
+        ctx.shadowOffsetY = 0;
         //메인 사각형(그림) 그리기
         ctx.filter = "none";
         ctx.drawImage(
           image,
-          cw / 2 - ((cw / 1.39) * 0.8) / 2,
-          ch / 4.5,
-          (cw / 1.39) * 0.8,
+          cw / 2 - ((cw / 1.5) * 1.1) / 2 + 15,
+          ch / 2 - ch / 1.3 / 2 + 15,
+          (cw / 1.5) * 1.1 - 30,
           ch / 1.2 / 1.65
         );
 
         font.load().then(() => {
           document.fonts.add(font); // 폰트를 document.fonts에 추가
           document.fonts.ready.then(() => {
+            //
             ctx.fillStyle = "black";
             ctx.font = "25px Montserrat";
-            // ctx.fillText(
-            //   `Name22: ${metadata.name}`,
-            //   cw / 2 - ((cw / 1.39) * 0.8) / 2 + 20,
-            //   ch / 4.4 - 25
-            // );
+            ctx.fillText(
+              `MEMORA`,
+              cw / 2 - ((cw / 1.39) * 0.8) / 2 + 40,
+              ch / 1.15 / 1.2
+            );
+            ctx.fillText(
+              `CHAIN`,
+              cw / 2 - ((cw / 1.39) * 0.8) / 2 + 40,
+              ch / 1.15 / 1.1
+            );
+            ctx.fillText(
+              `MEMORA`,
+              cw / 2 - ((cw / 1.39) * 0.8) / 2 + 40,
+              ch / 1.15 / 1.2
+            );
+            ctx.fillText(
+              `CHAIN`,
+              cw / 2 - ((cw / 1.39) * 0.8) / 2 + 40,
+              ch / 1.15 / 1.1
+            );
+            //
             // ctx.font = "20px Montserrat";
             // ctx.fillText(
             //   `Age: ${metadata.age}`,
