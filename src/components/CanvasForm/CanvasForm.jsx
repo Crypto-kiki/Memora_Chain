@@ -319,59 +319,33 @@ function CanvasForm({
           ctx.font = "14px EL";
           ctx.fillStyle = "#4d4d4d";
 
-          function wrapText(context, text, x, y, maxWidth, lineHeight) {
-            var words = text.split("");
-            var line = "";
-
-            for (var i = 0; i < words.length; i++) {
-              line += words[i];
-
-              // 일정 글자수(maxWidth)마다 줄바꿈을 수행합니다.
-              if (line.length >= maxWidth && i < words.length - 1) {
-                context.fillText(line, x, y);
-                line = "";
-                y += lineHeight;
-              }
-            }
-
-            context.fillText(line, x, y);
-            var maxWidth = 10; // 일정 글자수
-            var lineHeight = 20;
-            var x = cw / 2.03;
-            var y = ch / 1.1 - 60;
-
-            var text = message;
-
-            wrapText(context, text, x, y, maxWidth, lineHeight);
-
-            ctx.rotate((270 * Math.PI) / 180);
-            const text2 = `${countryCode}. ${city} `;
-            const textWidth = ctx.measureText(text2).width;
-            ctx.font = "26px SB";
-            ctx.fillStyle = "#b3b3b3";
-            ctx.fillText(
-              text2,
-              -(
-                ch / 2 -
-                ch / 18.18 -
-                (rectheight2 * (2 - iar) - rectheight2) +
-                textWidth * 2
-              ),
-              cw / 2 - cw / 7.33 - 13
-            );
-            ctx.font = "15px EL";
-            ctx.fillStyle = "#808080";
-            ctx.fillText(`Address : ${address}`, -(ch - 35), 45);
-            ctx.fillText(
-              `Location : ${lat.toFixed(4)}, ${lon.toFixed(4)}`,
-              -(ch - 35),
-              65
-            );
-            ctx.rotate((-270 * Math.PI) / 180);
-            const imageDataUrl = canvas.toDataURL("image/png"); // 파일 url 저장부분
-            img(imageDataUrl);
-            setEnd(false);
-          }
+          ctx.rotate((270 * Math.PI) / 180);
+          const text2 = `${countryCode}. ${city} `;
+          const textWidth = ctx.measureText(text2).width;
+          ctx.font = "26px SB";
+          ctx.fillStyle = "#b3b3b3";
+          ctx.fillText(
+            text2,
+            -(
+              ch / 2 -
+              ch / 18.18 -
+              (rectheight2 * (2 - iar) - rectheight2) +
+              textWidth * 2
+            ),
+            cw / 2 - cw / 7.33 - 13
+          );
+          ctx.font = "15px EL";
+          ctx.fillStyle = "#808080";
+          ctx.fillText(`Address : ${address}`, -(ch - 35), 45);
+          ctx.fillText(
+            `Location : ${lat.toFixed(4)}, ${lon.toFixed(4)}`,
+            -(ch - 35),
+            65
+          );
+          ctx.rotate((-270 * Math.PI) / 180);
+          const imageDataUrl = canvas.toDataURL("image/png"); // 파일 url 저장부분
+          img(imageDataUrl);
+          setEnd(false);
         } else {
           ctx.fillStyle = "#ffffff";
           ctx.fillRect(
