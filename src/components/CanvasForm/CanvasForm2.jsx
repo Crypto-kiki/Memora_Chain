@@ -19,11 +19,8 @@ function CanvasForm2({
 }) {
   const canvasRef = useRef(null);
 
-  // 폰트 기능
-  const font = new FontFace(
-    "roboto",
-    `url(${process.env.PUBLIC_URL}/font/roboto.ttf)`
-  );
+  const image2 = new Image();
+  image2.src = `${process.env.PUBLIC_URL}/image/logo2.png`
   useEffect(() => {
     // 이미지 그리기
     const image = new Image();
@@ -65,14 +62,14 @@ function CanvasForm2({
 
         ctx.beginPath();
         ctx.rect(0, 0, cw, ch);
-        font.load().then(() => {
-          document.fonts.add(font); // 폰트를 document.fonts에 추가
-          document.fonts.ready.then(() => {
-            const imageDataUrl = canvas.toDataURL("image/png"); // 파일 url 저장부분
-            img(imageDataUrl);
-            setEnd(false);
-          });
-        });
+        // font.load().then(() => {
+        //   document.fonts.add(font); // 폰트를 document.fonts에 추가
+        //   document.fonts.ready.then(() => {
+        //     const imageDataUrl = canvas.toDataURL("image/png"); // 파일 url 저장부분
+        //     img(imageDataUrl);
+        //     setEnd(false);
+        //   });
+        // });
 
         // 삽화 이미지 그리기 (원본 크기)
         tempCanvas.width = width;
@@ -100,6 +97,55 @@ function CanvasForm2({
         tempCtx.fill();
 
         ctx.drawImage(tempCanvas, x, y, width, height);
+
+              ctx.font = "bolder 37px SB ";
+              ctx.fillStyle = "black";
+              ctx.fillText(
+                "MEMORIES",
+                x + width + 30,
+                (y + height)/2 - 40
+              );
+              ctx.fillText(
+                "IN CHAIN.",
+                x + width + 30,
+                (y + height)/2 
+              ); 
+              ctx.drawImage(image2, cw-102, 32, 73,73)
+
+              ctx.font = "bold 17px EL";
+              ctx.fillStyle = "white"
+              ctx.fillText("MEMO",           x + width + 30,
+              (y + height)/2 + 80);    
+              ctx.font = " 14px EL";
+              ctx.fillStyle = "white"
+              ctx.fillText("Lorem Ipsum is simply dummy ",x + width + 30,
+              (y + height)/2 +120 )
+              ctx.fillText("text of the printing and ",x + width + 30,
+              (y + height)/2 +140  )
+              ctx.fillText("typesetting industry  ",x + width + 30,
+              (y + height)/2 +160  )
+              ctx.font = " 12px EL"
+              ctx.fillStyle = "black"
+              ctx.fillText("made by memorachain", cw-150, ch-40)
+
+              ctx.font = "24px SB";
+              ctx.fillStyle = "white";
+              ctx.fillText(`${countryCode}. ${city}`, x , y -10)      
+              ctx.rotate((270 * Math.PI) / 180);
+
+   
+              ctx.font = "14px EL";
+              ctx.fillStyle = "#808080";
+              ctx.fillText(`Address : ${address}`, -(y+height - 20),
+              40)
+              ctx.fillText(`Location : ${lat.toFixed(4)}, ${lon.toFixed(4)}`, -(y+height - 20),
+              60)
+              ctx.rotate((-270 * Math.PI) / 180); 
+
+              const imageDataUrl = canvas.toDataURL("image/png"); // 파일 url 저장부분
+              img(imageDataUrl);
+              setEnd(false);
+
       };
     }
     if (size[0] == 2 || size[0] == 3) {
@@ -128,29 +174,7 @@ function CanvasForm2({
 
         ctx.beginPath();
         ctx.rect(0, 0, cw, ch);
-        font.load().then(() => {
-          document.fonts.add(font); // 폰트를 document.fonts에 추가
-          document.fonts.ready.then(() => {
-            ctx.font = "24px Popppins ";
-            ctx.fillStyle = "black";
-            ctx.font = "14px Popppins";
-            ctx.fillText(
-              `Country & City: ${country}, ${city}`,
-              cw / 2,
-              ch / 1.15
-            );
-            ctx.font = "13px Popppins";
-            ctx.fillText(`address: ${address}`, cw / 2, ch / 1.1);
-            ctx.fillStyle = "black";
-            ctx.fillText(`Current Location: ${lat}, ${lon}`, cw / 2, ch / 12.5);
-            ctx.font = "14px Popppins";
-            ctx.fillStyle = "white";
-            ctx.fillText(`accout: ${account}`, cw / 25, ch / 1.1);
-            const imageDataUrl = canvas.toDataURL("image/png"); // 파일 url 저장부분
-            img(imageDataUrl);
-            setEnd(false);
-          });
-        });
+    
 
         // 삽화 이미지 그리기 (원본 크기)
         tempCanvas.width = width;
@@ -178,8 +202,56 @@ function CanvasForm2({
         tempCtx.fill();
 
         ctx.drawImage(tempCanvas, x, y, width, height);
-        // const imageDataUrl = canvas.toDataURL("image/png");
-        // img(imageDataUrl);
+        ctx.drawImage(image2, 30,35, 73,73)
+
+              ctx.font = "bolder 37px SB ";
+              ctx.fillStyle = "black";
+              ctx.fillText(
+                "MEMORIES",
+                x - 30,
+                y -80
+              );
+              ctx.fillText(
+                "IN CHAIN.",
+                x - 30,
+                y -40
+              ); 
+
+              ctx.font = "bold 17px EL";
+              ctx.fillStyle = "white"
+              ctx.fillText("MEMO", x - 30, y+height+40);    
+              ctx.font = "lighter 14px EL";
+              ctx.fillStyle = "white"
+              ctx.fillText("Lorem Ipsum is simply dummy ",x - 30, y+height+80 )
+              ctx.fillText("text of the printing and ",x - 30, y+height+100 )
+              ctx.fillText("typesetting industry  ",x - 30, y+height+120 )
+              ctx.font = "lighter 11px EL"
+              ctx.fillStyle = "black"
+              ctx.fillText("made by memorachain", cw-140, ch-40)
+
+              ctx.rotate((270 * Math.PI) / 180);
+              const text = `${countryCode}. ${city} `;
+              const textWidth = ctx.measureText(text).width;
+              ctx.font = "24px SB";
+              ctx.fillStyle = "#b3b3b3";      
+              ctx.fillText(
+                text,
+                -(y+height),
+                cw-65
+              );
+              ctx.font = "14px EL";
+              ctx.fillStyle = "#808080";
+              ctx.fillText(`Address : ${address}`, -(y+height),
+              cw-30)
+              ctx.fillText(`Location : ${lat.toFixed(4)}, ${lon.toFixed(4)}`, -(y+height),
+              cw-45)
+              ctx.rotate((-270 * Math.PI) / 180); 
+
+              const imageDataUrl = canvas.toDataURL("image/png"); // 파일 url 저장부분
+              img(imageDataUrl);
+              setEnd(false);
+
+    
       };
     }
   }, [size]);

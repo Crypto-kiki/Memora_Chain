@@ -4,6 +4,7 @@ import CanvasForm from "./CanvasForm/CanvasForm";
 import CanvasForm2 from "./CanvasForm/CanvasForm2";
 import CanvasForm3 from "./CanvasForm/CanvasForm3";
 import CanvasForm4 from "./CanvasForm/CanvasForm4";
+import CanvasForm4 from "./CanvasForm/CanvasForm4";
 import CanvasForm5 from "./CanvasForm/CanvasForm5";
 import CanvasForm6 from "./CanvasForm/CanvasForm6";
 import SliderComponent from "./CanvasForm/SliderComponent";
