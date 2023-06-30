@@ -18,11 +18,8 @@ function CanvasForm4({
 }) {
   const canvasRef = useRef(null);
 
-  //폰트 기능
-  const font = new FontFace(
-    "Montserrat",
-    `url(${process.env.PUBLIC_URL}/font/Montserrat.ttf)`
-  );
+  const image2 = new Image();
+  image2.src = `${process.env.PUBLIC_URL}/image/logo2.png`
 
   useEffect(() => {
     // 이미지 그리기
@@ -56,7 +53,7 @@ function CanvasForm4({
         ctx.fillRect(
           cw / 2 - ((cw / 1.39) * 0.8) / 2,
           ch / 2 - ch / 1.15 / 2,
-          (cw / 1.39) * 0.8,
+          (cw / 1.39) * 0.85,
           ch / 1.15
         );
 
@@ -66,30 +63,43 @@ function CanvasForm4({
           image,
           cw / 2 - ((cw / 1.39) * 0.8) / 2,
           ch / 4.5,
-          (cw / 1.39) * 0.8,
+          (cw / 1.39) * 0.85,
           ch / 1.2 / 1.65
         );
-
-        font.load().then(() => {
-          document.fonts.add(font); // 폰트를 document.fonts에 추가
-          document.fonts.ready.then(() => {
+        ctx.drawImage(image2,cw / 2 - ((cw / 1.39) * 0.8) / 2+ (cw / 1.39) * 0.85 - 55, 40 , 50,50)
+            ctx.font = "bolder 35px SB ";
             ctx.fillStyle = "black";
-            ctx.font = "25px Montserrat";
-            // ctx.fillText(
-            //   `Name22: ${metadata.name}`,
-            //   cw / 2 - ((cw / 1.39) * 0.8) / 2 + 20,
-            //   ch / 4.4 - 25
-            // );
-            // ctx.font = "20px Montserrat";
-            // ctx.fillText(
-            //   `Age: ${metadata.age}`,
-            //   cw / 2 - ((cw / 1.39) * 0.8) / 2 + 20,
-            //   ch / 4.5 + ch / 1.2 / 1.7 + 45
-            // );
+            ctx.fillText(
+              "MEMORIES",
+              cw / 2 - ((cw / 1.39) * 0.85) / 2 + 30,
+              ch / 4.5 + ch / 1.2 / 1.65 + 50
+            );
+            ctx.fillText(
+              "IN CHAIN.",
+              cw / 2 - ((cw / 1.39) * 0.85) / 2 + 30,
+              ch / 4.5 + ch / 1.2 / 1.65 + 90
+            ); 
+            ctx.font = "bold 17px EL";
+            ctx.fillStyle = "#4d4d4d"
+            ctx.fillText("MEMO", cw / 2 - ((cw / 1.39) * 0.85) / 2 + 230, ch / 4.5 + ch / 1.2 / 1.65 + 30) ;    
+            ctx.font = "14px EL";
+            ctx.fillStyle = "#4d4d4d"
+            ctx.fillText("Lorem Ipsum is simply dummy ", cw / 2 - ((cw / 1.39) * 0.85) / 2 + 230, ch / 4.5 + ch / 1.2 / 1.65 + 60 )
+            ctx.fillText("text of the printing and ", cw / 2 - ((cw / 1.39) * 0.85) / 2 + 230, ch / 4.5 + ch / 1.2 / 1.65 + 80)
+            ctx.fillText("typesetting industry  ", cw / 2 - ((cw / 1.39) * 0.85) / 2 + 230, ch / 4.5 + ch / 1.2 / 1.65 + 100 )
+            const text = `${countryCode}. ${city} `; 
+            ctx.font = "25px SB";
+            ctx.fillStyle = "#b3b3b3";      
+            ctx.fillText(
+              text, cw / 2 - ((cw / 1.39) * 0.85) / 2 + 30 , ch / 2 - ch / 1.15 / 2 + 35
+            );       
+            ctx.font = "12px EL";
+            ctx.fillStyle = "#808080";
+            ctx.fillText(`Address : ${address}`,cw / 2 - ((cw / 1.39) * 0.85) / 2 + 30 , ch / 2 - ch / 1.15 / 2 + 65)
+            ctx.fillText(`Location : ${lat.toFixed(4)}, ${lon.toFixed(4)}`, cw / 2 - ((cw / 1.39) * 0.85) / 2 + 30, ch / 2 - ch / 1.15 / 2 + 78)
             const imageDataUrl = canvas.toDataURL("image/png"); // 파일 url 저장부분
             img(imageDataUrl);
-          });
-        });
+            setEnd(false);
       };
     }
     if (size[0] == 2 || size[0] == 3) {
@@ -120,22 +130,47 @@ function CanvasForm4({
         //메인 사각형(그림) 그리기
         ctx.filter = "none";
         ctx.drawImage(image, cw / 2 - 270, ch / 2 - ch / 1.15 / 2, 340, 478);
+        ctx.drawImage(image2, cw / 2 - ((cw / 1.39) * 0.8) / 2 - 100 +5,40,50,50 )
 
-        font.load().then(() => {
-          document.fonts.add(font); // 폰트를 document.fonts에 추가
-          document.fonts.ready.then(() => {
+            ctx.font = "bolder 35px SB ";
             ctx.fillStyle = "black";
-            ctx.font = "25px Montserrat";
-            // ctx.fillText(
-            //   `Name22: ${metadata.name}`,
-            //   cw / 2 + 90,
-            //   ch / 4.2 - 30
-            // );
-            // ctx.fillText(`Age: ${metadata.age}`, cw / 2 + 90, ch / 4.2 + 50);
+            ctx.fillText(
+              "MEMORIES",
+              cw / 2 +70+ 30,
+              ch / 4.5 + ch / 1.2 / 1.65 -280
+            );
+            ctx.fillText(
+              "IN CHAIN.",
+              cw / 2 +70+ 30,
+              ch / 4.5 + ch / 1.2 / 1.65 - 240
+            ); 
+
+            ctx.font = "bold 17px EL";
+            ctx.fillStyle = "#4d4d4d"
+            ctx.fillText("MEMO", cw / 2 +70+ 30, ch / 4.5 + ch / 1.2 / 1.65 - 60  ) ;    
+            ctx.font = "14px EL";
+            ctx.fillStyle = "#4d4d4d"
+            ctx.fillText("Lorem Ipsum is simply dummy ",cw / 2 +70+ 30,ch / 4.5 + ch / 1.2 / 1.65 -20 )
+            ctx.fillText("text of the printing and ", cw / 2 +70+ 30, ch / 4.5 + ch / 1.2 / 1.65 )
+            ctx.fillText("typesetting industry  ", cw / 2 +70+ 30, ch / 4.5 + ch / 1.2 / 1.65 +20 )
+               
+            ctx.rotate((270 * Math.PI) / 180);  
+            const text = `${countryCode}. ${city} `; 
+            ctx.font = "25px SB";
+            ctx.fillStyle = "#b3b3b3";      
+            ctx.fillText(
+              text,-(ch-45), ch / 2 - ch / 1.15 / 2 + 135, 
+            ); 
+            ctx.font = "14px EL";
+            ctx.fillStyle = "#808080";
+            ctx.fillText(`Address : ${address}`, -((ch-40)),
+            cw / 2 - ((cw / 1.39) * 0.8) / 2 - 100 + 15)
+            ctx.fillText(`Location : ${lat.toFixed(4)}, ${lon.toFixed(4)}`, -((ch-40)),
+            cw / 2 - ((cw / 1.39) * 0.8) / 2 - 100 + 30)
+            ctx.rotate((-270 * Math.PI) / 180); 
             const imageDataUrl = canvas.toDataURL("image/png"); // 파일 url 저장부분
             img(imageDataUrl);
-          });
-        });
+            setEnd(false);       
       };
     }
   }, [size]);

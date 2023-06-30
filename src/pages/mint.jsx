@@ -163,8 +163,8 @@ const Mint = () => {
               .formatted_address
           );
           setCity(
-            geocoding.data.results[geocoding.data.results.length - 2]
-              .address_components[0].long_name
+            (geocoding.data.results[geocoding.data.results.length - 2]
+              .address_components[0].long_name).toUpperCase()
           );
           setFormatted_address(geocoding.data.results[0].formatted_address);
           getWeatherInfo();
