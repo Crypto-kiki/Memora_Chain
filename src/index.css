@@ -82,7 +82,7 @@
 }
 
 .mainSecondDiv {
-  background-image: url(../public/image/mainSecondDiv.png);
+  background-image: url(../public/image/mainSecondDiv2.png);
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
@@ -93,4 +93,31 @@
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
+}
+
+/* Modal Effect */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+.modal {
+  animation: fadeIn 0.7s;
+}
+
+.modal.hidden {
+  animation: fadeOut 0.7s;
 }

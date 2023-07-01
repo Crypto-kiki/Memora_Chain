@@ -4,13 +4,14 @@ import Web3 from "web3";
 import { CONTRACT_ABI, CONTRACT_ADDRESS } from "../web3.config";
 import { useContext, useState, useEffect } from "react";
 import MyNfts from "../components/MyNfts";
+import axios from "axios";
 
 const MyPage = () => {
   const web3 = new Web3(window.ethereum);
   const contract = new web3.eth.Contract(CONTRACT_ABI, CONTRACT_ADDRESS);
   const { account, setAccount } = useContext(AccountContext);
   const [tokenIds, setTokenIds] = useState([]);
-  // const [tokenIdsWithMetadataUris, setTokenIdsWithMetadataUris] = useState({  })
+  const [tokenIdsWithMetadataUris, setTokenIdsWithMetadataUris] = useState({});
   const [metadataUris, setMetadataURIs] = useState([]);
 
   const connectWithMetamask = async () => {
@@ -41,12 +42,31 @@ const MyPage = () => {
 
   const getTokenUris = async () => {
     try {
+      const uris = {};
+      const token = [];
+      for (let i = 0; i < tokenIds.length; i++) {
+        const metadataUri = await contract.methods
+          .metadataUri(tokenIds[i])
+          .call();
+        const response = await axios.get(metadataUri); // URI를 사용하여 이미지 데이터를 가져옴
+        const imageUrl = response.data.image;
+        uris[imageUrl] = tokenIds[i];
+        token.push(tokenIds[i]);
+      }
+      setTokenIdsWithMetadataUris(uris);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const getTokenUrisForImage = async () => {
+    try {
       const uris = [];
-      // const token = [];
+      const token = [];
       for (let i = 0; i < tokenIds.length; i++) {
         const response = await contract.methods.metadataUri(tokenIds[i]).call();
         uris.push(response);
-        // token.push(tokenIds[i]);
+        token.push(tokenIds[i]);
       }
       setMetadataURIs(uris);
     } catch (error) {
@@ -60,6 +80,7 @@ const MyPage = () => {
 
   useEffect(() => {
     if (tokenIds.length > 0) {
+      getTokenUrisForImage();
       getTokenUris();
     }
   }, [tokenIds]);
@@ -102,12 +123,17 @@ const MyPage = () => {
           </div>
         </header>
         <div className="flex justify-center items-center">
-          <div className="border border-white w-80 text-center text-5xl py-6 px-10 tracking-widest">
+          <div className="border border-[#F3EED4] w-80 text-center text-[#F3EED4] text-5xl py-6 px-10 tracking-widest">
             Gallery
           </div>
         </div>
         <div className="mt-44">
-          <MyNfts metadataUris={metadataUris} tokenIds={tokenIds} />;
+          <MyNfts
+            metadataUris={metadataUris}
+            tokenIds={tokenIds}
+            tokenIdsWithMetadataUris={tokenIdsWithMetadataUris}
+          />
+          ;
         </div>
       </div>
       <div className="film-right w-24" />

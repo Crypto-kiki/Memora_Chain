@@ -1,14 +1,26 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useContext } from "react";
 import axios from "axios";
+import { AccountContext } from "../AccountContext";
+import { CONTRACT_ABI, CONTRACT_ADDRESS } from "../web3.config";
+import Web3 from "web3";
 
-const MyNfts = ({ metadataUris, tokenIds }) => {
+const MyNfts = ({ metadataUris, tokenIds, tokenIdsWithMetadataUris }) => {
+  const { account, setAccount } = useContext(AccountContext);
+
   const [images, setImages] = useState([]);
   const [wideImages, setWideImages] = useState([]);
   const [lengthyImages, setLengthyImages] = useState([]);
   const [selectedImageIndex, setSelectedImageIndex] = useState(null);
   const [selectedWideImageIndex, setSelectedWideImageIndex] = useState(null);
+  const [metadataByTokenIdLengthy, setMetadataByTokenIdLengthy] = useState("");
+  const [metadataByTokenIdWide, setMetadataByTokenIdWide] = useState("");
+  const [selectedBurn, setSelectedBurn] = useState();
+  const [selectedImageInfo, setSelectedImageInfo] = useState([]);
   const modalRef = useRef(null);
   const modalRef2 = useRef(null);
+
+  const web3 = new Web3(window.ethereum);
+  const contract = new web3.eth.Contract(CONTRACT_ABI, CONTRACT_ADDRESS);
 
   const getMetadataImages = async () => {
     try {
@@ -17,6 +29,7 @@ const MyNfts = ({ metadataUris, tokenIds }) => {
       );
       const imageUrls = imageResponses.map((response) => response.data.image);
       setImages(imageUrls);
+      console.log(imageUrls);
     } catch (error) {
       console.error(error);
     }
@@ -32,21 +45,6 @@ const MyNfts = ({ metadataUris, tokenIds }) => {
     }
   }, [images]);
 
-  // 세로
-  const handleImageClick = (index) => {
-    setSelectedImageIndex(index);
-  };
-
-  const handleModalClose = () => {
-    setSelectedImageIndex(null);
-  };
-
-  const handleModalOutsideClick = (event) => {
-    if (!modalRef.current.contains(event.target)) {
-      handleModalClose();
-    }
-  };
-
   const loadImage = async () => {
     const lengthy = [];
     const wide = [];
@@ -61,9 +59,9 @@ const MyNfts = ({ metadataUris, tokenIds }) => {
               const iw = image.width;
               const ih = image.height;
               if (iw > ih) {
-                wide.push(imageUrl); // 수정: 가로 이미지 배열에 추가
+                wide.push(imageUrl);
               } else {
-                lengthy.push(imageUrl); // 수정: 세로 이미지 배열에 추가
+                lengthy.push(imageUrl);
               }
               resolve();
             };
@@ -77,20 +75,79 @@ const MyNfts = ({ metadataUris, tokenIds }) => {
     setWideImages(wide);
   };
 
-  // 가로
-  const handleWideImageClick = (index) => {
+  // 세로 이미지
+  const handleImageClick = async (index) => {
+    const imageUrl = lengthyImages[index];
+    const tokenId = tokenIdsWithMetadataUris[imageUrl];
+    console.log(`Selected image tokenId: ${tokenId}`);
+    setSelectedImageIndex(index);
+    try {
+      const response = await contract.methods.tokenURI(tokenId).call();
+      setMetadataByTokenIdLengthy(response);
+      const metadataResponse = await fetch(response);
+      const metadata = await metadataResponse.json();
+      setSelectedImageInfo(metadata.attributes);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleModalClose = () => {
+    setSelectedImageIndex(null);
+    setMetadataByTokenIdLengthy("");
+    setSelectedImageInfo(null);
+  };
+
+  const handleModalOutsideClick = (event) => {
+    if (!modalRef.current.contains(event.target)) {
+      handleModalClose();
+      setMetadataByTokenIdLengthy("");
+      setSelectedImageInfo(null);
+    }
+  };
+
+  // 가로 이미지
+  const handleWideImageClick = async (index) => {
+    const imageUrl = wideImages[index];
+    const tokenId = tokenIdsWithMetadataUris[imageUrl];
+    console.log(`Selected image tokenId: ${tokenId}`);
     setSelectedWideImageIndex(index);
-    console.log(selectedImageIndex);
+    try {
+      const response = await contract.methods.tokenURI(tokenId).call();
+      setMetadataByTokenIdWide(response);
+      const metadataResponse = await fetch(response);
+      const metadata = await metadataResponse.json();
+      setSelectedImageInfo(metadata.attributes);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const handleWideModalClose = () => {
     setSelectedWideImageIndex(null);
-    console.log(selectedWideImageIndex);
+    setMetadataByTokenIdWide("");
+    setSelectedImageInfo(null);
   };
 
   const handleWideModalOutsideClick = (event) => {
     if (!modalRef2.current.contains(event.target)) {
-      handleWideModalClose(); // 수정: handleWideModalClose 함수 호출
+      handleWideModalClose();
+      setMetadataByTokenIdWide("");
+      setSelectedImageInfo(null);
+    }
+  };
+
+  const onClickBurn = async () => {
+    try {
+      const tokenId = selectedBurn ? tokenIds[selectedBurn] : null;
+      if (tokenId) {
+        const response = await contract.methods
+          .burnNft(tokenId)
+          .send({ from: account });
+        console.log(response);
+      }
+    } catch (error) {
+      console.error(error);
     }
   };
 
@@ -98,9 +155,14 @@ const MyNfts = ({ metadataUris, tokenIds }) => {
     <div className="px-10">
       <div className="flex justify-between items-center mb-14">
         <div className="text-2xl font-bold">
-          Total Nfts: {metadataUris.length} EA
+          My Total Nfts: {metadataUris.length} EA
         </div>
-        <button className="border border-white px-10 py-2 ">Burn NFT</button>
+        <button
+          onClick={onClickBurn}
+          className="border border-white px-10 py-2 "
+        >
+          Burn NFT
+        </button>
       </div>
       <div>
         <div className="grid grid-cols-4 justify-center gap-10">
@@ -116,17 +178,43 @@ const MyNfts = ({ metadataUris, tokenIds }) => {
         </div>
         {selectedImageIndex !== null && (
           <div
-            className="fixed top-0 left-0 right-0 bottom-0 backdrop-filter backdrop-blur-xl flex justify-center items-center"
+            className={`fixed top-0 left-0 right-0 bottom-0 backdrop-filter backdrop-blur-xl flex flex-col justify-center items-center modal ${
+              selectedImageIndex !== null ? "" : "hidden"
+            }`}
             onClick={handleModalOutsideClick}
           >
-            <div className="flex flex-col items-center" ref={modalRef}>
-              <img
-                src={lengthyImages[selectedImageIndex]}
-                alt={`NFT ${selectedImageIndex}`}
-                style={{ maxWidth: "100%", maxHeight: "100%" }}
-              />
+            <div className="flex justify-center" ref={modalRef}>
+              <div className="flex flex-col items-center">
+                <img
+                  src={lengthyImages[selectedImageIndex]}
+                  alt={`NFT ${selectedImageIndex}`}
+                  style={{ maxWidth: "100%", maxHeight: "100%" }}
+                />
+              </div>
+              {selectedImageInfo && selectedImageInfo.length > 0 && (
+                <div className="ml-10 bg-pink-400 flex flex-col p-8 text-lg">
+                  <div>Latitude: {selectedImageInfo[0]?.value}</div>
+                  <div>Longitude: {selectedImageInfo[1]?.value}</div>
+                  <div className="mt-10">
+                    Country: {selectedImageInfo[2]?.value}
+                  </div>
+                  <div>City: {selectedImageInfo[3]?.value}</div>
+                  <div className="mt-10">
+                    Address: {selectedImageInfo[4]?.value}
+                  </div>
+                  <div className="mt-10">
+                    Weather: {selectedImageInfo[5]?.value}
+                  </div>
+                  <div>Temperature: {selectedImageInfo[6]?.value}</div>
+                  <div className="mt-10">
+                    Message: {selectedImageInfo[7]?.value}
+                  </div>
+                </div>
+              )}
+            </div>
+            <div>
               <button
-                className="border border-white px-16 py-4 text-lg mt-10 font-bold"
+                className="bg-white text-[#20457A] px-16 py-4 text-lg mt-10 font-bold"
                 onClick={handleModalClose}
               >
                 Close
@@ -149,17 +237,43 @@ const MyNfts = ({ metadataUris, tokenIds }) => {
         </div>
         {selectedWideImageIndex !== null && (
           <div
-            className="fixed top-0 left-0 right-0 bottom-0 backdrop-filter backdrop-blur-xl flex justify-center items-center"
+            className={`fixed top-0 left-0 right-0 bottom-0 backdrop-filter backdrop-blur-xl flex flex-col justify-center items-center modal ${
+              selectedWideImageIndex !== null ? "" : "hidden"
+            }`}
             onClick={handleWideModalOutsideClick}
           >
-            <div className="flex flex-col items-center" ref={modalRef2}>
-              <img
-                src={wideImages[selectedWideImageIndex]}
-                alt={`NFT ${selectedWideImageIndex}`}
-                style={{ maxWidth: "100%", maxHeight: "100%" }}
-              />
+            <div className="flex justify-center" ref={modalRef2}>
+              <div className="flex flex-col items-center">
+                <img
+                  src={wideImages[selectedWideImageIndex]}
+                  alt={`NFT ${selectedWideImageIndex}`}
+                  style={{ maxWidth: "100%", maxHeight: "100%" }}
+                />
+              </div>
+              {selectedImageInfo && selectedImageInfo.length > 0 && (
+                <div className="ml-10 bg-pink-400 flex flex-col p-8 text-lg">
+                  <div>Latitude: {selectedImageInfo[0]?.value}</div>
+                  <div>Longitude: {selectedImageInfo[1]?.value}</div>
+                  <div className="mt-10">
+                    Country: {selectedImageInfo[2]?.value}
+                  </div>
+                  <div>City: {selectedImageInfo[3]?.value}</div>
+                  <div className="mt-10">
+                    Address: {selectedImageInfo[4]?.value}
+                  </div>
+                  <div className="mt-10">
+                    Weather: {selectedImageInfo[5]?.value}
+                  </div>
+                  <div>Temperature: {selectedImageInfo[6]?.value}</div>
+                  <div className="mt-10">
+                    Message: {selectedImageInfo[7]?.value}
+                  </div>
+                </div>
+              )}
+            </div>
+            <div>
               <button
-                className="border border-white px-16 py-4 text-lg mt-10 font-bold"
+                className="bg-white text-[#20457A] px-16 py-4 text-lg mt-10 font-bold"
                 onClick={handleWideModalClose}
               >
                 Close

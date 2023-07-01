@@ -42,6 +42,8 @@ const Mint = () => {
   const [countryCode, setCountryCode] = useState();
   const [city, setCity] = useState();
   const [formatted_address, setFormatted_address] = useState();
+  const [message, setMessage] = useState("");
+
   const [Imgurl, setImgurl] = useState();
 
   const [isLocationAllowed, setIsLocationAllowed] = useState(false); // 위치 정보 동의 상태를 저장
@@ -196,7 +198,6 @@ const Mint = () => {
   const [ipfsHash, setIpfsHash] = useState();
   const [encryptedIpfs, setEncryptedIpfs] = useState();
   const [decryptedIpfs, setDecryptedIpfs] = useState();
-  const [message, setMessage] = useState("");
 
   // Firebase updload 하기
   const [downloadURL, setDownloadURL] = useState();
@@ -248,7 +249,7 @@ const Mint = () => {
 
         // Blob을 파일로 변환
         const file = new File([blob], "image.jpg", { type: blob.type });
-        const imageRef = ref(storage, `images/${selectedFile.name + v4()}`);
+        const imageRef = ref(storage, `images/${v4() + selectedFile.name}`);
         await uploadBytes(imageRef, file);
 
         const metadata = {
@@ -263,7 +264,7 @@ const Mint = () => {
         const url = await getDownloadURL(imageRef);
         setDownloadURL(url);
 
-        console.log("메타데이터 업데이트 성공");
+        console.log("Firebase Uploaded");
       } catch (error) {
         console.log(error);
       }
@@ -352,18 +353,18 @@ const Mint = () => {
     try {
       const metadata = {
         description: "Unforgettable Memories, Forever Immutable",
-        external_url: downloadURL,
+        // external_url: downloadURL,
         image: downloadURL,
         EncryptedIPFSImgUrl: encryptedIpfs,
         Account: account,
         attributes: [
           {
             trait_type: "Latitude",
-            value: `${lat}`,
+            value: lat,
           },
           {
             trait_type: "Longitude",
-            value: `${lon}`,
+            value: lon,
           },
           {
             trait_type: "Country",
@@ -376,6 +377,18 @@ const Mint = () => {
           {
             trait_type: "Address",
             value: formatted_address,
+          },
+          {
+            trait_type: "Weather",
+            value: weather,
+          },
+          {
+            trait_type: "Temperature",
+            value: temperature,
+          },
+          {
+            trait_type: "Message",
+            value: message,
           },
         ],
       };
