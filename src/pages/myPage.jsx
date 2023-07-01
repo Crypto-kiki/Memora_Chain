@@ -10,6 +10,7 @@ const MyPage = () => {
   const contract = new web3.eth.Contract(CONTRACT_ABI, CONTRACT_ADDRESS);
   const { account, setAccount } = useContext(AccountContext);
   const [tokenIds, setTokenIds] = useState([]);
+  // const [tokenIdsWithMetadataUris, setTokenIdsWithMetadataUris] = useState({  })
   const [metadataUris, setMetadataURIs] = useState([]);
 
   const connectWithMetamask = async () => {
@@ -41,9 +42,11 @@ const MyPage = () => {
   const getTokenUris = async () => {
     try {
       const uris = [];
+      // const token = [];
       for (let i = 0; i < tokenIds.length; i++) {
         const response = await contract.methods.metadataUri(tokenIds[i]).call();
         uris.push(response);
+        // token.push(tokenIds[i]);
       }
       setMetadataURIs(uris);
     } catch (error) {
@@ -104,7 +107,7 @@ const MyPage = () => {
           </div>
         </div>
         <div className="mt-44">
-          <MyNfts metadataUris={metadataUris} />;
+          <MyNfts metadataUris={metadataUris} tokenIds={tokenIds} />;
         </div>
       </div>
       <div className="film-right w-24" />
