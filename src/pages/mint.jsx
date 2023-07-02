@@ -482,8 +482,8 @@ const Mint = () => {
   };
 
   return (
-    <div className="flex justify-between min-h-screen bg-gradient-to-b from-[#85A0BD] from-60% via-[#CEC3B7] via-90% via-[#D2B9A6] to-[#B4958D] to-100%">
-      <div className="film-left w-24" />
+    <div className="flex justify-between min-h-screen body">
+      {/* <div className="film-left w-24" /> */}
       <div className="w-full flex flex-col">
         <header className="flex justify-between items-center px-10 font-julius text-2xl tracking-wider text-[#686667]">
           <Link to="/">
@@ -510,19 +510,24 @@ const Mint = () => {
           </div>
         </header>
         <div className="flex flex-col justify-center items-center">
-          <span className="block text-[#686667] font-julius text-2xl font-bold">
-            "Samples."
-          </span>
-          <div className="my-10">
-            <SimpleImageSlider
-              width={423}
-              height={752}
-              images={slideImages}
-              showBullets={true}
-              showNavs={true}
-              navMargin={-18}
-              slideDuration={1}
-            />
+          <div className="mt-12">
+            <div className="block text-[#686667] font-julius text-2xl font-bold">
+              "Samples."
+            </div>
+            <div className="my-10 flex">
+              <img
+                src={`${process.env.PUBLIC_URL}/image/1.png`}
+                className="w-96"
+              />
+              <img
+                src={`${process.env.PUBLIC_URL}/image/2.png`}
+                className="w-96 mx-10"
+              />
+              <img
+                src={`${process.env.PUBLIC_URL}/image/3.png`}
+                className="w-96"
+              />
+            </div>
           </div>
           <div className="text-2xl tracking-widest text-[#686667]">
             "Capture your Memories forever on the Blockchains."
@@ -571,7 +576,7 @@ const Mint = () => {
               </form>
             </div>
           </div>
-          <div className="text-[#686667] text-xl mb-40">
+          <div className="text-[#686667] text-xl mb-20">
             "My location is with memories."
           </div>
           {!selectedFile ? (
@@ -597,7 +602,7 @@ const Mint = () => {
             />
           )}
         </div>
-        <div className="mt-20 text-[#686667] text-xl flex flex-col justify-center items-center">
+        <div className="mt-10 text-[#686667] text-xl flex flex-col justify-center items-center">
           "MINT, Your own memory"
         </div>
         <div className="flex justify-center items-center">
@@ -609,60 +614,9 @@ const Mint = () => {
           </button>
         </div>
       </div>
-      <div className="film-right w-24" />
+      {/* <div className="film-right w-24" /> */}
     </div>
   );
 };
 
 export default Mint;
-
-/*
-<div>
-  <div>Firebase에 업로드 된 img주소: {downloadURL}</div>
-  <div>Pinata에 업로드 된 IPFS 주소 : {ipfsHash}</div>
-  <div>Pinata에 업로드 된 EncryptedImg주소: {encryptedIpfs}</div>
-  <div>Pinata에 업로드 된 Metadata 주소 : {metadataURI}</div>
-  <div>지갑주소 : {account}</div>
-  <div>Pinata에 업로드 된 DecryptedImg주소: {decryptedIpfs}</div>
-</div>
-  */
-
-/* <div>
-      {!isLocationAllowed && (
-        <button onClick={getGeolocation}>위치 정보 허용</button>
-      )}
-      <div>Pinata Pin Check</div>
-      {isLocationAllowed && (
-        <>
-          <div ref={mapElement} className="min-h-[400px] w-96" />
-          <div className="flex flex-col my-20 border border-gray-500 p-12"></div>
-          <>
-            <label>Choose File</label>
-            <input type="file" onChange={handleFileChange} />
-            <button onClick={upLoadImage}>민팅하기 </button>
-
-            {ipfsHash && (
-              <>
-                <img
-                  src={`https://gateway.pinata.cloud/ipfs/${ipfsHash}`}
-                  alt="uploaded ipfsHash"
-                />
-              </>
-            )}
-            <div>
-              <FileUpload
-                file={selectedFileURL}
-                setUrl={setCanvasImgurl}
-                lat={lat}
-                lon={lon}
-                country={country}
-                city={city}
-                address={formatted_address}
-                account={account}
-                size = {size}
-              />
-            </div>
-          </>
-        </>
-      )}
-    </div> */

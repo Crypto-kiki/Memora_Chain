@@ -3,6 +3,7 @@ import axios from "axios";
 import { AccountContext } from "../AccountContext";
 import { CONTRACT_ABI, CONTRACT_ADDRESS } from "../web3.config";
 import Web3 from "web3";
+import { VscChromeClose } from "react-icons/vsc";
 
 const MyNfts = ({ metadataUris, tokenIds, tokenIdsWithMetadataUris }) => {
   const { account, setAccount } = useContext(AccountContext);
@@ -37,7 +38,7 @@ const MyNfts = ({ metadataUris, tokenIds, tokenIdsWithMetadataUris }) => {
 
   useEffect(() => {
     getMetadataImages();
-  }, [metadataUris]);
+  }, [metadataUris, burnTx]);
 
   useEffect(() => {
     if (images.length > 0) {
@@ -80,6 +81,7 @@ const MyNfts = ({ metadataUris, tokenIds, tokenIdsWithMetadataUris }) => {
     const imageUrl = lengthyImages[index];
     const tokenId = tokenIdsWithMetadataUris[imageUrl];
     console.log(`Selected image tokenId: ${tokenId}`);
+    setSelectedBurn(tokenId);
     setSelectedImageIndex(index);
     try {
       const response = await contract.methods.tokenURI(tokenId).call();
@@ -87,7 +89,6 @@ const MyNfts = ({ metadataUris, tokenIds, tokenIdsWithMetadataUris }) => {
       const metadataResponse = await fetch(response);
       const metadata = await metadataResponse.json();
       setSelectedImageInfo(metadata.attributes);
-      setSelectedBurn(tokenId);
     } catch (error) {
       console.error(error);
     }
@@ -114,6 +115,7 @@ const MyNfts = ({ metadataUris, tokenIds, tokenIdsWithMetadataUris }) => {
     const imageUrl = wideImages[index];
     const tokenId = tokenIdsWithMetadataUris[imageUrl];
     console.log(`Selected image tokenId: ${tokenId}`);
+    setSelectedBurn(tokenId);
     setSelectedWideImageIndex(index);
     try {
       const response = await contract.methods.tokenURI(tokenId).call();
@@ -121,7 +123,6 @@ const MyNfts = ({ metadataUris, tokenIds, tokenIdsWithMetadataUris }) => {
       const metadataResponse = await fetch(response);
       const metadata = await metadataResponse.json();
       setSelectedImageInfo(metadata.attributes);
-      setSelectedBurn(tokenId);
     } catch (error) {
       console.error(error);
     }
@@ -145,16 +146,15 @@ const MyNfts = ({ metadataUris, tokenIds, tokenIdsWithMetadataUris }) => {
 
   const onClickBurn = async () => {
     try {
-      const tokenId = selectedBurn ? tokenIds[selectedBurn] : null;
+      const tokenId = selectedBurn;
       if (tokenId) {
         const response = await contract.methods
           .burnNft(tokenId)
           .send({ from: account });
-        setBurnTx(response.transactionHash);
-        await handleModalClose();
-        await handleWideModalClose();
-        console.log(burnTx);
-        // await getMetadataImages();
+        // await setBurnTx(response.transactionHash);
+        // console.log(burnTx);
+        // await handleModalClose();
+        // await handleWideModalClose();
       }
     } catch (error) {
       console.error(error);
@@ -182,63 +182,76 @@ const MyNfts = ({ metadataUris, tokenIds, tokenIdsWithMetadataUris }) => {
         </div>
         {selectedImageIndex !== null && (
           <div
-            className={`fixed top-0 left-0 right-0 bottom-0 backdrop-filter backdrop-blur-xl flex flex-col justify-center items-center modal ${
+            className={`fixed top-0 left-0 right-0 bottom-0 backdrop-filter backdrop-blur-sm flex flex-col justify-center items-center modal ${
               selectedImageIndex !== null ? "" : "hidden"
             }`}
             onClick={handleModalOutsideClick}
           >
             <div className="flex justify-evenly" ref={modalRef}>
-              <div className="flex flex-col items-center">
+              <div className="flex items-center">
                 <img
                   src={lengthyImages[selectedImageIndex]}
                   alt={`NFT ${selectedImageIndex}`}
                   style={{ maxWidth: "100%", maxHeight: "100%" }}
                 />
-                <button
-                  onClick={onClickBurn}
-                  className="bg-white text-[red] px-16 py-4 text-lg mt-10 font-bold "
-                >
-                  Burn NFT
-                </button>
               </div>
-              <div className="flex flex-col justify-between items-center">
-                {selectedImageInfo && selectedImageInfo.length > 0 && (
-                  <>
-                    <div className="ml-10 bg-white text-[#20457A] flex flex-col p-8 text-lg h-full">
-                      <div>Latitude: {selectedImageInfo[0]?.value}</div>
-                      <div>Longitude: {selectedImageInfo[1]?.value}</div>
-                      <div className="mt-10">
+              <div className="flex flex-col justify-end items-center">
+                <div className="flex flex-col justify-center items-center ml-10">
+                  {selectedImageInfo && selectedImageInfo.length > 0 && (
+                    <div className="flex flex-col text-xl p-20 modalLetter w-[700px] relative">
+                      <VscChromeClose
+                        onClick={handleModalClose}
+                        className=" text-[#f3f2dc] text-3xl font-extrabold absolute right-5 top-0 border rounded-full border-[#f3f2dc]"
+                      />
+                      <div className="flex justify-center mb-14 text-3xl font-bold tracking-widest">
+                        INFO
+                      </div>
+                      <div className="pl-10">
+                        Latitude: {selectedImageInfo[0]?.value}
+                      </div>
+                      <div className="pl-10">
+                        Longitude: {selectedImageInfo[1]?.value}
+                      </div>
+                      <div className="mt-6 pl-10">
                         Country: {selectedImageInfo[2]?.value}
                       </div>
-                      <div>City: {selectedImageInfo[3]?.value}</div>
-                      <div className="mt-10">
-                        Address: {selectedImageInfo[4]?.value}
+                      <div className="pl-10">
+                        City: {selectedImageInfo[3]?.value.toLowerCase()}
                       </div>
-                      <div className="mt-10">
+                      <div className="mt-6 pl-10">
+                        Address
+                        <div>{selectedImageInfo[4]?.value}</div>
+                      </div>
+                      <div className="mt-6 pl-10">
                         Weather: {selectedImageInfo[5]?.value}
                       </div>
-                      <div>Temperature: {selectedImageInfo[6]?.value}</div>
-                      <div className="mt-10">
-                        Message: {selectedImageInfo[7]?.value}
+                      <div className="pl-10">
+                        Temperature: {selectedImageInfo[6]?.value}
+                      </div>
+                      <div className="mt-6 pl-10">
+                        Message:
+                        <div className="break-words">
+                          {selectedImageInfo[7]?.value}
+                        </div>
                       </div>
                     </div>
-                    <div>
-                      <button
-                        className="bg-white text-[#20457A] px-16 py-4 text-lg mt-10 font-bold"
-                        onClick={handleModalClose}
-                      >
-                        Close
-                      </button>
-                    </div>
-                  </>
-                )}
+                  )}
+                </div>
+                <div>
+                  <button
+                    onClick={onClickBurn}
+                    className="border-4 border-[#f3f2dc] px-20 py-4 font-extrabold text-xl tracking-widest"
+                  >
+                    Burn NFT
+                  </button>
+                </div>
               </div>
             </div>
           </div>
         )}
       </div>
-      <div className="mb-14">
-        <div className="grid grid-cols-2 justify-center gap-40 mt-40">
+      <div className="mt-40">
+        <div className="grid grid-cols-2 justify-center gap-40">
           {wideImages.map((imageUrl, index) => (
             <div key={index}>
               <img
@@ -251,56 +264,69 @@ const MyNfts = ({ metadataUris, tokenIds, tokenIdsWithMetadataUris }) => {
         </div>
         {selectedWideImageIndex !== null && (
           <div
-            className={`fixed top-0 left-0 right-0 bottom-0 backdrop-filter backdrop-blur-xl flex flex-col justify-center items-center modal ${
+            className={`fixed top-0 left-0 right-0 bottom-0 backdrop-filter backdrop-blur-sm flex flex-col justify-center items-center modal ${
               selectedWideImageIndex !== null ? "" : "hidden"
             }`}
             onClick={handleWideModalOutsideClick}
           >
             <div className="flex justify-evenly" ref={modalRef2}>
-              <div className="flex flex-col items-center">
+              <div className="flex items-center">
                 <img
                   src={wideImages[selectedWideImageIndex]}
                   alt={`NFT ${selectedWideImageIndex}`}
                   style={{ maxWidth: "100%", maxHeight: "100%" }}
                 />
-                <button
-                  onClick={onClickBurn}
-                  className="bg-white text-[red] px-16 py-4 text-lg mt-10 font-bold "
-                >
-                  Burn NFT
-                </button>
               </div>
-              <div className="flex flex-col justify-between items-center">
-                {selectedImageInfo && selectedImageInfo.length > 0 && (
-                  <>
-                    <div className="ml-10 bg-white text-[#20457A] flex flex-col p-8 text-lg h-full">
-                      <div>Latitude: {selectedImageInfo[0]?.value}</div>
-                      <div>Longitude: {selectedImageInfo[1]?.value}</div>
-                      <div className="mt-10">
+              <div className="flex flex-col justify-end items-center">
+                <div className="flex flex-col justify-center items-center ml-10">
+                  {selectedImageInfo && selectedImageInfo.length > 0 && (
+                    <div className="flex flex-col text-xl p-20 modalLetter w-[700px] relative">
+                      <VscChromeClose
+                        onClick={handleWideModalClose}
+                        className=" text-[#f3f2dc] text-3xl font-extrabold absolute right-5 top-0 border rounded-full border-[#f3f2dc]"
+                      />
+                      <div className="flex justify-center mb-14 text-3xl font-bold tracking-widest">
+                        INFO
+                      </div>
+                      <div className="pl-10">
+                        Latitude: {selectedImageInfo[0]?.value}
+                      </div>
+                      <div className="pl-10">
+                        Longitude: {selectedImageInfo[1]?.value}
+                      </div>
+                      <div className="mt-6 pl-10">
                         Country: {selectedImageInfo[2]?.value}
                       </div>
-                      <div>City: {selectedImageInfo[3]?.value}</div>
-                      <div className="mt-10">
-                        Address: {selectedImageInfo[4]?.value}
+                      <div className="pl-10">
+                        City: {selectedImageInfo[3]?.value.toLowerCase()}
                       </div>
-                      <div className="mt-10">
+                      <div className="mt-6 pl-10">
+                        Address
+                        <div>{selectedImageInfo[4]?.value}</div>
+                      </div>
+                      <div className="mt-6 pl-10">
                         Weather: {selectedImageInfo[5]?.value}
                       </div>
-                      <div>Temperature: {selectedImageInfo[6]?.value}</div>
-                      <div className="mt-10">
-                        Message: {selectedImageInfo[7]?.value}
+                      <div className="pl-10">
+                        Temperature: {selectedImageInfo[6]?.value}
+                      </div>
+                      <div className="mt-6 pl-10">
+                        Message:
+                        <div className="break-words">
+                          {selectedImageInfo[7]?.value}
+                        </div>
                       </div>
                     </div>
-                    <div>
-                      <button
-                        className="bg-white text-[#20457A] px-16 py-4 text-lg mt-10 font-bold"
-                        onClick={handleWideModalClose}
-                      >
-                        Close
-                      </button>
-                    </div>
-                  </>
-                )}
+                  )}
+                </div>
+                <div>
+                  <button
+                    onClick={onClickBurn}
+                    className="border-4 border-[#f3f2dc] px-20 py-4 font-extrabold text-xl tracking-widest"
+                  >
+                    Burn NFT
+                  </button>
+                </div>
               </div>
             </div>
           </div>

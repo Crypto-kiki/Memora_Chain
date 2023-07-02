@@ -34,7 +34,7 @@ const Main = () => {
 
   return (
     <div className="flex grow justify-between bg-[#CCDBE7]">
-      <div className="film-left w-24" />
+      <div className="film-left w-24 flex-shrink-0" />
       <div className="w-full flex flex-col">
         <div className="bg-[#F3EED4]">
           <header className="flex justify-between items-center px-10 font-julius text-2xl tracking-wider text-[#686667]">
@@ -68,8 +68,8 @@ const Main = () => {
             type="video/mp4"
           />
         </video>
-        <div className="bg-[#E3C9B2] mainSecondDiv h-[100vh] relative justify-center items-center mt-3"></div>
-        <div className="mainThirdDiv w-full h-[100vh] mt-3"></div>
+        <div className="bg-[#E3C9B2] mainSecondDiv h-[80vh] relative justify-center items-center mt-3"></div>
+        <div className="mainThirdDiv w-full h-[80vh] mt-3"></div>
         <div className="flex mt-3 bg-gradient-to-b from-[#85A0BD] from-78.1% via-[#CEC3B7] via-86% via-[#D2B9A6] to-[#B4958D] to-100% justify-around px-40 py-32">
           <div>
             <div className="border-4 border-yellow-100">
@@ -80,7 +80,7 @@ const Main = () => {
             </div>
           </div>
           <div className="flex flex-col justify-center items-center">
-            <div className="text-4xl mb-10 text-white">
+            <div className="text-4xl mb-10 text-[#F3EED4]">
               my stream of consciousness
             </div>
             <div className="text-[#857464] font-semibold flex flex-col justify-center items-center text-lg tracking-widest">
