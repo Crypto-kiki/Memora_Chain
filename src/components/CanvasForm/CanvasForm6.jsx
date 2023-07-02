@@ -15,14 +15,15 @@ function CanvasForm6({
   message,
   temperature,
   weather,
+  time,
 }) {
   const canvasRef = useRef(null);
 
-  //폰트 기능
-  const font = new FontFace(
-    "Montserrat",
-    `url(${process.env.PUBLIC_URL}/font/Montserrat.ttf)`
-  );
+  const image2 = new Image();
+  image2.src = `${process.env.PUBLIC_URL}/image/logo5.png`;
+
+  const image3 = new Image();
+  image3.src = `${process.env.PUBLIC_URL}/image/logo4.png`;
 
   useEffect(() => {
     // 이미지 그리기
@@ -59,15 +60,15 @@ function CanvasForm6({
         // 그림자 스타일 설정
         ctx.shadowBlur = 15; // 그림자의 흐림 정도
         ctx.shadowColor = "rgba(0, 0, 0, 0.5)"; // 그림자의 색상
-        ctx.shadowOffsetX = 5; // 그림자의 x축 오프셋
+        ctx.shadowOffsetX = 0; // 그림자의 x축 오프셋
         ctx.shadowOffsetY = 5; // 그림자의 y축 오프셋
         //배경 크기맞추기용 틀
         ctx.fillStyle = "#ffffff";
         ctx.fillRect(
           cw / 2 - ((cw / 1.5) * 1.1) / 2,
-          ch / 2 - ch / 1.3 / 2,
+          ch / 2 - ch / 1.3 / 2 - 40,
           (cw / 1.5) * 1.1,
-          ch / 1.3
+          ch - 50
         );
 
         // 그림자 스타일 초기화
@@ -79,49 +80,73 @@ function CanvasForm6({
         ctx.filter = "none";
         ctx.drawImage(
           image,
-          cw / 2 - ((cw / 1.5) * 1.1) / 2 + 15,
-          ch / 2 - ch / 1.3 / 2 + 15,
-          (cw / 1.5) * 1.1 - 30,
-          ch / 1.2 / 1.65
+          cw / 2 - ((cw / 1.5) * 1.1) / 2 + 10,
+          ch / 2 - ch / 1.3 / 2 - 30,
+          (cw / 1.5) * 1.1 - 20,
+          (ch / 1.2 / 1.65) * 1.2
         );
 
-        font.load().then(() => {
-          document.fonts.add(font); // 폰트를 document.fonts에 추가
-          document.fonts.ready.then(() => {
-            //
-            ctx.fillStyle = "black";
-            ctx.font = "25px Montserrat";
-            ctx.fillText(
-              `MEMORA`,
-              cw / 2 - ((cw / 1.39) * 0.8) / 2 + 40,
-              ch / 1.15 / 1.2
-            );
-            ctx.fillText(
-              `CHAIN`,
-              cw / 2 - ((cw / 1.39) * 0.8) / 2 + 40,
-              ch / 1.15 / 1.1
-            );
-            ctx.fillText(
-              `MEMORA`,
-              cw / 2 - ((cw / 1.39) * 0.8) / 2 + 40,
-              ch / 1.15 / 1.2
-            );
-            ctx.fillText(
-              `CHAIN`,
-              cw / 2 - ((cw / 1.39) * 0.8) / 2 + 40,
-              ch / 1.15 / 1.1
-            );
-            //
-            // ctx.font = "20px Montserrat";
-            // ctx.fillText(
-            //   `Age: ${metadata.age}`,
-            //   cw / 2 - ((cw / 1.39) * 0.8) / 2 + 20,
-            //   ch / 4.5 + ch / 1.2 / 1.7 + 45
-            // );
-            const imageDataUrl = canvas.toDataURL("image/png"); // 파일 url 저장부분
-            img(imageDataUrl);
-          });
-        });
+        ctx.drawImage(
+          image3,
+          cw / 2 - ((cw / 1.5) * 1.1) / 2 + 10,
+          ch - 135,
+          50,
+          50
+        );
+        ctx.fillStyle = "black";
+        ctx.font = "37px SB";
+        ctx.fillText(
+          `MEMORIES`,
+          cw / 2 - ((cw / 1.5) * 1.1) / 2 + 100,
+          ch - 110
+        );
+        ctx.fillText(
+          `IN CHAIN.`,
+          cw / 2 - ((cw / 1.5) * 1.1) / 2 + 100,
+          ch - 80
+        );
+
+        //
+        ctx.rotate((270 * Math.PI) / 180);
+        const text = `${countryCode}. ${city} `;
+        ctx.font = "19px SB";
+        ctx.fillStyle = "#b3b3b3";
+        ctx.fillText(text, -(ch - 40), cw - 130);
+        ctx.rotate((-270 * Math.PI) / 180);
+        ctx.fillStyle = "black";
+        ctx.font = "bold 14px EL";
+        ctx.fillText(`MEMO`, cw / 2 - 20, ch - 145);
+        ctx.fillStyle = "gray";
+        ctx.font = "bold 12px EL";
+        const maxWidth = 160; // 최대 너비
+        const lineHeight = 15;
+        const x = cw / 2 - 20;
+        let y = ch - 125;
+        const text2 = message;
+        const characters = text2.split("");
+        let line = "";
+        for (let i = 0; i < characters.length; i++) {
+          const testLine = line + characters[i];
+          const metrics = ctx.measureText(testLine);
+          const testWidth = metrics.width;
+
+          if (testWidth > maxWidth && i > 0) {
+            ctx.fillText(line, x, y);
+            line = characters[i];
+            y += lineHeight;
+          } else {
+            line = testLine;
+          }
+        }
+        ctx.fillText(line, x, y);
+        ctx.fillStyle = "gray";
+        ctx.font = "10px EL";
+        ctx.fillText(`Address: ${address}`, cw / 2 - 20, ch - 40);
+        ctx.fillText(`Location: ${lat}, ${lon}`, cw / 2 - 20, ch - 30);
+
+        const imageDataUrl = canvas.toDataURL("image/png"); // 파일 url 저장부분
+        img(imageDataUrl);
+        setEnd(false);
       };
     }
     if (size[0] == 2 || size[0] == 3) {
@@ -143,31 +168,77 @@ function CanvasForm6({
         //배경 크기맞추기용 틀
         ctx.fillStyle = "#ffffff";
         ctx.fillRect(
-          cw / 2 - ((cw / 1.39) * 0.8) / 2 - 100,
-          ch / 2 - ch / 1.15 / 2,
+          cw / 2 - ((cw / 1.39) * 0.8 * 1.4) / 2,
+          ch / 2 - ch / 1.1 / 2,
           (cw / 1.39) * 0.8 * 1.4,
-          ch / 1.15
+          ch / 1.1
         );
 
         //메인 사각형(그림) 그리기
         ctx.filter = "none";
-        ctx.drawImage(image, cw / 2 - 270, ch / 2 - ch / 1.15 / 2, 340, 478);
+        ctx.drawImage(
+          image,
+          cw / 2 - ((cw / 1.39) * 0.8 * 1.4) / 2,
+          ch / 2 - ch / 1.1 / 2,
+          (cw / 1.39) * 0.8 * 1.4,
+          580
+        );
+        ctx.drawImage(
+          image2,
+          cw / 2 - ((cw / 1.39) * 0.8 * 1.4) / 2 + (cw / 1.39) * 0.8 * 1.4 - 75,
+          55,
+          70,
+          70
+        );
 
-        font.load().then(() => {
-          document.fonts.add(font); // 폰트를 document.fonts에 추가
-          document.fonts.ready.then(() => {
-            ctx.fillStyle = "black";
-            ctx.font = "25px Montserrat";
-            // ctx.fillText(
-            //   `Name22: ${metadata.name}`,
-            //   cw / 2 + 90,
-            //   ch / 4.2 - 30
-            // );
-            // ctx.fillText(`Age: ${metadata.age}`, cw / 2 + 90, ch / 4.2 + 50);
-            const imageDataUrl = canvas.toDataURL("image/png"); // 파일 url 저장부분
-            img(imageDataUrl);
-          });
-        });
+        //폰트
+        const x2 = cw / 2 - ((cw / 1.39) * 0.8 * 1.4) / 2;
+        const y2 = ch / 2 - ch / 1.1 / 2;
+        ctx.fillStyle = "black";
+        ctx.font = "36px SB";
+        ctx.fillText(`MEMORIES`, x2 + 20, ch - 190);
+        ctx.fillText(`IN CHAIN.`, x2 + 20, ch - 150);
+
+        //
+        const text = `${countryCode}. ${city} `;
+        ctx.font = "23px SB";
+        ctx.fillStyle = "#b3b3b3";
+        ctx.fillText(text, x2 + 30, ch - 240);
+
+        ctx.fillStyle = "black";
+        ctx.font = "bold 15px EL";
+        ctx.fillText(`MEMO`, x2 + 240, ch - 240);
+        ctx.fillStyle = "gray";
+        ctx.font = "bold 12px EL";
+        const maxWidth = 180; // 최대 너비
+        const lineHeight = 20;
+        const x3 = x2 + 240;
+        let y3 = ch - 200;
+        const text2 = message;
+        const characters = text2.split("");
+        let line = "";
+        for (let i = 0; i < characters.length; i++) {
+          const testLine = line + characters[i];
+          const metrics = ctx.measureText(testLine);
+          const testWidth = metrics.width;
+
+          if (testWidth > maxWidth && i > 0) {
+            ctx.fillText(line, x3, y3);
+            line = characters[i];
+            y3 += lineHeight;
+          } else {
+            line = testLine;
+          }
+        }
+        ctx.fillText(line, x3, y3);
+        ctx.fillStyle = "gray";
+        ctx.font = "12px EL";
+        ctx.fillText(`Address: ${address}`, x2 + 10, ch - 70);
+        ctx.fillText(`Location: ${lat}, ${lon}`, x2 + 10, ch - 50);
+
+        const imageDataUrl = canvas.toDataURL("image/png"); // 파일 url 저장부분
+        img(imageDataUrl);
+        setEnd(false);
       };
     }
   }, [size]);
@@ -177,18 +248,10 @@ function CanvasForm6({
       {size[0] == 1 ? (
         <canvas ref={canvasRef} width={900} height={550} />
       ) : (
-        <canvas ref={canvasRef} width={900} height={550} />
+        <canvas ref={canvasRef} width={550} height={900} />
       )}
     </div>
   );
 }
 
 export default CanvasForm6;
-
-//색깔
-
-// const x1 = image.width / 2;
-// const y1 = image.height / 2 +(ch/2);
-// const pixel = ctx.getImageData(x1, y1, 1, 1);
-// const data = pixel.data;
-// const rgba = `rgba(${data[0]}, ${data[1]}, ${data[2]}, ${data[3] / 255})`;

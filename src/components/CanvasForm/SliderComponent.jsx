@@ -82,9 +82,9 @@ export default function SliderComponent({
               </div>
             </SwiperSlide>
             <SwiperSlide>
-              <div className="my-[175px] flex justify-center">
+              <div className="flex justify-center">
                 <img
-                  className="xl:w-[900px]  lg:w-[400px] md:w-[250px] sm:w-[200px]"
+                  className="object-fill xl:w-[550px] lg:w-[400px] md:w-[250px] sm:w-[200px]"
                   src={`${imgurl6}`}
                   alt="6"
                 />

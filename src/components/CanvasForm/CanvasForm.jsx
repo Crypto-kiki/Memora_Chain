@@ -17,11 +17,15 @@ function CanvasForm({
   temperature,
   weather,
   fonts,
+  time,
 }) {
   const canvasRef = useRef(null);
 
   const image2 = new Image();
   image2.src = `${process.env.PUBLIC_URL}/image/logo2.png`;
+
+  const image3 = new Image();
+  image3.src = `${process.env.PUBLIC_URL}/image/logo3.png`;
 
   //1 가로가 김, 2 세로가 김, 3 비율 비슷함
 
@@ -71,7 +75,7 @@ function CanvasForm({
         const rectheight2 = cw / 1.78;
 
         //가로가 김
-        ctx.drawImage(image2, cw - 95, 25, 73, 73);
+        ctx.drawImage(image3, cw - 95, 25, 73, 73);
         if (iw > 1100) {
           ctx.fillStyle = "white";
           ctx.fillRect(
@@ -109,34 +113,49 @@ function CanvasForm({
             cw / 2 - (rectWidth2 * iar * 0.5) / 2 + rectWidth2 * iar * 0.5 + 12,
             ch / 2 - (rectheight2 * 0.5) / 2 + rectheight2 * 0.5 - 120
           );
-          ctx.font = "14px EL";
+          ctx.font = "15px EL";
           ctx.fillStyle = "#4d4d4d";
           ctx.fillText(
-            "Lorem Ipsum is simply dummy ",
+            `${time[0]} ${time[1]} ${time[2]}`,
             cw / 2 - (rectWidth2 * iar * 0.5) / 2 + rectWidth2 * iar * 0.5 + 12,
-            ch / 2 - (rectheight2 * 0.6) / 2 + rectheight2 * 0.6 - 80
+            ch / 2 - (rectheight2 * 0.5) / 2 + rectheight2 * 0.5 - 105
           );
-          ctx.fillText(
-            "text of the printing and ",
-            cw / 2 - (rectWidth2 * iar * 0.5) / 2 + rectWidth2 * iar * 0.5 + 12,
-            ch / 2 - (rectheight2 * 0.6) / 2 + rectheight2 * 0.6 - 60
-          );
-          ctx.fillText(
-            "typesetting industry  ",
-            cw / 2 - (rectWidth2 * iar * 0.5) / 2 + rectWidth2 * iar * 0.5 + 12,
-            ch / 2 - (rectheight2 * 0.6) / 2 + rectheight2 * 0.6 - 40
-          );
+          ctx.font = "14px EL";
+          ctx.fillStyle = "#4d4d4d";
+          const maxWidth = 180; // 최대 너비
+          const lineHeight = 20;
+          const x =
+            cw / 2 - (rectWidth2 * iar * 0.5) / 2 + rectWidth2 * iar * 0.5 + 12;
+          let y = ch / 2 - (rectheight2 * 0.6) / 2 + rectheight2 * 0.6 - 90;
+          const text2 = message;
+          const characters = text2.split("");
+          let line = "";
+          for (let i = 0; i < characters.length; i++) {
+            const testLine = line + characters[i];
+            const metrics = ctx.measureText(testLine);
+            const testWidth = metrics.width;
+
+            if (testWidth > maxWidth && i > 0) {
+              ctx.fillText(line, x, y);
+              line = characters[i];
+              y += lineHeight;
+            } else {
+              line = testLine;
+            }
+          }
+          ctx.fillText(line, x, y);
           ctx.font = "14px EL";
           ctx.fillStyle = "#4d4d4d";
           ctx.fillText("made by memorachain", cw - 160, ch - 30);
+
           ctx.rotate((270 * Math.PI) / 180);
           const text = `${countryCode}. ${city} `;
           ctx.font = "26px SB";
           ctx.fillStyle = "#b3b3b3";
           ctx.fillText(
             text,
-            -ch / 2 - (rectheight2 * 0.5) / 2 + 15,
-            cw / 2 - (rectWidth2 * iar * 0.5) / 2 - 15
+            -ch / 2 - (rectheight2 * 0.5) / 2 + 5,
+            cw / 2 - (rectWidth2 * iar * 0.5) / 2 - 5
           );
           ctx.font = "15px EL";
           ctx.fillStyle = "#808080";
@@ -186,23 +205,39 @@ function CanvasForm({
             cw / 2 - (rectWidth2 * iar * 0.6) / 2 + rectWidth2 * iar * 0.6 + 12,
             ch / 2 - (rectheight2 * 0.6) / 2 + rectheight2 * 0.6 - 120
           );
-          ctx.font = "14px EL";
+          ctx.font = "13px EL";
           ctx.fillStyle = "#4d4d4d";
           ctx.fillText(
-            "Lorem Ipsum is simply dummy ",
+            "JULY 07 02",
             cw / 2 - (rectWidth2 * iar * 0.6) / 2 + rectWidth2 * iar * 0.6 + 12,
-            ch / 2 - (rectheight2 * 0.6) / 2 + rectheight2 * 0.6 - 80
+            ch / 2 - (rectheight2 * 0.6) / 2 + rectheight2 * 0.6 - 105
           );
-          ctx.fillText(
-            "text of the printing and ",
-            cw / 2 - (rectWidth2 * iar * 0.6) / 2 + rectWidth2 * iar * 0.6 + 12,
-            ch / 2 - (rectheight2 * 0.6) / 2 + rectheight2 * 0.6 - 60
-          );
-          ctx.fillText(
-            "typesetting industry  ",
-            cw / 2 - (rectWidth2 * iar * 0.6) / 2 + rectWidth2 * iar * 0.6 + 12,
-            ch / 2 - (rectheight2 * 0.6) / 2 + rectheight2 * 0.6 - 40
-          );
+
+          ctx.font = "14px EL";
+          ctx.fillStyle = "#4d4d4d";
+          const maxWidth = 200; // 최대 너비
+          const lineHeight = 20;
+          const x =
+            cw / 2 - (rectWidth2 * iar * 0.6) / 2 + rectWidth2 * iar * 0.6 + 12;
+          let y = ch / 2 - (rectheight2 * 0.6) / 2 + rectheight2 * 0.6 - 80;
+          const text2 = message;
+          const characters = text2.split("");
+          let line = "";
+          for (let i = 0; i < characters.length; i++) {
+            const testLine = line + characters[i];
+            const metrics = ctx.measureText(testLine);
+            const testWidth = metrics.width;
+
+            if (testWidth > maxWidth && i > 0) {
+              ctx.fillText(line, x, y);
+              line = characters[i];
+              y += lineHeight;
+            } else {
+              line = testLine;
+            }
+          }
+          ctx.fillText(line, x, y);
+
           ctx.font = "14px EL";
           ctx.fillStyle = "#4d4d4d";
           ctx.fillText("made by memorachain", cw - 160, ch - 30);
@@ -212,8 +247,8 @@ function CanvasForm({
           ctx.fillStyle = "#b3b3b3";
           ctx.fillText(
             text,
-            -ch / 2 - (rectheight2 * 0.6) / 2 + 15,
-            cw / 2 - (rectWidth2 * iar * 0.6) / 2 - 15
+            -ch / 2 - (rectheight2 * 0.6) / 2 + 5,
+            cw / 2 - (rectWidth2 * iar * 0.6) / 2 - 5
           );
           ctx.font = "15px EL";
           ctx.fillStyle = "#808080";
@@ -316,11 +351,37 @@ function CanvasForm({
           ctx.font = "bold 17px EL";
           ctx.fillStyle = "#4d4d4d";
           ctx.fillText("MEMO", cw / 2.03, ch / 1.1 - 90);
+          ctx.font = " 13px EL";
+          ctx.fillStyle = "#4d4d4d";
+          ctx.fillText("JULY 2st", cw / 2.03, ch / 1.1 - 75);
+
           ctx.font = "14px EL";
           ctx.fillStyle = "#4d4d4d";
 
+          const maxWidth = 200; // 최대 너비
+          const lineHeight = 20;
+          const x = cw / 2.03;
+          let y = ch / 1.1 - 30;
+          const text = message;
+          const characters = text.split("");
+          let line = "";
+          for (let i = 0; i < characters.length; i++) {
+            const testLine = line + characters[i];
+            const metrics = ctx.measureText(testLine);
+            const testWidth = metrics.width;
+
+            if (testWidth > maxWidth && i > 0) {
+              ctx.fillText(line, x, y);
+              line = characters[i];
+              y += lineHeight;
+            } else {
+              line = testLine;
+            }
+          }
+          ctx.fillText(line, x, y);
+
           ctx.rotate((270 * Math.PI) / 180);
-          const text2 = `${countryCode}. ${city} `;
+          const text2 = `${countryCode}. ${city}`;
           const textWidth = ctx.measureText(text2).width;
           ctx.font = "26px SB";
           ctx.fillStyle = "#b3b3b3";
@@ -330,7 +391,7 @@ function CanvasForm({
               ch / 2 -
               ch / 18.18 -
               (rectheight2 * (2 - iar) - rectheight2) +
-              textWidth * 2
+              textWidth * 2.1
             ),
             cw / 2 - cw / 7.33 - 13
           );
@@ -379,23 +440,41 @@ function CanvasForm({
           ctx.font = "bold 17px EL";
           ctx.fillStyle = "#4d4d4d";
           ctx.fillText("MEMO", cw / 2.03, ch / 1.1 - 90);
+          ctx.font = " 13px EL";
+          ctx.fillStyle = "#4d4d4d";
+          ctx.fillText("JULY 2st", cw / 2.03, ch / 1.1 - 75);
+
           ctx.font = "14px EL";
           ctx.fillStyle = "#4d4d4d";
-          ctx.fillText(
-            "Lorem Ipsum is simply dummy ",
-            cw / 2.03,
-            ch / 1.1 - 60
-          );
-          ctx.fillText("text of the printing and ", cw / 2.03, ch / 1.1 - 40);
-          ctx.fillText("typesetting industry  ", cw / 2.03, ch / 1.1 - 20);
+          const maxWidth = 200; // 최대 너비
+          const lineHeight = 20;
+          const x = cw / 2.03;
+          let y = ch / 1.1 - 30;
+          const text = message;
+          const characters = text.split("");
+          let line = "";
+          for (let i = 0; i < characters.length; i++) {
+            const testLine = line + characters[i];
+            const metrics = ctx.measureText(testLine);
+            const testWidth = metrics.width;
+
+            if (testWidth > maxWidth && i > 0) {
+              ctx.fillText(line, x, y);
+              line = characters[i];
+              y += lineHeight;
+            } else {
+              line = testLine;
+            }
+          }
+          ctx.fillText(line, x, y);
 
           ctx.rotate((270 * Math.PI) / 180);
-          const text = `${countryCode}. ${city} `;
-          const textWidth = ctx.measureText(text).width;
+          const text2 = `${countryCode}. ${city} `;
+          const textWidth = ctx.measureText(text2).width;
           ctx.font = "26px SB";
           ctx.fillStyle = "#b3b3b3";
           ctx.fillText(
-            text,
+            text2,
             -(
               ch / 2 -
               ch / 18.18 -

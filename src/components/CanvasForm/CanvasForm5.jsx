@@ -16,17 +16,14 @@ function CanvasForm5({
   message,
   temperature,
   weather,
+  time,
 }) {
   const canvasRef = useRef(null);
 
-  // 이미지 경로
-  const imageSrc = "Logo.png";
-
-  //폰트 기능
-  const font = new FontFace(
-    "Montserrat",
-    `url(${process.env.PUBLIC_URL}/font/Montserrat.ttf)`
-  );
+  const image2 = new Image();
+  image2.src = `${process.env.PUBLIC_URL}/image/logo6.png`;
+  const image3 = new Image();
+  image3.src = `${process.env.PUBLIC_URL}/image/logo3.png`;
 
   useEffect(() => {
     // 이미지 그리기
@@ -92,81 +89,85 @@ function CanvasForm5({
           (cw / 1.39) * 0.75,
           ch / 1.2 / 1.5
         );
+        ctx.drawImage(
+          image3,
+          cw / 2 - ((cw / 1.39) * 0.9) / 2 - 50 + 3,
+          ch / 2 - ch / 1.15 / 2.3 + 5,
+          45,
+          45
+        );
+        ctx.fillStyle = "black";
+        ctx.font = "bold 30px SB";
+        ctx.fillText(
+          `MEMORIES`,
+          cw / 2 - ((cw / 1.39) * 0.9) / 2 - 50 + (cw / 1.39) * 0.75 + 15,
+          ch / 4.3 + 30
+        );
+        ctx.fillText(
+          `IN CHAIN.`,
+          cw / 2 - ((cw / 1.39) * 0.9) / 2 - 50 + (cw / 1.39) * 0.75 + 15,
+          ch / 4.3 + 60
+        );
 
-        font.load().then(() => {
-          document.fonts.add(font); // 폰트를 document.fonts에 추가
-          document.fonts.ready.then(() => {
-            //굵기 효과?
-            ctx.fillStyle = "black";
-            ctx.font = "25px Montserrat";
-            ctx.fillText(
-              `MEMORIES`,
-              cw - ((cw / 1.39) * 0.8) / 2 - 25,
-              ch / 3.6
-            );
-            ctx.fillText(
-              `MEMORIES`,
-              cw - ((cw / 1.39) * 0.8) / 2 - 25,
-              ch / 3.6
-            );
-            ctx.fillText(
-              `IN CHAIN.`,
-              cw - ((cw / 1.39) * 0.8) / 2 - 25,
-              ch / 3
-            );
-            ctx.fillText(
-              `IN CHAIN.`,
-              cw - ((cw / 1.39) * 0.8) / 2 - 25,
-              ch / 3
-            );
-            //
-            ctx.fillStyle = "#aaaaaa";
-            ctx.font = "20px Montserrat";
-            ctx.fillText(
-              `${countryCode}. ${city}`,
-              cw - ((cw / 1.39) * 0.65) / 2,
-              ch / 2 - ch / 1.05 / 2.8
-            );
-            //
-            ctx.fillStyle = "black";
-            ctx.font = "13px Montserrat";
-            ctx.fillText(
-              `MEMO`,
-              cw - ((cw / 1.39) * 0.8) / 2 - 25,
-              ch / 4.4 + 175
-            );
-            ctx.fillText(
-              `MEMO`,
-              cw - ((cw / 1.39) * 0.8) / 2 - 25,
-              ch / 4.4 + 175
-            );
-            //
-            ctx.fillStyle = "gray";
-            ctx.font = "10px Montserrat";
-            ctx.fillText(
-              `${message}`,
-              cw - ((cw / 1.39) * 0.8) / 2 - 25,
-              ch / 4.4 + 205
-            );
-            //
-            ctx.fillStyle = "gray";
-            ctx.font = "10px Montserrat";
-            ctx.fillText(
-              `Address: ${address}`,
-              cw / 2 - ((cw / 1.39) * 0.9) / 2 - 40,
-              ch - ((ch / 1.39) * 0.45) / 2 - 12
-            );
-            ctx.fillText(
-              `Location: ${lat}, ${lon}`,
-              cw / 2 - ((cw / 1.39) * 0.9) / 2 - 40,
-              ch - ((ch / 1.39) * 0.45) / 2 + 4
-            );
+        //
+        ctx.fillStyle = "#aaaaaa";
+        ctx.font = "20px SB";
+        // const text = "USA. ARIZONA";
+        const text = `${countryCode}. ${city}`;
+        const textWidth = ctx.measureText(text).width;
+        ctx.fillText(
+          text,
+          cw / 2 -
+            ((cw / 1.39) * 0.9) / 2 -
+            50 +
+            (cw / 1.39) * 1.055 -
+            textWidth -
+            10,
+          ch / 2 - ch / 1.05 / 2.8
+        );
+        //
+        ctx.fillStyle = "black";
+        ctx.font = "bold 13px EL";
+        ctx.fillText(`MEMO`, cw - ((cw / 1.39) * 0.8) / 2 - 25, ch / 4.4 + 175);
+        ctx.fillStyle = "gray";
+        ctx.font = "14px EL";
+        const maxWidth = 160; // 최대 너비
+        const lineHeight = 20;
+        const x = cw - ((cw / 1.39) * 0.8) / 2 - 30;
+        let y = ch / 4.4 + 205;
+        const text2 = message;
+        const characters = text2.split("");
+        let line = "";
+        for (let i = 0; i < characters.length; i++) {
+          const testLine = line + characters[i];
+          const metrics = ctx.measureText(testLine);
+          const testWidth = metrics.width;
 
-            const imageDataUrl = canvas.toDataURL("image/png"); // 파일 url 저장부분
-            img(imageDataUrl);
-            setEnd(false);
-          });
-        });
+          if (testWidth > maxWidth && i > 0) {
+            ctx.fillText(line, x, y);
+            line = characters[i];
+            y += lineHeight;
+          } else {
+            line = testLine;
+          }
+        }
+        ctx.fillText(line, x, y);
+        ctx.fillStyle = "gray";
+        ctx.font = "10px EL";
+        ctx.fillText(
+          `Address: ${address}`,
+          cw / 2 - ((cw / 1.39) * 0.9) / 2 - 40,
+          ch - ((ch / 1.39) * 0.45) / 2 - 10
+        );
+        ctx.fillText(
+          `Location: ${lat}, ${lon}`,
+          cw / 2 - ((cw / 1.39) * 0.9) / 2 - 40,
+          ch - ((ch / 1.39) * 0.45) / 2 + 5
+        );
+
+        const imageDataUrl = canvas.toDataURL("image/png"); // 파일 url 저장부분
+        img(imageDataUrl);
+        setEnd(false);
       };
     }
     if (size[0] == 2 || size[0] == 3) {
@@ -201,7 +202,7 @@ function CanvasForm5({
         ctx.fillRect(
           cw / 2 - ((cw / 1.39) * 0.8) / 2 - 70,
           ch / 2 - ch / 1.25 / 2,
-          (cw / 1.65) * 0.5 * 1.1,
+          (cw / 1.65) * 0.5 * 1.1 + 350,
           440
         );
         // 그림자 스타일 초기화
@@ -213,35 +214,75 @@ function CanvasForm5({
         //메인 사각형(그림) 그리기
         ctx.filter = "none";
         ctx.drawImage(image, cw / 1.3 - 270, ch / 2 - ch / 1.25 / 2, 350, 440);
+        ctx.drawImage(
+          image2,
+          cw / 2 -
+            ((cw / 1.39) * 0.8) / 2 -
+            70 +
+            (cw / 1.65) * 0.5 * 1.1 +
+            350 -
+            55,
+          ch / 2 - ch / 1.25 / 2 + 8,
+          50,
+          50
+        );
 
-        font.load().then(() => {
-          document.fonts.add(font); // 폰트를 document.fonts에 추가
-          document.fonts.ready.then(() => {
-            ctx.fillStyle = "black";
-            ctx.font = "25px Montserrat";
-            ctx.fillText(
-              `${countryCode}`,
-              cw / 2 - ((cw / 1.39) * 0.8) / 2 - 50,
-              ch / 2 / 0.7 - 30
-            );
-            ctx.fillText(
-              `${city}`,
-              cw / 2 - ((cw / 1.39) * 0.8) / 2 - 50,
-              ch / 2 / 0.635 - 30
-            );
-            ctx.fillText(
-              `${country}`,
-              cw / 2 - ((cw / 1.39) * 0.8) / 2 - 50,
-              ch / 2 / 0.58 - 30
-            );
+        ctx.fillStyle = "black";
+        ctx.font = "35px SB";
+        ctx.fillText(
+          `MEMORIES`,
+          cw / 2 - ((cw / 1.39) * 0.8) / 2 - 70 + 20,
+          ch - 130
+        );
+        ctx.fillText(
+          `IN CHAIN.`,
+          cw / 2 - ((cw / 1.39) * 0.8) / 2 - 70 + 20,
+          ch - 90
+        );
 
-            // ctx.fillText(`Age: ${message}`, cw / 2 + 90, ch / 4.2 + 50);
+        //
+        const text = `${countryCode}. ${city}`;
+        // const text = "USA. ARIZONA";
+        const textWidth = ctx.measureText(text).width;
+        ctx.fillStyle = "white";
+        ctx.font = "25px SB";
+        ctx.fillText(text, cw / 1.3 - 270 + 10, ch - 91);
+        //
 
-            const imageDataUrl = canvas.toDataURL("image/png"); // 파일 url 저장부분
-            img(imageDataUrl);
-            setEnd(false);
-          });
-        });
+        ctx.fillStyle = "black";
+        ctx.font = "bold 17px EL";
+        ctx.fillText(`MEMO`, cw / 2 - ((cw / 1.39) * 0.8) / 2 - 70 + 20, 90);
+        ctx.fillStyle = "gray";
+        ctx.font = "14px EL";
+        const maxWidth = 160; // 최대 너비
+        const lineHeight = 20;
+        const x = cw / 2 - ((cw / 1.39) * 0.8) / 2 - 70 + 20;
+        let y = 130;
+        const text2 = message;
+        const characters = text2.split("");
+        let line = "";
+        for (let i = 0; i < characters.length; i++) {
+          const testLine = line + characters[i];
+          const metrics = ctx.measureText(testLine);
+          const testWidth = metrics.width;
+
+          if (testWidth > maxWidth && i > 0) {
+            ctx.fillText(line, x, y);
+            line = characters[i];
+            y += lineHeight;
+          } else {
+            line = testLine;
+          }
+        }
+        ctx.fillText(line, x, y);
+        ctx.fillStyle = "white";
+        ctx.font = "12px EL";
+        ctx.fillText(`Address: ${address}`, cw / 1.3 - 270 + 3, ch - 64);
+        ctx.fillText(`Location: ${lat}, ${lon}`, cw / 1.3 - 270 + 3, ch - 76);
+
+        const imageDataUrl = canvas.toDataURL("image/png"); // 파일 url 저장부분
+        img(imageDataUrl);
+        setEnd(false);
       };
     }
   }, [size]);
@@ -258,11 +299,3 @@ function CanvasForm5({
 }
 
 export default CanvasForm5;
-
-//색깔
-
-// const x1 = image.width / 2;
-// const y1 = image.height / 2 +(ch/2);
-// const pixel = ctx.getImageData(x1, y1, 1, 1);
-// const data = pixel.data;
-// const rgba = `rgba(${data[0]}, ${data[1]}, ${data[2]}, ${data[3] / 255})`;
