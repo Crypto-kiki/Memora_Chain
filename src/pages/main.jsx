@@ -121,13 +121,13 @@ const Main = () => {
           <div className="flex flex-col justify-center items-center">
             <div className="text-2xl mb-4">contact us</div>
             <div className="flex flex-col justify-center items-center">
-              <div>2023. 06. 23</div>
-              <div>copyright@ made by kimshinjo</div>
+              <div>Tel: 010-0000-0000</div>
+              <div>Email: memorachain@gmail.com</div>
             </div>
           </div>
           <div className="flex flex-col justify-center items-center">
-            <div>Tel: 010-0000-0000</div>
-            <div>Email: memorachain@gmail.com</div>
+            <div>2023. 06. 23</div>
+            <div>copyright@ made by kimshinjo</div>
           </div>
         </div>
       </div>

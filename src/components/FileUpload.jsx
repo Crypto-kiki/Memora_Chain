@@ -21,6 +21,7 @@ const FileUpload = ({
   message,
   weather,
   temperature,
+  time,
 }) => {
   const [CanvasImage1, setCanvasImage1] = useState();
   const [CanvasImage2, setCanvasImage2] = useState();
@@ -152,6 +153,7 @@ const FileUpload = ({
             message={message}
             weather={weather}
             temperature={temperature}
+            time={time}
           />
           <CanvasForm2
             img={setCanvasImage2}
@@ -169,6 +171,7 @@ const FileUpload = ({
             message={message}
             weather={weather}
             temperature={temperature}
+            time={time}
           />
           <CanvasForm3
             img={setCanvasImage3}
@@ -186,6 +189,7 @@ const FileUpload = ({
             message={message}
             weather={weather}
             temperature={temperature}
+            time={time}
           />
           <CanvasForm4
             img={setCanvasImage4}
@@ -203,6 +207,7 @@ const FileUpload = ({
             message={message}
             weather={weather}
             temperature={temperature}
+            time={time}
           />
           <CanvasForm5
             img={setCanvasImage5}
@@ -220,6 +225,7 @@ const FileUpload = ({
             message={message}
             weather={weather}
             temperature={temperature}
+            time={time}
           />
           <CanvasForm6
             img={setCanvasImage6}
@@ -237,6 +243,7 @@ const FileUpload = ({
             message={message}
             weather={weather}
             temperature={temperature}
+            time={time}
           />
         </div>
       }

@@ -90,9 +90,9 @@ const MyPage = () => {
   }, [metadataUris]);
 
   return (
-    <div className="flex justify-between min-h-screen bg-[#20457A]">
+    <div className="flex justify-between min-h-screen">
       <div className="film-left w-24" />
-      <div className="w-full flex flex-col text-white">
+      <div className="w-full flex flex-col myPageBackground">
         <header className="flex justify-between items-center px-10 font-julius text-2xl tracking-wider">
           <Link to="/">
             <div className="mt-6">
@@ -123,7 +123,7 @@ const MyPage = () => {
           </div>
         </header>
         <div className="flex justify-center items-center">
-          <div className="border border-[#F3EED4] w-80 text-center text-[#F3EED4] text-5xl py-6 px-10 tracking-widest">
+          <div className="border border-[#040281] w-80 text-center text-5xl py-6 px-10 tracking-widest">
             Gallery
           </div>
         </div>

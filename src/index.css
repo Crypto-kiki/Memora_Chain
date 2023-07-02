@@ -121,3 +121,11 @@
 .modal.hidden {
   animation: fadeOut 0.7s;
 }
+
+.myPageBackground {
+  background-image: url(../public/image/myPage/background6.png);
+  color: #040281;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}

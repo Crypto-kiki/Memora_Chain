@@ -43,8 +43,7 @@ const Mint = () => {
   const [city, setCity] = useState();
   const [formatted_address, setFormatted_address] = useState();
   const [message, setMessage] = useState("");
-
-  const [Imgurl, setImgurl] = useState();
+  const [time, setTime] = useState([]);
 
   const [isLocationAllowed, setIsLocationAllowed] = useState(false); // 위치 정보 동의 상태를 저장
 
@@ -81,7 +80,6 @@ const Mint = () => {
       setCountryCode(response.data.sys.country);
       setWeather(response.data.weather[0].main);
       setTemperature(response.data.main.temp);
-      console.log(response);
     } catch (error) {
       console.error(error);
     }
@@ -206,6 +204,39 @@ const Mint = () => {
   const [size, setSize] = useState([]);
   const [selectedFileURL, setSelectedFileURL] = useState();
 
+  const getDaySuffix = (day) => {
+    if (day >= 11 && day <= 13) {
+      return `${day}th`;
+    }
+
+    const lastDigit = day % 10;
+    switch (lastDigit) {
+      case 1:
+        return `${day}st`;
+      case 2:
+        return `${day}nd`;
+      case 3:
+        return `${day}rd`;
+      default:
+        return `${day}th`;
+    }
+  };
+
+  const checkTime = () => {
+    let now = new Date();
+    let year = now.getFullYear();
+    let month = now.toLocaleString("en", { month: "short" });
+    let day = getDaySuffix(now.getDate());
+
+    setTime([year, month, day]);
+    console.log(now);
+  };
+
+  useEffect(() => {
+    checkTime();
+    console.log(time);
+  }, [selectedFile]);
+
   // 이미지 선택하면 selectedFile 값 저장하기
   const handleFileChange = async (event) => {
     try {
@@ -237,7 +268,6 @@ const Mint = () => {
     if (size.length > 2 && size[0] == 1) {
       setSize([1]);
     }
-    console.log(size);
   }, [size]);
 
   // Firebase 파일 업로드 후 업로드 된 주소 받아오기
@@ -563,6 +593,7 @@ const Mint = () => {
               countryCode={countryCode}
               temperature={temperature}
               weather={weather}
+              time={time}
             />
           )}
         </div>
