@@ -17,15 +17,7 @@ import Web3 from "web3";
 import { CONTRACT_ABI, CONTRACT_ADDRESS } from "../web3.config";
 
 const Mint = () => {
-  const { account, setAccount } = useContext(AccountContext); // Context에서 account 값과 setAccount 함수 가져오기
-
-  const slideImages = [
-    { url: `${process.env.PUBLIC_URL}/image/mint/2.png` },
-    { url: `${process.env.PUBLIC_URL}/image/mint/3.png` },
-    { url: `${process.env.PUBLIC_URL}/image/mint/4.png` },
-    { url: `${process.env.PUBLIC_URL}/image/mint/5.png` },
-  ];
-
+  const { account, setAccount } = useContext(AccountContext);
   const GOOGLEMAP_API = process.env.REACT_APP_GOOGLEMAP_API;
   const PINATA_JWT = process.env.REACT_APP_PINATA_JWT; // Bearer Token 사용해야 됨.
   const ENCRYPT_KEY = process.env.REACT_APP_ENCRYPT_KEY;
@@ -43,6 +35,7 @@ const Mint = () => {
   const [formatted_address, setFormatted_address] = useState();
   const [message, setMessage] = useState("");
   const [time, setTime] = useState([]);
+  const [uploadFileName, setUploadFileName] = useState();
 
   const [isLocationAllowed, setIsLocationAllowed] = useState(false); // 위치 정보 동의 상태를 저장
 
@@ -206,6 +199,32 @@ const Mint = () => {
   const [size, setSize] = useState([]);
   const [selectedFileURL, setSelectedFileURL] = useState();
 
+  // 이미지 선택하면 selectedFile 값 저장하기
+  const handleFileChange = async (event) => {
+    try {
+      if (!account) {
+        await connectWithMetamask();
+        const file = event.target.files[0];
+        if (!file) {
+          return;
+        }
+        console.log(file);
+        setSelectedFile(file);
+        setSelectedFileURL(URL.createObjectURL(file));
+        return;
+      } else {
+        const file = event.target.files[0];
+        if (!file) {
+          return;
+        }
+        setSelectedFile(file);
+        setSelectedFileURL(URL.createObjectURL(file));
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const getDaySuffix = (day) => {
     if (day >= 11 && day <= 13) {
       return `${day}th`;
@@ -231,40 +250,11 @@ const Mint = () => {
     let day = getDaySuffix(now.getDate());
 
     setTime([year, month, day]);
-    console.log(now);
   };
 
   useEffect(() => {
     checkTime();
-    console.log(time);
   }, [selectedFile]);
-
-  // 이미지 선택하면 selectedFile 값 저장하기
-  const handleFileChange = async (event) => {
-    try {
-      if (!account) {
-        await connectWithMetamask();
-        const file = event.target.files[0];
-        if (!file) {
-          return;
-        }
-        console.log(file);
-        setSelectedFile(file);
-        setSelectedFileURL(URL.createObjectURL(file));
-        return;
-      } else {
-        const file = event.target.files[0];
-        if (!file) {
-          return;
-        }
-        console.log(file);
-        setSelectedFile(file);
-        setSelectedFileURL(URL.createObjectURL(file));
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
 
   useEffect(() => {
     if (size.length > 2 && size[0] == 1) {
@@ -281,14 +271,15 @@ const Mint = () => {
 
         // Blob을 파일로 변환
         const file = new File([blob], "image.jpg", { type: blob.type });
-        const imageRef = ref(storage, `images/${v4() + selectedFile.name}`);
+        const folderRef = ref(storage, account); // account 폴더에 대한 참조 생성
+        // account 폴더 내의 파일에 대한 참조 생성
+        const imageRef = ref(folderRef, v4() + selectedFile.name);
+        // const imageRef = ref(storage, `images/selectedFile.name}`);
         await uploadBytes(imageRef, file);
 
         const metadata = {
           customMetadata: {
             account: account,
-            country: country,
-            city: city,
           },
         };
         await updateMetadata(imageRef, metadata);
@@ -296,7 +287,11 @@ const Mint = () => {
         const url = await getDownloadURL(imageRef);
         setDownloadURL(url);
 
-        console.log("Firebase Uploaded");
+        // 업로드된 파일의 이름 받기
+        const fileName = imageRef.name;
+        console.log("Firebase Uploaded: ", fileName);
+        setUploadFileName(fileName);
+        console.log(uploadFileName);
       } catch (error) {
         console.log(error);
       }
@@ -312,6 +307,7 @@ const Mint = () => {
 
   useEffect(() => {
     if (downloadURL) {
+      console.log(uploadFileName);
       uploadToPinata();
     }
   }, [downloadURL]);
@@ -422,6 +418,10 @@ const Mint = () => {
             trait_type: "Message",
             value: message,
           },
+          {
+            trait_type: "Uploaded File Name",
+            value: uploadFileName,
+          },
         ],
       };
 
@@ -483,9 +483,31 @@ const Mint = () => {
     console.log(message);
   };
 
+  useEffect(() => {
+    const animateBackground = () => {
+      const backgroundElement = document.querySelector(".mintBackground");
+      let position = 0;
+      const speed = 1; // 이미지 속도 조정
+
+      const moveBackground = () => {
+        position -= speed;
+        backgroundElement.style.backgroundPosition = `${position}px 0`;
+
+        if (position <= -backgroundElement.clientWidth) {
+          position = 0;
+        }
+
+        requestAnimationFrame(moveBackground);
+      };
+
+      moveBackground();
+    };
+
+    animateBackground();
+  }, []);
+
   return (
-    <div className="flex justify-between min-h-screen body">
-      {/* <div className="film-left w-24" /> */}
+    <div className="flex justify-between min-h-screen mintBackground">
       <div className="w-full flex flex-col">
         <header className="flex justify-between items-center px-10 font-julius text-2xl tracking-wider text-[#686667]">
           <Link to="/">
@@ -610,13 +632,12 @@ const Mint = () => {
         <div className="flex justify-center items-center">
           <button
             onClick={upLoadImage}
-            className="w-56 border border-[#8b8b8b] shadow-lg py-3 mt-10 mb-32 text-4xl text-[#686667]"
+            className="w-56 border border-[#8b8b8b] shadow-lg py-3 mt-10 mb-56 text-4xl text-[#686667]"
           >
             MINT
           </button>
         </div>
       </div>
-      {/* <div className="film-right w-24" /> */}
     </div>
   );
 };

@@ -13,6 +13,11 @@ const MyPage = () => {
   const [tokenIds, setTokenIds] = useState([]);
   const [tokenIdsWithMetadataUris, setTokenIdsWithMetadataUris] = useState({});
   const [metadataUris, setMetadataURIs] = useState([]);
+  const [burnTx, setBurnTx] = useState(null);
+
+  const handleBurnTx = (tx) => {
+    setBurnTx(tx);
+  };
 
   const connectWithMetamask = async () => {
     try {
@@ -42,6 +47,10 @@ const MyPage = () => {
       console.error(error);
     }
   };
+
+  useEffect(() => {
+    getMyNfts();
+  }, [account, burnTx]);
 
   const getTokenUris = async () => {
     try {
@@ -78,19 +87,15 @@ const MyPage = () => {
   };
 
   useEffect(() => {
-    getMyNfts();
-  }, [account]);
-
-  useEffect(() => {
     if (tokenIds.length > 0) {
       getTokenUrisForImage();
       getTokenUris();
     }
   }, [tokenIds]);
 
-  useEffect(() => {
-    console.log(metadataUris);
-  }, [metadataUris]);
+  // useEffect(() => {
+  //   console.log(metadataUris);
+  // }, [metadataUris]);
 
   return (
     <div className="flex justify-between min-h-screen myPageBackground w-full">
@@ -135,6 +140,7 @@ const MyPage = () => {
             metadataUris={metadataUris}
             tokenIds={tokenIds}
             tokenIdsWithMetadataUris={tokenIdsWithMetadataUris}
+            onBurnTx={handleBurnTx}
           />
           ;
         </div>

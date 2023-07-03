@@ -4,8 +4,17 @@ import { AccountContext } from "../AccountContext";
 import { CONTRACT_ABI, CONTRACT_ADDRESS } from "../web3.config";
 import Web3 from "web3";
 import { VscChromeClose } from "react-icons/vsc";
+import { storage } from "../firebase";
+import { getStorage, ref, deleteObject } from "firebase/storage";
 
-const MyNfts = ({ metadataUris, tokenIds, tokenIdsWithMetadataUris }) => {
+import FileUpload from "../components/FileUpload";
+
+const MyNfts = ({
+  metadataUris,
+  tokenIds,
+  tokenIdsWithMetadataUris,
+  onBurnTx,
+}) => {
   const { account, setAccount } = useContext(AccountContext);
 
   const [images, setImages] = useState([]);
@@ -16,8 +25,10 @@ const MyNfts = ({ metadataUris, tokenIds, tokenIdsWithMetadataUris }) => {
   const [metadataByTokenIdLengthy, setMetadataByTokenIdLengthy] = useState("");
   const [metadataByTokenIdWide, setMetadataByTokenIdWide] = useState("");
   const [selectedBurn, setSelectedBurn] = useState();
-  const [burnTx, setBurnTx] = useState();
   const [selectedImageInfo, setSelectedImageInfo] = useState([]);
+
+  const [metadataFileName, setMetadataFileName] = useState(null);
+  const [burnTx, setBurnTx] = useState();
   const modalRef = useRef(null);
   const modalRef2 = useRef(null);
 
@@ -38,7 +49,7 @@ const MyNfts = ({ metadataUris, tokenIds, tokenIdsWithMetadataUris }) => {
 
   useEffect(() => {
     getMetadataImages();
-  }, [metadataUris, burnTx]);
+  }, [metadataUris]);
 
   useEffect(() => {
     if (images.length > 0) {
@@ -89,16 +100,32 @@ const MyNfts = ({ metadataUris, tokenIds, tokenIdsWithMetadataUris }) => {
       const metadataResponse = await fetch(response);
       const metadata = await metadataResponse.json();
       setSelectedImageInfo(metadata.attributes);
+      const uploadedFileNameAttribute = metadata.attributes.find(
+        (attribute) => attribute.trait_type === "Uploaded File Name"
+      );
+      if (uploadedFileNameAttribute) {
+        setMetadataFileName(uploadedFileNameAttribute.value);
+      } else {
+        setMetadataFileName("");
+      }
     } catch (error) {
       console.error(error);
     }
   };
+
+  useEffect(() => {
+    if (metadataFileName !== null) {
+      console.log(metadataFileName);
+    }
+  }, [metadataFileName]);
 
   const handleModalClose = () => {
     setSelectedImageIndex(null);
     setMetadataByTokenIdLengthy("");
     setSelectedImageInfo(null);
     setSelectedBurn("");
+    setMetadataFileName("");
+    // setBurnTx(null);
   };
 
   const handleModalOutsideClick = (event) => {
@@ -107,6 +134,7 @@ const MyNfts = ({ metadataUris, tokenIds, tokenIdsWithMetadataUris }) => {
       setMetadataByTokenIdLengthy("");
       setSelectedImageInfo(null);
       setSelectedBurn("");
+      setMetadataFileName("");
     }
   };
 
@@ -123,6 +151,14 @@ const MyNfts = ({ metadataUris, tokenIds, tokenIdsWithMetadataUris }) => {
       const metadataResponse = await fetch(response);
       const metadata = await metadataResponse.json();
       setSelectedImageInfo(metadata.attributes);
+      const uploadedFileNameAttribute = metadata.attributes.find(
+        (attribute) => attribute.trait_type === "Uploaded File Name"
+      );
+      if (uploadedFileNameAttribute) {
+        setMetadataFileName(uploadedFileNameAttribute.value);
+      } else {
+        setMetadataFileName("");
+      }
     } catch (error) {
       console.error(error);
     }
@@ -133,6 +169,8 @@ const MyNfts = ({ metadataUris, tokenIds, tokenIdsWithMetadataUris }) => {
     setMetadataByTokenIdWide("");
     setSelectedImageInfo(null);
     setSelectedBurn("");
+    setMetadataFileName("");
+    // setBurnTx(null);
   };
 
   const handleWideModalOutsideClick = (event) => {
@@ -141,6 +179,7 @@ const MyNfts = ({ metadataUris, tokenIds, tokenIdsWithMetadataUris }) => {
       setMetadataByTokenIdWide("");
       setSelectedImageInfo(null);
       setSelectedBurn("");
+      setMetadataFileName("");
     }
   };
 
@@ -151,8 +190,19 @@ const MyNfts = ({ metadataUris, tokenIds, tokenIdsWithMetadataUris }) => {
         const response = await contract.methods
           .burnNft(tokenId)
           .send({ from: account });
+        console.log(response);
+
+        const txHash = response.transactionHash;
+        onBurnTx(txHash); // 부모 컴포넌트로 burnTx 값 전달
+
+        const storage = getStorage();
+        const desertRef = ref(storage, account + "/" + metadataFileName);
+        await deleteObject(desertRef);
+
+        setBurnTx(txHash);
+        handleModalClose();
+        handleWideModalClose();
       }
-      window.location.reload();
     } catch (error) {
       console.error(error);
     }

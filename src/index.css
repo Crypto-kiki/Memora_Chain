@@ -137,3 +137,39 @@
   background-repeat: no-repeat;
   background-size: cover;
 }
+
+.mintBackground {
+  background-image: url(../public/image/mint/background.png);
+  background-position: 0 0;
+  background-repeat: repeat-x;
+  background-size: auto 100%;
+  animation: moveBackground 20s linear infinite;
+}
+
+@keyframes moveBackground {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: -100% 0;
+  }
+}
+
+/*  
+@keyframes planeAnimation {
+  0% {
+    transform: translateX(0) translateY(0);
+  }
+  50% {
+    transform: translateX(-100px) translateY(-20px);
+  }
+  100% {
+    transform: translateX(-200px) translateY(0);
+  }
+}
+
+.plane {
+  position: relative;
+  animation: planeAnimation 4s linear infinite;
+}
+*/
