@@ -208,7 +208,7 @@ function CanvasForm({
           ctx.font = "13px EL";
           ctx.fillStyle = "#4d4d4d";
           ctx.fillText(
-            "JULY 07 02",
+            `${time[0]} ${time[1]} ${time[2]}`,
             cw / 2 - (rectWidth2 * iar * 0.6) / 2 + rectWidth2 * iar * 0.6 + 12,
             ch / 2 - (rectheight2 * 0.6) / 2 + rectheight2 * 0.6 - 105
           );
@@ -353,7 +353,7 @@ function CanvasForm({
           ctx.fillText("MEMO", cw / 2.03, ch / 1.1 - 90);
           ctx.font = " 13px EL";
           ctx.fillStyle = "#4d4d4d";
-          ctx.fillText("JULY 2st", cw / 2.03, ch / 1.1 - 75);
+          ctx.fillText(`${time[0]} ${time[1]} ${time[2]}`, cw / 2.03, ch / 1.1 - 75);
 
           ctx.font = "14px EL";
           ctx.fillStyle = "#4d4d4d";
@@ -442,7 +442,7 @@ function CanvasForm({
           ctx.fillText("MEMO", cw / 2.03, ch / 1.1 - 90);
           ctx.font = " 13px EL";
           ctx.fillStyle = "#4d4d4d";
-          ctx.fillText("JULY 2st", cw / 2.03, ch / 1.1 - 75);
+          ctx.fillText(`${time[0]} ${time[1]} ${time[2]}`, cw / 2.03, ch / 1.1 - 75);
 
           ctx.font = "14px EL";
           ctx.fillStyle = "#4d4d4d";

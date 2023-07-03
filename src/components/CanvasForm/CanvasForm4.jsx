@@ -93,6 +93,13 @@ function CanvasForm4({
           cw / 2 - ((cw / 1.39) * 0.85) / 2 + 230,
           ch / 4.5 + ch / 1.2 / 1.65 + 30
         );
+        ctx.font = "12px EL";
+        ctx.fillStyle = "black";
+        ctx.fillText(
+          `${time[0]} ${time[1]} ${time[2]}`,
+          cw / 2 - ((cw / 1.39) * 0.85) / 2 + 230,
+          ch / 4.5 + ch / 1.2 / 1.65 + 45
+        );
         ctx.font = "13px EL";
         ctx.fillStyle = "black";
 
@@ -195,12 +202,15 @@ function CanvasForm4({
         ctx.font = "bold 17px EL";
         ctx.fillStyle = "#4d4d4d";
         ctx.fillText("MEMO", cw / 2 + 70 + 30, ch / 4.5 + ch / 1.2 / 1.65 - 60);
+        ctx.font = "13px EL";
+        ctx.fillStyle = "#4d4d4d";
+        ctx.fillText(`${time[0]} ${time[1]} ${time[2]}`, cw / 2 + 70 + 30, ch / 4.5 + ch / 1.2 / 1.65 - 45);
         ctx.font = "14px EL";
         ctx.fillStyle = "#4d4d4d";
         const maxWidth = 200; // 최대 너비
         const lineHeight = 20;
         const x = cw / 2 + 70 + 30;
-        let y = ch / 4.5 + ch / 1.2 / 1.65 - 20;
+        let y = ch / 4.5 + ch / 1.2 / 1.65 - 10;
         const text2 = message;
         const characters = text2.split("");
         let line = "";

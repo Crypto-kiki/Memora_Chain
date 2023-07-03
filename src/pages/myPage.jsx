@@ -19,7 +19,10 @@ const MyPage = () => {
       const accounts = await window.ethereum.request({
         method: "eth_requestAccounts",
       });
-      setAccount(accounts[0]);
+      if (accounts) {
+        setAccount(accounts[0]);
+        sessionStorage.setItem("loggedInAccount", accounts[0]); // 로그인 상태 저장
+      }
     } catch (error) {
       console.error(error);
       alert("계정 정보를 불러오는데 실패하였습니다.");
@@ -90,9 +93,9 @@ const MyPage = () => {
   }, [metadataUris]);
 
   return (
-    <div className="flex justify-between min-h-screen">
-      <div className="film-left w-24" />
-      <div className="w-full flex flex-col myPageBackground">
+    <div className="flex justify-between min-h-screen myPageBackground w-full">
+      {/* <div className="film-left w-24" /> */}
+      <div className="w-full flex flex-col">
         <header className="flex justify-between items-center px-10 font-julius text-2xl tracking-wider">
           <Link to="/">
             <div className="mt-6">
@@ -123,7 +126,7 @@ const MyPage = () => {
           </div>
         </header>
         <div className="flex justify-center items-center">
-          <div className="border border-[#040281] w-80 text-center text-5xl py-6 px-10 tracking-widest">
+          <div className="border border-[#f3f2dc] w-80 text-center text-5xl py-6 px-10 tracking-widest">
             Gallery
           </div>
         </div>
@@ -136,7 +139,7 @@ const MyPage = () => {
           ;
         </div>
       </div>
-      <div className="film-right w-24" />
+      {/* <div className="film-right w-24" /> */}
     </div>
   );
 };

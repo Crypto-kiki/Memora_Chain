@@ -21,7 +21,11 @@ const Main = () => {
       const accounts = await window.ethereum.request({
         method: "eth_requestAccounts",
       });
-      setAccount(accounts[0]); // Context의 account 값 설정
+      if (accounts) {
+        setAccount(accounts[0]);
+        sessionStorage.setItem("loggedInAccount", accounts[0]); // 로그인 상태 저장
+      }
+      // setAccount(accounts[0]); // Context의 account 값 설정
     } catch (error) {
       console.error(error);
       alert("계정 정보를 불러오는데 실패하였습니다.");
@@ -33,9 +37,9 @@ const Main = () => {
   };
 
   return (
-    <div className="flex grow justify-between bg-[#CCDBE7]">
-      <div className="film-left w-24" />
-      <div className="w-full flex flex-col">
+    <div className="flex  justify-between bg-[#CCDBE7]">
+      <div className="film-left w-20 flex-shrink-0" />
+      <div className="w-full flex flex-col ">
         <div className="bg-[#F3EED4]">
           <header className="flex justify-between items-center px-10 font-julius text-2xl tracking-wider text-[#686667]">
             <Link to="/">
@@ -131,7 +135,7 @@ const Main = () => {
           </div>
         </div>
       </div>
-      <div className="film-right w-24" />
+      <div className="flex-shrink-0 film-right w-20" />
     </div>
   );
 };

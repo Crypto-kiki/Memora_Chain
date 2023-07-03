@@ -129,12 +129,15 @@ function CanvasForm5({
         ctx.fillStyle = "black";
         ctx.font = "bold 13px EL";
         ctx.fillText(`MEMO`, cw - ((cw / 1.39) * 0.8) / 2 - 25, ch / 4.4 + 175);
+        ctx.fillStyle = "black";
+        ctx.font = " 12px EL";
+        ctx.fillText(`${time[0]} ${time[1]} ${time[2]}`, cw - ((cw / 1.39) * 0.8) / 2 - 25, ch / 4.4 + 190);
         ctx.fillStyle = "gray";
         ctx.font = "14px EL";
         const maxWidth = 160; // 최대 너비
         const lineHeight = 20;
         const x = cw - ((cw / 1.39) * 0.8) / 2 - 30;
-        let y = ch / 4.4 + 205;
+        let y = ch / 4.4 + 220;
         const text2 = message;
         const characters = text2.split("");
         let line = "";
@@ -252,12 +255,15 @@ function CanvasForm5({
         ctx.fillStyle = "black";
         ctx.font = "bold 17px EL";
         ctx.fillText(`MEMO`, cw / 2 - ((cw / 1.39) * 0.8) / 2 - 70 + 20, 90);
+        ctx.fillStyle = "black";
+        ctx.font = "13px EL";
+        ctx.fillText(`${time[0]} ${time[1]} ${time[2]}`, cw / 2 - ((cw / 1.39) * 0.8) / 2 - 70 + 20, 105);
         ctx.fillStyle = "gray";
         ctx.font = "14px EL";
         const maxWidth = 160; // 최대 너비
         const lineHeight = 20;
         const x = cw / 2 - ((cw / 1.39) * 0.8) / 2 - 70 + 20;
-        let y = 130;
+        let y = 140;
         const text2 = message;
         const characters = text2.split("");
         let line = "";
