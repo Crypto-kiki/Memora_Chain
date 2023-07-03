@@ -89,7 +89,11 @@ function CanvasForm3({
         ctx.fillText("MEMO", x, y + height * 0.5 + 20);
         ctx.font = "13px EL";
         ctx.fillStyle = "black";
-        ctx.fillText(`${time[0]} ${time[1]} ${time[2]}`, x, y + height * 0.5 + 35);
+        ctx.fillText(
+          `${time[0]} ${time[1]} ${time[2]}`,
+          x,
+          y + height * 0.5 + 35
+        );
         ctx.font = "lighter 14px EL";
         ctx.fillStyle = "black";
         const maxWidth = 260; // 최대 너비
@@ -296,7 +300,7 @@ function CanvasForm3({
             ctx.font = "24px SB";
             ctx.fillStyle = "#b3b3b3";
             ctx.fillText(
-              `KR. BUSAN`,
+              `${countryCode}. ${city}`,
               cw / 2 - ((ch / 2.05) * 0.65) / 2,
               y - 6 - 50
             );

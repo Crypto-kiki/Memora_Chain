@@ -272,8 +272,12 @@ const Mint = () => {
     }
   }, [size]);
 
+  const [loading, setLoading] = useState(false);
+
   // Firebase 파일 업로드 후 업로드 된 주소 받아오기
   const upLoadImage = async () => {
+    setLoading(true); // 로딩 상태를 true로 변경
+
     if (selectedFile && account) {
       try {
         // base64 데이터를 Blob으로 변환
@@ -307,6 +311,7 @@ const Mint = () => {
       if (!selectedFile && !account) {
         alert("지갑 연결 후 이미지를 선택해 주세요.");
       }
+      setLoading(false); // 작업 완료 후 로딩 상태를 false로 변경
     }
   };
 
@@ -455,6 +460,7 @@ const Mint = () => {
         const mintNft = await contract.methods
           .mintNft(metadataURI)
           .send({ from: account });
+        await setLoading(false); // 작업 완료 후 로딩 상태를 false로 변경
       } catch (error) {
         console.error(error);
       }
@@ -608,11 +614,12 @@ const Mint = () => {
           "MINT, Your own memory"
         </div>
         <div className="flex justify-center items-center">
-          <button
+        <button
             onClick={upLoadImage}
             className="w-56 border border-[#8b8b8b] shadow-lg py-3 mt-10 mb-32 text-4xl text-[#686667]"
+            disabled={loading} // 버튼 비활성화
           >
-            MINT
+            {loading ? "Loading..." : "MINT"}
           </button>
         </div>
       </div>
