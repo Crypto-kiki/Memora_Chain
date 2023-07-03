@@ -151,11 +151,8 @@ const MyNfts = ({ metadataUris, tokenIds, tokenIdsWithMetadataUris }) => {
         const response = await contract.methods
           .burnNft(tokenId)
           .send({ from: account });
-        // await setBurnTx(response.transactionHash);
-        // console.log(burnTx);
-        // await handleModalClose();
-        // await handleWideModalClose();
       }
+      window.location.reload();
     } catch (error) {
       console.error(error);
     }

@@ -19,7 +19,10 @@ const MyPage = () => {
       const accounts = await window.ethereum.request({
         method: "eth_requestAccounts",
       });
-      setAccount(accounts[0]);
+      if (accounts) {
+        setAccount(accounts[0]);
+        sessionStorage.setItem("loggedInAccount", accounts[0]); // 로그인 상태 저장
+      }
     } catch (error) {
       console.error(error);
       alert("계정 정보를 불러오는데 실패하였습니다.");

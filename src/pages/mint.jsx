@@ -15,7 +15,6 @@ import { v4 } from "uuid";
 import { v4 as uuidv4 } from "uuid";
 import Web3 from "web3";
 import { CONTRACT_ABI, CONTRACT_ADDRESS } from "../web3.config";
-import SimpleImageSlider from "react-simple-image-slider";
 
 const Mint = () => {
   const { account, setAccount } = useContext(AccountContext); // Context에서 account 값과 setAccount 함수 가져오기
@@ -56,7 +55,10 @@ const Mint = () => {
       const accounts = await window.ethereum.request({
         method: "eth_requestAccounts",
       });
-      setAccount(accounts[0]);
+      if (accounts) {
+        setAccount(accounts[0]);
+        sessionStorage.setItem("loggedInAccount", accounts[0]); // 로그인 상태 저장
+      }
     } catch (error) {
       console.error(error);
       alert("계정 정보를 불러오는데 실패하였습니다.");

@@ -21,7 +21,11 @@ const Main = () => {
       const accounts = await window.ethereum.request({
         method: "eth_requestAccounts",
       });
-      setAccount(accounts[0]); // Context의 account 값 설정
+      if (accounts) {
+        setAccount(accounts[0]);
+        sessionStorage.setItem("loggedInAccount", accounts[0]); // 로그인 상태 저장
+      }
+      // setAccount(accounts[0]); // Context의 account 값 설정
     } catch (error) {
       console.error(error);
       alert("계정 정보를 불러오는데 실패하였습니다.");
@@ -131,7 +135,7 @@ const Main = () => {
           </div>
         </div>
       </div>
-      <div className="film-right w-24" />
+      <div className="flex-shrink-0 film-right w-20" />
     </div>
   );
 };
