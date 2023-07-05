@@ -37,7 +37,7 @@ const Main = () => {
   };
 
   return (
-    <div className="flex grow justify-between bg-[#CCDBE7]">
+    <div className="flex grow justify-between bg-[#CCDBE7] ">
       <div className="film-left w-24 flex-shrink-0" />
       <div className="w-full flex flex-col">
         <div className="bg-[#F3EED4]">

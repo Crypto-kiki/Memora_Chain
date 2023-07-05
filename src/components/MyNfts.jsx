@@ -21,8 +21,8 @@ const MyNfts = ({
   const [selectedWideImageIndex, setSelectedWideImageIndex] = useState(null);
   const [metadataByTokenIdLengthy, setMetadataByTokenIdLengthy] = useState("");
   const [metadataByTokenIdWide, setMetadataByTokenIdWide] = useState("");
-  const [selectedBurn, setSelectedBurn] = useState();
   const [selectedImageInfo, setSelectedImageInfo] = useState([]);
+  const [selectedBurn, setSelectedBurn] = useState();
 
   const [metadataFileName, setMetadataFileName] = useState(null);
   const [burnTx, setBurnTx] = useState();
@@ -208,7 +208,7 @@ const MyNfts = ({
 
   return (
     <div className="px-40">
-      <div className="flex justify-between items-center mb-14">
+      <div className="flex justify-between items-center mb-14 ">
         <div className="text-2xl font-bold">
           My Total Nfts: {metadataUris.length} EA
         </div>

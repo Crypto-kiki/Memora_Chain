@@ -209,7 +209,6 @@ const Mint = () => {
         if (!file) {
           return;
         }
-        console.log(file);
         setSelectedFile(file);
         setSelectedFileURL(URL.createObjectURL(file));
         return;
