@@ -131,7 +131,7 @@ function CanvasForm5({
         ctx.fillText(`MEMO`, cw - ((cw / 1.39) * 0.8) / 2 - 25, ch / 4.4 + 175);
         ctx.fillStyle = "black";
         ctx.font = " 12px EL";
-        ctx.fillText(`${time[0]} ${time[1]} ${time[2]}`, cw - ((cw / 1.39) * 0.8) / 2 - 25, ch / 4.4 + 190);
+        ctx.fillText(`${time[0]} ${time[1]} ${time[2]} ${weather}`, cw - ((cw / 1.39) * 0.8) / 2 - 25, ch / 4.4 + 190);
         ctx.fillStyle = "gray";
         ctx.font = "14px EL";
         const maxWidth = 160; // 최대 너비
@@ -257,7 +257,7 @@ function CanvasForm5({
         ctx.fillText(`MEMO`, cw / 2 - ((cw / 1.39) * 0.8) / 2 - 70 + 20, 90);
         ctx.fillStyle = "black";
         ctx.font = "13px EL";
-        ctx.fillText(`${time[0]} ${time[1]} ${time[2]}`, cw / 2 - ((cw / 1.39) * 0.8) / 2 - 70 + 20, 105);
+        ctx.fillText(`${time[0]} ${time[1]} ${time[2]} ${weather}`, cw / 2 - ((cw / 1.39) * 0.8) / 2 - 70 + 20, 105);
         ctx.fillStyle = "gray";
         ctx.font = "14px EL";
         const maxWidth = 160; // 최대 너비

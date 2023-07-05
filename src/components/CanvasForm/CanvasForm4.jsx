@@ -96,7 +96,7 @@ function CanvasForm4({
         ctx.font = "12px EL";
         ctx.fillStyle = "black";
         ctx.fillText(
-          `${time[0]} ${time[1]} ${time[2]}`,
+          `${time[0]} ${time[1]} ${time[2]} ${weather}`,
           cw / 2 - ((cw / 1.39) * 0.85) / 2 + 230,
           ch / 4.5 + ch / 1.2 / 1.65 + 45
         );
@@ -204,7 +204,7 @@ function CanvasForm4({
         ctx.fillText("MEMO", cw / 2 + 70 + 30, ch / 4.5 + ch / 1.2 / 1.65 - 60);
         ctx.font = "13px EL";
         ctx.fillStyle = "#4d4d4d";
-        ctx.fillText(`${time[0]} ${time[1]} ${time[2]}`, cw / 2 + 70 + 30, ch / 4.5 + ch / 1.2 / 1.65 - 45);
+        ctx.fillText(`${time[0]} ${time[1]} ${time[2]} ${weather}`, cw / 2 + 70 + 30, ch / 4.5 + ch / 1.2 / 1.65 - 45);
         ctx.font = "14px EL";
         ctx.fillStyle = "#4d4d4d";
         const maxWidth = 200; // 최대 너비
