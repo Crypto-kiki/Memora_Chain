@@ -137,3 +137,10 @@
   background-repeat: no-repeat;
   background-size: cover;
 }
+
+.mintBackground {
+  background-image: url(../public/image/mint/background.png);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}

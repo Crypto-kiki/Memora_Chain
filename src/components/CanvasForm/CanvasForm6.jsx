@@ -121,7 +121,7 @@ function CanvasForm6({
         ctx.fillStyle = "black";
         ctx.font = "12px EL";
         ctx.fillText(
-          `${time[0]} ${time[1]} ${time[2]}`,
+          `${time[0]} ${time[1]} ${time[2]} ${weather}`,
           cw/2 - 20,
           ch -132
         );
@@ -233,7 +233,7 @@ function CanvasForm6({
         ctx.fillStyle = "black";
         ctx.font = " 13px EL";
         ctx.fillText(
-          `${time[0]} ${time[1]} ${time[2]}`,
+          `${time[0]} ${time[1]} ${time[2]} ${weather}`,
           x2 + 240,
           ch -225
         );

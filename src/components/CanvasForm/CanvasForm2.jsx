@@ -96,7 +96,7 @@ function CanvasForm2({
         ctx.fillText("MEMO", x + width + 20, (y + height) / 2 + 80);
         ctx.font = "13px EL";
         ctx.fillStyle = "white";
-        ctx.fillText(`${time[0]} ${time[1]} ${time[2]}`, x + width + 20, (y + height) / 2 + 95);
+        ctx.fillText(`${time[0]} ${time[1]} ${time[2]}  ${weather}`, x + width + 20, (y + height) / 2 + 95);
 
         ctx.font = "14px EL";
         ctx.fillStyle = "white";
@@ -203,7 +203,7 @@ function CanvasForm2({
         ctx.fillText("MEMO", x - 30, y + height + 40);
         ctx.font = " 13px EL";
         ctx.fillStyle = "white";
-        ctx.fillText(`${time[0]} ${time[1]} ${time[2]}`, x - 30, y + height + 55);
+        ctx.fillText(`${time[0]} ${time[1]} ${time[2]} ${weather}`, x - 30, y + height + 55);
 
         ctx.font = "lighter 14px EL";
         ctx.fillStyle = "white";

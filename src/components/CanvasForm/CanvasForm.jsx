@@ -30,12 +30,7 @@ function CanvasForm({
   //1 가로가 김, 2 세로가 김, 3 비율 비슷함
 
   // 이미지 그리기
-  useEffect(() => {
-    console.log(lat);
-    console.log(city);
-
-    if (size.length == 1) {
-    }
+  useEffect(() => { 
     //이미지 불러오기
 
     // 캔버스에 그리기
@@ -208,7 +203,7 @@ function CanvasForm({
           ctx.font = "13px EL";
           ctx.fillStyle = "#4d4d4d";
           ctx.fillText(
-            `${time[0]} ${time[1]} ${time[2]}`,
+            `${time[0]} ${time[1]} ${time[2]} ${weather}`,
             cw / 2 - (rectWidth2 * iar * 0.6) / 2 + rectWidth2 * iar * 0.6 + 12,
             ch / 2 - (rectheight2 * 0.6) / 2 + rectheight2 * 0.6 - 105
           );
@@ -242,7 +237,7 @@ function CanvasForm({
           ctx.fillStyle = "#4d4d4d";
           ctx.fillText("made by memorachain", cw - 160, ch - 30);
           ctx.rotate((270 * Math.PI) / 180);
-          const text = `${countryCode}. ${city} `;
+          const text = `${countryCode}. ${city}  `;
           ctx.font = "26px SB";
           ctx.fillStyle = "#b3b3b3";
           ctx.fillText(
@@ -353,7 +348,7 @@ function CanvasForm({
           ctx.fillText("MEMO", cw / 2.03, ch / 1.1 - 90);
           ctx.font = " 13px EL";
           ctx.fillStyle = "#4d4d4d";
-          ctx.fillText(`${time[0]} ${time[1]} ${time[2]}`, cw / 2.03, ch / 1.1 - 75);
+          ctx.fillText(`${time[0]} ${time[1]} ${time[2]} ${weather}`, cw / 2.03, ch / 1.1 - 75);
 
           ctx.font = "14px EL";
           ctx.fillStyle = "#4d4d4d";
@@ -442,7 +437,7 @@ function CanvasForm({
           ctx.fillText("MEMO", cw / 2.03, ch / 1.1 - 90);
           ctx.font = " 13px EL";
           ctx.fillStyle = "#4d4d4d";
-          ctx.fillText(`${time[0]} ${time[1]} ${time[2]}`, cw / 2.03, ch / 1.1 - 75);
+          ctx.fillText(`${time[0]} ${time[1]} ${time[2]} ${weather}`, cw / 2.03, ch / 1.1 - 75);
 
           ctx.font = "14px EL";
           ctx.fillStyle = "#4d4d4d";

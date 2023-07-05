@@ -484,7 +484,7 @@ const Mint = () => {
   };
 
   return (
-    <div className="flex justify-between min-h-screen body">
+    <div className="flex justify-between min-h-screen mintBackground">
       {/* <div className="film-left w-24" /> */}
       <div className="w-full flex flex-col">
         <header className="flex justify-between items-center px-10 font-julius text-2xl tracking-wider text-[#686667]">
