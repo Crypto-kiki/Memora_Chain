@@ -43,6 +43,7 @@ const MyPage = () => {
       const response = await contract.methods.getAllNft(account).call();
       const tempArray = response.map((v) => Number(v));
       setTokenIds(tempArray);
+      console.log(tokenIds);
     } catch (error) {
       console.error(error);
     }
@@ -50,7 +51,7 @@ const MyPage = () => {
 
   useEffect(() => {
     getMyNfts();
-  }, [account, burnTx]);
+  }, [account]);
 
   const getTokenUris = async () => {
     try {
@@ -66,6 +67,7 @@ const MyPage = () => {
         token.push(tokenIds[i]);
       }
       setTokenIdsWithMetadataUris(uris);
+      console.log(tokenIdsWithMetadataUris);
     } catch (error) {
       console.error(error);
     }
@@ -81,6 +83,7 @@ const MyPage = () => {
         token.push(tokenIds[i]);
       }
       setMetadataURIs(uris);
+      console.log(metadataUris);
     } catch (error) {
       console.error(error);
     }
@@ -93,9 +96,15 @@ const MyPage = () => {
     }
   }, [tokenIds]);
 
-  // useEffect(() => {
-  //   console.log(metadataUris);
-  // }, [metadataUris]);
+  useEffect(() => {
+    console.log(metadataUris);
+  }, [metadataUris]);
+
+  useEffect(() => {
+    console.log(burnTx);
+    setBurnTx("");
+    getMyNfts();
+  }, [burnTx]);
 
   return (
     <div className="flex justify-between min-h-screen myPageBackground w-full">

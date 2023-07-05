@@ -193,11 +193,12 @@ const Mint = () => {
   const [decryptedIpfs, setDecryptedIpfs] = useState();
 
   // Firebase updload 하기
-  const [downloadURL, setDownloadURL] = useState();
+  const [downloadURL, setDownloadURL] = useState(null);
   const [metadataURI, setMetadataURI] = useState();
   const [canvasImgurl, setCanvasImgurl] = useState();
   const [size, setSize] = useState([]);
   const [selectedFileURL, setSelectedFileURL] = useState();
+  const [nftBlockHash, setNftBlockHash] = useState();
 
   // 이미지 선택하면 selectedFile 값 저장하기
   const handleFileChange = async (event) => {
@@ -455,6 +456,9 @@ const Mint = () => {
         const mintNft = await contract.methods
           .mintNft(metadataURI)
           .send({ from: account });
+        console.log(mintNft);
+        setDownloadURL(null);
+        setNftBlockHash(mintNft.blockHash);
       } catch (error) {
         console.error(error);
       }
@@ -464,6 +468,19 @@ const Mint = () => {
       onClickMint();
     }
   }, [metadataURI]);
+
+  const initialize = () => {
+    setSelectedFile("");
+    setIpfsHash("");
+    setEncryptedIpfs("");
+    setDownloadURL(null);
+    setMetadataURI("");
+    setSelectedFileURL("");
+  };
+
+  useEffect(() => {
+    initialize();
+  }, [nftBlockHash]);
 
   const decryptIpfs = () => {
     if (encryptedIpfs) {
@@ -504,7 +521,24 @@ const Mint = () => {
     };
 
     animateBackground();
-  }, []);
+  });
+
+  // 민트 모달
+  const modalRef = useRef(null);
+  useEffect(() => {
+    if (downloadURL) {
+      setShowVideo(true);
+    }
+  }, [downloadURL]);
+
+  const [showVideo, setShowVideo] = useState(false);
+  const handleVideoLoaded = () => {
+    modalRef.current.classList.add("show");
+  };
+
+  const handleVideoEnded = () => {
+    modalRef.current.classList.remove("show");
+  };
 
   return (
     <div className="flex justify-between min-h-screen mintBackground">
@@ -603,10 +637,29 @@ const Mint = () => {
           <div className="text-[#686667] text-xl mb-20">
             "My location is with memories."
           </div>
+          {downloadURL && (
+            <div
+              className={`fixed top-0 left-0 right-0 bottom-0 backdrop-filter backdrop-blur-sm flex flex-col justify-center items-center video z-20 ${
+                showVideo ? "show" : ""
+              }`}
+              ref={modalRef}
+            >
+              <video
+                src={`${process.env.PUBLIC_URL}/image/mint/loading.mp4`}
+                autoPlay
+                muted
+                loop
+                className="modal"
+                style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                onLoadedData={handleVideoLoaded}
+                onEnded={handleVideoEnded}
+              />
+            </div>
+          )}
           {!selectedFile ? (
             <div className="h-[900px] w-[1000px] flex flex-col justify-center items-center border border-[#8b8b8b] text-2xl">
               <div>Image Upload First,</div>
-              <div> And you can watch NFT Samples by your image</div>
+              <div>And you can watch NFT Samples by your image</div>
             </div>
           ) : (
             <FileUpload
@@ -630,12 +683,23 @@ const Mint = () => {
           "MINT, Your own memory"
         </div>
         <div className="flex justify-center items-center">
-          <button
-            onClick={upLoadImage}
-            className="w-56 border border-[#8b8b8b] shadow-lg py-3 mt-10 mb-56 text-4xl text-[#686667]"
-          >
-            MINT
-          </button>
+          {downloadURL ? (
+            <Link to="/mypage">
+              <button
+                onClick={upLoadImage}
+                className="w-56 border border-[#8b8b8b] shadow-lg py-3 mt-10 mb-56 text-4xl text-[#686667]"
+              >
+                Move to Gallery
+              </button>
+            </Link>
+          ) : (
+            <button
+              onClick={upLoadImage}
+              className="w-56 border border-[#8b8b8b] shadow-lg py-3 mt-10 mb-56 text-4xl text-[#686667]"
+            >
+              MINT
+            </button>
+          )}
         </div>
       </div>
     </div>

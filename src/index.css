@@ -155,21 +155,12 @@
   }
 }
 
-/*  
-@keyframes planeAnimation {
-  0% {
-    transform: translateX(0) translateY(0);
-  }
-  50% {
-    transform: translateX(-100px) translateY(-20px);
-  }
-  100% {
-    transform: translateX(-200px) translateY(0);
-  }
+/* video effect */
+.video {
+  opacity: 0;
+  transition: opacity 1s ease-in;
 }
 
-.plane {
-  position: relative;
-  animation: planeAnimation 4s linear infinite;
+.video.show {
+  opacity: 1;
 }
-*/

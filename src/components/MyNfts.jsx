@@ -4,10 +4,7 @@ import { AccountContext } from "../AccountContext";
 import { CONTRACT_ABI, CONTRACT_ADDRESS } from "../web3.config";
 import Web3 from "web3";
 import { VscChromeClose } from "react-icons/vsc";
-import { storage } from "../firebase";
 import { getStorage, ref, deleteObject } from "firebase/storage";
-
-import FileUpload from "../components/FileUpload";
 
 const MyNfts = ({
   metadataUris,
@@ -192,16 +189,17 @@ const MyNfts = ({
           .send({ from: account });
         console.log(response);
 
-        const txHash = response.transactionHash;
-        onBurnTx(txHash); // 부모 컴포넌트로 burnTx 값 전달
-
         const storage = getStorage();
         const desertRef = ref(storage, account + "/" + metadataFileName);
         await deleteObject(desertRef);
 
-        setBurnTx(txHash);
+        const txHash = response.transactionHash;
+        onBurnTx(txHash); // 부모 컴포넌트로 burnTx 값 전달
+
+        // setBurnTx(txHash);
         handleModalClose();
         handleWideModalClose();
+        console.log(burnTx);
       }
     } catch (error) {
       console.error(error);
