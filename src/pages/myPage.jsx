@@ -5,6 +5,7 @@ import { CONTRACT_ABI, CONTRACT_ADDRESS } from "../web3.config";
 import { useContext, useState, useEffect } from "react";
 import MyNfts from "../components/MyNfts";
 import axios from "axios";
+import { FiPower } from "react-icons/fi";
 
 const MyPage = () => {
   const web3 = new Web3(window.ethereum);
@@ -141,6 +142,11 @@ const MyPage = () => {
                 <div>Login</div>
               )}
             </Link>
+            {account && (
+              <button onClick={onClickLogOut}>
+                <FiPower className="drop-shaow-lg" size={33} />
+              </button>
+            )}
           </div>
         </header>
         <div className="flex justify-center items-center">

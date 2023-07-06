@@ -12,11 +12,11 @@ function ItemCanvas({ size, img, setEnd, setItemOnImage, ItemIndex }) {
     console.log(size);
     console.log(img);
     console.log(setItemOnImage);
-  }, []);
+  }, [size]);
   const canvasRef = useRef(null);
 
   const image2 = new Image();
-  image2.src = ItemImage[ItemIndex];
+  image2.src = img;
 
   //1 가로가 김, 2 세로가 김, 3 비율 비슷함
 

@@ -247,7 +247,7 @@ const Parts = () => {
   const [end, setEnd] = useState(false);
   const [selectedNFTImage, setSelectedNFTImage] = useState();
 
-  const loadImageForCanvas = () => {
+  const loadImageForCanvas = useCallback(() => {
     const image = new Image();
 
     image.src = selectedNFTImage;
@@ -265,20 +265,26 @@ const Parts = () => {
         setEnd(true);
       }
     };
-  };
+  }, [selectedNFTImage, size]);
+
+  useEffect(() => {
+    if (selectedNFTImage) {
+      setEnd(false);
+    }
+  }, [selectedNFTImage]);
 
   useEffect(() => {
     if (end) {
       loadImageForCanvas();
       console.log(size);
     }
-  }, [selectedNFTImage]);
+  }, [end, loadImageForCanvas]);
 
   useEffect(() => {
-    if (size.length > 2 && size[0] == 1) {
+    if (size.length > 2 && size[0] === 1) {
       setSize([1]);
     }
-    // console.log(size);
+    console.log(size);
   }, [size]);
 
   useEffect(() => {

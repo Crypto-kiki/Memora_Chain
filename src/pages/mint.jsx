@@ -15,6 +15,7 @@ import { v4 } from "uuid";
 import { v4 as uuidv4 } from "uuid";
 import Web3 from "web3";
 import { CONTRACT_ABI, CONTRACT_ADDRESS } from "../web3.config";
+import { FiPower } from "react-icons/fi";
 
 const Mint = () => {
   const { account, setAccount } = useContext(AccountContext);
@@ -563,6 +564,11 @@ const Mint = () => {
             >
               {account ? <div>MyPage</div> : <div>Login</div>}
             </Link>
+            {account && (
+              <button onClick={onClickLogOut}>
+                <FiPower className="drop-shaow-lg" size={33} />
+              </button>
+            )}
           </div>
         </header>
         <div className="flex flex-col justify-center items-center">
