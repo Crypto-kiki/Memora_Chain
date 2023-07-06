@@ -1,16 +1,18 @@
 import React, { useRef, useState } from "react";
 import { useEffect } from "react";
 
-function ItemCanvas(size, img, setEnd, setItemOnImage, ItemIndex) {
+function ItemCanvas({ size, img, setEnd, setItemOnImage, ItemIndex }) {
   const ItemImage = [
     `${process.env.PUBLIC_URL}/image/parts/items/tape.jpg`,
     `${process.env.PUBLIC_URL}/image/parts/items/stamp.jpg`,
     `${process.env.PUBLIC_URL}/image/parts/items/umbrella.png`,
   ];
 
-  console.log(size);
-  console.log(img);
-  console.log(setItemOnImage);
+  useEffect(() => {
+    console.log(size);
+    console.log(img);
+    console.log(setItemOnImage);
+  }, []);
   const canvasRef = useRef(null);
 
   const image2 = new Image();

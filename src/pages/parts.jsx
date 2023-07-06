@@ -18,7 +18,9 @@ import { CONTRACT_ABI, CONTRACT_ADDRESS } from "../web3.config";
 import ItemCanvas from "../components/ItemCanvas/ItemCanvas";
 
 const Parts = () => {
-  const { account, setAccount } = useContext(AccountContext); // Context에서 account 값과 setAccount 함수 가져오기
+  // const { account, setAccount } = useContext(AccountContext); // Context에서 account 값과 setAccount 함수 가져오기
+  const { account, setAccount } = useContext(AccountContext);
+
   const [ItemIndex, setItemIndex] = useState();
   const modalRef = useRef(null);
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -70,7 +72,6 @@ const Parts = () => {
       });
       if (accounts) {
         setAccount(accounts[0]);
-        sessionStorage.setItem("loggedInAccount", accounts[0]); // 로그인 상태 저장
       }
     } catch (error) {
       console.error(error);
@@ -91,7 +92,6 @@ const Parts = () => {
       const response = await contract.methods.getAllNft(account).call();
       const tempArray = response.map((v) => Number(v));
       setTokenIds(tempArray);
-      console.log(tokenIds);
     } catch (error) {
       console.error(error);
     }
@@ -99,7 +99,7 @@ const Parts = () => {
 
   useEffect(() => {
     getMyNfts();
-  }, [account]);
+  }, [ItemIndex]);
 
   const getTokenUris = async () => {
     try {
@@ -115,11 +115,16 @@ const Parts = () => {
         token.push(tokenIds[i]);
       }
       setTokenIdsWithMetadataUris(uris);
-      console.log(tokenIdsWithMetadataUris);
     } catch (error) {
       console.error(error);
     }
   };
+
+  useEffect(() => {
+    if (tokenIds.length > 0) {
+      getTokenUris();
+    }
+  }, [tokenIds]);
 
   const getTokenUrisForImage = async () => {
     try {
@@ -131,22 +136,14 @@ const Parts = () => {
         token.push(tokenIds[i]);
       }
       setMetadataURIs(uris);
-      console.log(metadataUris);
     } catch (error) {
       console.error(error);
     }
   };
 
   useEffect(() => {
-    if (tokenIds.length > 0) {
-      getTokenUrisForImage();
-      getTokenUris();
-    }
-  }, [tokenIds]);
-
-  useEffect(() => {
-    console.log(metadataUris);
-  }, [metadataUris]);
+    getTokenUrisForImage();
+  }, [tokenIdsWithMetadataUris]);
 
   const getMetadataImages = async () => {
     try {
@@ -241,8 +238,6 @@ const Parts = () => {
     setItemIndex(index);
     setModalIsOpen(true);
   };
-
-  // 모달 닫기 함수
   const closeItemModal = () => {
     setModalIsOpen(false);
   };
@@ -273,14 +268,17 @@ const Parts = () => {
   };
 
   useEffect(() => {
-    loadImageForCanvas();
+    if (end) {
+      loadImageForCanvas();
+      console.log(size);
+    }
   }, [selectedNFTImage]);
 
   useEffect(() => {
     if (size.length > 2 && size[0] == 1) {
       setSize([1]);
     }
-    console.log(size);
+    // console.log(size);
   }, [size]);
 
   useEffect(() => {
@@ -317,16 +315,16 @@ const Parts = () => {
         </header>
         <div className="flex flex-col p-20 justify-center items-start">
           <div className="mb-20 text-6xl tracking-widest">Items</div>
-          <div className="grid grid-cols-2 gap-20">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-20">
             {ItemImage.map((item, index) => (
               <div
                 key={index}
-                className="grid grid-cols-2  border border-white p-4 rounded-md"
+                className="flex flex-col md:grid md:grid-cols-2  border border-white p-4 rounded-md"
               >
                 <img
                   src={item.url}
                   alt={`NFT ${index}`}
-                  className="w-64 h-64 border-2 mr-2"
+                  className="md:w-64 md:h-64 border-2 mr-2"
                 />
                 <div className="ml-6">
                   <div className="text-3xl font-bold mb-6">{item.name}</div>

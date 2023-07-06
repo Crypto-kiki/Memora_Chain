@@ -23,7 +23,6 @@ const Main = () => {
       });
       if (accounts) {
         setAccount(accounts[0]);
-        sessionStorage.setItem("loggedInAccount", accounts[0]); // 로그인 상태 저장
       }
       // setAccount(accounts[0]); // Context의 account 값 설정
     } catch (error) {

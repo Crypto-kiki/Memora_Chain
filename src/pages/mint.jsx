@@ -50,7 +50,6 @@ const Mint = () => {
       });
       if (accounts) {
         setAccount(accounts[0]);
-        sessionStorage.setItem("loggedInAccount", accounts[0]); // 로그인 상태 저장
       }
     } catch (error) {
       console.error(error);
@@ -643,16 +642,19 @@ const Mint = () => {
               }`}
               ref={modalRef}
             >
-              <video
+              <img
+                src={`${process.env.PUBLIC_URL}/image/mint/memorachainGIF.gif`}
+              />
+              {/* <video
                 src={`${process.env.PUBLIC_URL}/image/mint/loading.mp4`}
                 autoPlay
                 muted
                 loop
                 className="modal"
                 style={{ width: "100%", height: "100%", objectFit: "cover" }}
-                onLoadedData={handleVideoLoaded}
-                onEnded={handleVideoEnded}
-              />
+                // onLoadedData={handleVideoLoaded}
+                // onEnded={handleVideoEnded}
+              /> */}
             </div>
           )}
           {!selectedFile ? (

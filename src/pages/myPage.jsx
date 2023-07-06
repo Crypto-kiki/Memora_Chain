@@ -10,6 +10,7 @@ const MyPage = () => {
   const web3 = new Web3(window.ethereum);
   const contract = new web3.eth.Contract(CONTRACT_ABI, CONTRACT_ADDRESS);
   const { account, setAccount } = useContext(AccountContext);
+
   const [tokenIds, setTokenIds] = useState([]);
   const [tokenIdsWithMetadataUris, setTokenIdsWithMetadataUris] = useState({});
   const [metadataUris, setMetadataURIs] = useState([]);
@@ -26,13 +27,16 @@ const MyPage = () => {
       });
       if (accounts) {
         setAccount(accounts[0]);
-        sessionStorage.setItem("loggedInAccount", accounts[0]); // 로그인 상태 저장
       }
     } catch (error) {
       console.error(error);
       alert("계정 정보를 불러오는데 실패하였습니다.");
     }
   };
+
+  useEffect(() => {
+    connectWithMetamask();
+  }, []);
 
   const onClickLogOut = () => {
     setAccount("");
