@@ -132,7 +132,7 @@ const MyNfts = ({
       setSelectedBurn("");
       setMetadataFileName("");
       // setBurnTx(null);
-    }, 600);
+    }, 200); // useEffect 점검하기
   };
 
   const handleModalOutsideClick = (event) => {
@@ -144,7 +144,7 @@ const MyNfts = ({
         setSelectedImageInfo(null);
         setSelectedBurn("");
         setMetadataFileName("");
-      }, 600);
+      }, 200);
     }
   };
 
@@ -184,7 +184,7 @@ const MyNfts = ({
       setSelectedBurn("");
       setMetadataFileName("");
       // setBurnTx(null);
-    }, 600);
+    }, 200);
   };
 
   const handleWideModalOutsideClick = (event) => {
@@ -196,7 +196,7 @@ const MyNfts = ({
         setSelectedImageInfo(null);
         setSelectedBurn("");
         setMetadataFileName("");
-      }, 600);
+      }, 200);
     }
   };
 

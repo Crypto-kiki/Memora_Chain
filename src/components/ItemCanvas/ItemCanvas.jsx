@@ -8,17 +8,13 @@ function ItemCanvas({ size, img, setEnd, setItemOnImage, ItemIndex }) {
     `${process.env.PUBLIC_URL}/image/parts/items/umbrella.png`,
   ];
 
-  useEffect(() => {
-    console.log(size);
-    console.log(img);
-    console.log(setItemOnImage);
-  }, [size]);
+  useEffect(() => {}, [size]);
   const canvasRef = useRef(null);
 
   const image2 = new Image();
-  image2.src = img;
+  image2.src = ItemImage[ItemIndex];
 
-  //1 가로가 김, 2 세로가 김, 3 비율 비슷함
+  //1 가로가 김, 2 세로가 김
 
   // 이미지 그리기
   useEffect(() => {
@@ -30,43 +26,45 @@ function ItemCanvas({ size, img, setEnd, setItemOnImage, ItemIndex }) {
     const cw = canvas.width;
     const ch = canvas.height;
     // 가로가 긴버전
-    if (size[0] == 1) {
+    if (size == 1) {
       const image = new Image();
-      image.src = {
-        img,
-      };
+      image.src = img;
+      image.crossOrigin = "Anonymous";
       image.onload = () => {
         //배경 프레임 그리기
         ctx.drawImage(image, 0, 0, 900, 550);
         //추가할 파츠 그리기
         ctx.drawImage(image2, 750, 150, 100, 100);
+
         const imageDataUrl = canvas.toDataURL("image/png"); // 파일 url 저장부분
+
         setItemOnImage(imageDataUrl);
         setEnd(false);
       };
     }
 
     //세로가 긴 버전, 비율이 비슷한버전
-    if (size[0] == 2 || size[0] == 3) {
+    if (size == 2) {
       const image = new Image();
-      image.src = {
-        img,
-      };
+      image.src = img;
+      image.crossOrigin = "Anonymous";
+
       image.onload = () => {
         //배경 프레임 그리기
         ctx.drawImage(image, 0, 0, 550, 900);
         //추가할 파츠 그리기
         ctx.drawImage(image2, 400, 750, 100, 100);
+
         const imageDataUrl = canvas.toDataURL("image/png"); // 파일 url 저장부분
         setItemOnImage(imageDataUrl);
         setEnd(false);
       };
     }
-  }, [size]);
+  }, [size, img]);
 
   return (
     <div className="">
-      {size[0] == 1 ? (
+      {size == 1 ? (
         <canvas ref={canvasRef} width={900} height={550} />
       ) : (
         <canvas ref={canvasRef} width={550} height={900} />

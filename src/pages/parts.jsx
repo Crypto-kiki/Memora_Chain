@@ -36,6 +36,8 @@ const Parts = () => {
   const [metadataByTokenIdLengthy, setMetadataByTokenIdLengthy] = useState("");
   const [metadataByTokenIdWide, setMetadataByTokenIdWide] = useState("");
   const [selectedImageInfo, setSelectedImageInfo] = useState([]);
+  const [selectedNFTImage, setSelectedNFTImage] = useState();
+  const [selectedTokenId, setSelectedTokenId] = useState();
 
   const ItemImage = [
     {
@@ -124,6 +126,7 @@ const Parts = () => {
     if (tokenIds.length > 0) {
       getTokenUris();
     }
+    console.log(tokenIdsWithMetadataUris);
   }, [tokenIds]);
 
   const getTokenUrisForImage = async () => {
@@ -199,9 +202,11 @@ const Parts = () => {
 
   // 세로 이미지
   const handleImageClick = async (index) => {
+    setSize("");
     const imageUrl = lengthyImages[index];
     setSelectedNFTImage(imageUrl);
     const tokenId = tokenIdsWithMetadataUris[imageUrl];
+    setSelectedTokenId(tokenId);
     console.log(`Selected image tokenId: ${tokenId}`);
     setSelectedImageIndex(index);
     try {
@@ -217,9 +222,11 @@ const Parts = () => {
 
   // 가로 이미지
   const handleWideImageClick = async (index) => {
+    setSize("");
     const imageUrl = wideImages[index];
     setSelectedNFTImage(imageUrl);
     const tokenId = tokenIdsWithMetadataUris[imageUrl];
+    setSelectedTokenId(tokenId);
     console.log(`Selected image tokenId: ${tokenId}`);
     setSelectedWideImageIndex(index);
     try {
@@ -242,12 +249,261 @@ const Parts = () => {
     setModalIsOpen(false);
   };
 
-  // Canvas
-  const [size, setSize] = useState([]);
-  const [end, setEnd] = useState(false);
-  const [selectedNFTImage, setSelectedNFTImage] = useState();
+  // 민팅 코드
+  const [downloadURL, setDownloadURL] = useState(null);
+  const [metadataURI, setMetadataURI] = useState();
+  const [nftBlockHash, setNftBlockHash] = useState();
+  const [ipfsHash, setIpfsHash] = useState();
+  const [encryptedIpfs, setEncryptedIpfs] = useState();
+  const [uploadFileName, setUploadFileName] = useState();
 
-  const loadImageForCanvas = useCallback(() => {
+  const PINATA_JWT = process.env.REACT_APP_PINATA_JWT; // Bearer Token 사용해야 됨.
+  const ENCRYPT_KEY = process.env.REACT_APP_ENCRYPT_KEY;
+
+  const upLoadImage = async () => {
+    if (selectedNFTImage && account) {
+      try {
+        // base64 데이터를 Blob으로 변환
+        const blob = await fetch(itemOnImage).then((res) => res.blob());
+
+        // Blob을 파일로 변환
+        const file = new File([blob], "image.jpg", { type: blob.type });
+        console.log(file);
+        const folderRef = ref(storage, account); // account 폴더에 대한 참조 생성
+        // account 폴더 내의 파일에 대한 참조 생성
+        const imageRef = ref(folderRef, v4() + selectedNFTImage.name);
+        // const imageRef = ref(storage, `images/selectedFile.name}`);
+        await uploadBytes(imageRef, file);
+
+        const metadata = {
+          customMetadata: {
+            account: account,
+          },
+        };
+        await updateMetadata(imageRef, metadata);
+
+        const url = await getDownloadURL(imageRef);
+        setDownloadURL(url);
+
+        // 업로드된 파일의 이름 받기
+        const fileName = imageRef.name;
+        console.log("Firebase Uploaded: ", fileName);
+        setUploadFileName(fileName);
+        console.log(uploadFileName);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
+
+  useEffect(() => {
+    if (downloadURL) {
+      console.log(uploadFileName);
+      uploadToPinata();
+    }
+  }, [downloadURL]);
+
+  // Pinata 업로드
+  const uploadToPinata = async () => {
+    if (!itemOnImage || !downloadURL) {
+      console.log("파일을 선택해주세요.");
+      return;
+    }
+
+    try {
+      // base64 데이터를 Blob으로 변환
+      const response = await fetch(itemOnImage);
+      const data = await response.blob();
+
+      // Blob을 File 객체로 변환
+      const file = new File([data], itemOnImage.name, { type: data.type });
+
+      const formData = new FormData();
+      formData.append("file", file);
+
+      const options = JSON.stringify({
+        cidVersion: 0,
+      });
+      formData.append("pinataOptions", options);
+
+      const res = await axios.post(
+        "https://api.pinata.cloud/pinning/pinFileToIPFS",
+        formData,
+        {
+          maxBodyLength: "Infinity",
+          headers: {
+            "Content-Type": `multipart/form-data; boundary=${formData._boundary}`,
+            Authorization: `Bearer ${PINATA_JWT}`,
+          },
+        }
+      );
+
+      setIpfsHash(res.data.IpfsHash);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    if (ipfsHash) {
+      encryptIpfs();
+      // decryptIpfs();
+    }
+  }, [ipfsHash]);
+
+  // 이미지 주소 CID값 (IpfsHash) 암호화
+  const encryptIpfs = () => {
+    const encrypted = CryptoJS.AES.encrypt(
+      `https://teal-rapid-mink-528.mypinata.cloud/ipfs/${ipfsHash}`,
+      ENCRYPT_KEY
+    );
+    setEncryptedIpfs(encrypted.toString());
+  };
+
+  useEffect(() => {
+    if (encryptedIpfs) {
+      uploadMetadata();
+      // decryptIpfs();
+    }
+  }, [encryptedIpfs]);
+
+  // 메타데이터 업로드
+  const uploadMetadata = async () => {
+    try {
+      const metadata = {
+        description: "Unforgettable Memories, Forever Immutable",
+        image: downloadURL,
+        EncryptedIPFSImgUrl: encryptedIpfs,
+        Account: account,
+        attributes: [
+          {
+            trait_type: "Latitude",
+            value: selectedImageInfo[0].value,
+          },
+          {
+            trait_type: "Longitude",
+            value: selectedImageInfo[1].value,
+          },
+          {
+            trait_type: "Country",
+            value: selectedImageInfo[2].value,
+          },
+          {
+            trait_type: "City",
+            value: selectedImageInfo[3].value,
+          },
+          {
+            trait_type: "Address",
+            value: selectedImageInfo[4].value,
+          },
+          {
+            trait_type: "Weather",
+            value: selectedImageInfo[5].value,
+          },
+          {
+            trait_type: "Temperature",
+            value: selectedImageInfo[6].value,
+          },
+          {
+            trait_type: "Message",
+            value: selectedImageInfo[7].value,
+          },
+          {
+            trait_type: "Uploaded File Name",
+            value: selectedImageInfo[8].value,
+          },
+          {
+            trait_type: "parts",
+            value: ItemIndex,
+          },
+          {
+            trait_type: "canvasIndex",
+            value: selectedImageInfo[10].value,
+          },
+        ],
+      };
+
+      const metadataRes = await axios.post(
+        "https://api.pinata.cloud/pinning/pinJSONToIPFS",
+        metadata,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${PINATA_JWT}`,
+          },
+        }
+      );
+      console.log(metadataRes);
+      console.log(metadataRes.data.IpfsHash);
+      setMetadataURI(
+        `https://teal-rapid-mink-528.mypinata.cloud/ipfs/${metadataRes.data.IpfsHash}`
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    const onClickMintPartNft = async () => {
+      if (!metadataURI) {
+        alert("메타데이터를 업로드해야 합니다.");
+        return;
+      }
+      try {
+        const mintNft = await contract.methods
+          .mintPartNft(metadataURI, ItemIndex, selectedTokenId)
+          .send({ from: account });
+        console.log(mintNft);
+        setNftBlockHash(mintNft.blockHash);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    if (metadataURI) {
+      onClickMintPartNft();
+    }
+  }, [metadataURI]);
+
+  // const onClickSetItemPrice = async () => {
+  //   try {
+  //     const mintPrice = await contract.methods.Price(ItemIndex).call();
+  //     const mintNft = await contract.methods
+  //       .setItemPrice(ItemIndex, mintPrice)
+  //       .send({ from: account });
+  //     console.log(mintNft);
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
+
+  // const onClickCheckPrice = async () => {
+  //   try {
+  //     const price = await contract.methods.Price().call();
+  //     console.log(price);
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
+
+  const initialize = () => {
+    setSelectedNFTImage("");
+    setIpfsHash("");
+    setEncryptedIpfs("");
+    setDownloadURL(null);
+    setMetadataURI("");
+  };
+
+  useEffect(() => {
+    initialize();
+  }, [nftBlockHash]);
+
+  // Canvas
+  const [size, setSize] = useState();
+  const [end, setEnd] = useState(false);
+  const [itemOnImage, setItemOnImage] = useState();
+
+  const loadImageForCanvas = () => {
     const image = new Image();
 
     image.src = selectedNFTImage;
@@ -255,35 +511,24 @@ const Parts = () => {
     image.onload = () => {
       const iw = image.width;
       const ih = image.height;
-      if (iw / ih > 1.1) {
+      if (iw / ih > 1) {
         // 가로가 김
-        setSize([1, ...size]);
+        setSize(1);
         setEnd(true);
-      } else if (iw / ih < 0.9) {
+      } else if (iw / ih < 1) {
         // 세로가 김
-        setSize([2, ...size]);
+        setSize(2);
         setEnd(true);
       }
     };
-  }, [selectedNFTImage, size]);
+  };
 
   useEffect(() => {
-    if (selectedNFTImage) {
-      setEnd(false);
-    }
+    loadImageForCanvas();
+    console.log(size);
   }, [selectedNFTImage]);
 
   useEffect(() => {
-    if (end) {
-      loadImageForCanvas();
-      console.log(size);
-    }
-  }, [end, loadImageForCanvas]);
-
-  useEffect(() => {
-    if (size.length > 2 && size[0] === 1) {
-      setSize([1]);
-    }
     console.log(size);
   }, [size]);
 
@@ -292,7 +537,7 @@ const Parts = () => {
   }, [end]);
 
   return (
-    <div className="flex justify-between min-h-screen partsBackground">
+    <div className="flex justify-between min-h-screen partsBackground ">
       {/* <div className="film-left w-24" /> */}
       <div className="w-full flex flex-col">
         <header className="flex justify-between items-center px-10 font-julius text-2xl tracking-wider text-[#686667]">
@@ -390,22 +635,44 @@ const Parts = () => {
                   ))}
                 </div>
               </div>
-              <div className="bg-pink-200 w-1/2 relative">
-                {selectedNFTImage && (
-                  <ItemCanvas
-                    img={selectedNFTImage}
-                    ItemIndex={ItemIndex}
-                    size={size}
-                    setEnd={setEnd}
-                    // setItemOnImage={setItemOnImage}
-                  />
+              <div className="bg-pink-200 w-1/2 relative flex flex-col justify-center items-center">
+                {size == 1 ? (
+                  // 가로
+                  <div className="w-full flex justify-center items-start overflow-hidden">
+                    <ItemCanvas
+                      img={selectedNFTImage}
+                      ItemIndex={ItemIndex}
+                      size={size}
+                      setEnd={setEnd}
+                      setItemOnImage={setItemOnImage}
+                    />
+                  </div>
+                ) : (
+                  // 세로
+                  <div className="w-full flex justify-center items-start">
+                    <ItemCanvas
+                      img={selectedNFTImage}
+                      ItemIndex={ItemIndex}
+                      size={size}
+                      setEnd={setEnd}
+                      setItemOnImage={setItemOnImage}
+                    />
+                  </div>
                 )}
                 <button
-                  className="bg-yellow-200 absolute -top-5 -right-5"
+                  onClick={upLoadImage}
+                  className="w-56 border border-[#8b8b8b] shadow-lg py-3 text-4xl text-[#686667]"
+                >
+                  MINT
+                </button>
+                <button
+                  className="bg-yellow-200 absolute -top-10 -right-10"
                   onClick={closeItemModal}
                 >
                   &times;
                 </button>
+                {/* <button onClick={onClickSetItemPrice}>가격 설정</button>
+                <button onClick={onClickCheckPrice}>가격확인</button> */}
               </div>
             </div>
           </div>

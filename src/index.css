@@ -118,7 +118,7 @@
   animation: fadeIn 0.7s;
 }
 
-.modal.hidden {
+.modalhidden {
   animation: fadeOut 0.7s;
 }
 

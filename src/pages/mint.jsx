@@ -190,7 +190,9 @@ const Mint = () => {
   const [selectedFile, setSelectedFile] = useState();
   const [ipfsHash, setIpfsHash] = useState();
   const [encryptedIpfs, setEncryptedIpfs] = useState();
-  const [decryptedIpfs, setDecryptedIpfs] = useState();
+  const [canvasIndex, setCanvasIndex] = useState();
+
+  // const [decryptedIpfs, setDecryptedIpfs] = useState();
 
   // Firebase updload 하기
   const [downloadURL, setDownloadURL] = useState(null);
@@ -356,7 +358,7 @@ const Mint = () => {
   useEffect(() => {
     if (ipfsHash) {
       encryptIpfs();
-      decryptIpfs();
+      // decryptIpfs();
     }
   }, [ipfsHash]);
 
@@ -372,7 +374,7 @@ const Mint = () => {
   useEffect(() => {
     if (encryptedIpfs) {
       uploadMetadata();
-      decryptIpfs();
+      // decryptIpfs();
     }
   }, [encryptedIpfs]);
 
@@ -421,6 +423,14 @@ const Mint = () => {
           {
             trait_type: "Uploaded File Name",
             value: uploadFileName,
+          },
+          {
+            trait_type: "parts",
+            value: "none",
+          },
+          {
+            trait_type: "canvasIndex",
+            value: canvasIndex,
           },
         ],
       };
@@ -475,23 +485,24 @@ const Mint = () => {
     setDownloadURL(null);
     setMetadataURI("");
     setSelectedFileURL("");
+    setCanvasIndex("");
   };
 
   useEffect(() => {
     initialize();
   }, [nftBlockHash]);
 
-  const decryptIpfs = () => {
-    if (encryptedIpfs) {
-      try {
-        const decrypted = CryptoJS.AES.decrypt(encryptedIpfs, ENCRYPT_KEY);
-        const decryptedIpfs = decrypted.toString(CryptoJS.enc.Utf8);
-        setDecryptedIpfs(decryptedIpfs);
-      } catch (error) {
-        console.error(error);
-      }
-    }
-  };
+  // const decryptIpfs = () => {
+  //   if (encryptedIpfs) {
+  //     try {
+  //       const decrypted = CryptoJS.AES.decrypt(encryptedIpfs, ENCRYPT_KEY);
+  //       const decryptedIpfs = decrypted.toString(CryptoJS.enc.Utf8);
+  //       setDecryptedIpfs(decryptedIpfs);
+  //     } catch (error) {
+  //       console.error(error);
+  //     }
+  //   }
+  // };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -683,6 +694,7 @@ const Mint = () => {
               temperature={temperature}
               weather={weather}
               time={time}
+              setCanvasIndex={setCanvasIndex}
             />
           )}
         </div>

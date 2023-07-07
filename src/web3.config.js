@@ -1,21 +1,5 @@
-export const CONTRACT_ADDRESS = "0x5aEfa4ED7ac8577693a29Cfd1B6FAAC72D70d2CF";
+export const CONTRACT_ADDRESS = "0xc7e7546C734ec0ACBAe35C814b7faBed0A0E5F98";
 export const CONTRACT_ABI = [
-  {
-    inputs: [
-      {
-        internalType: "string",
-        name: "_name",
-        type: "string",
-      },
-      {
-        internalType: "string",
-        name: "_symbol",
-        type: "string",
-      },
-    ],
-    stateMutability: "nonpayable",
-    type: "constructor",
-  },
   {
     anonymous: false,
     inputs: [
@@ -64,6 +48,31 @@ export const CONTRACT_ABI = [
       },
     ],
     name: "ApprovalForAll",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "address",
+        name: "from",
+        type: "address",
+      },
+      {
+        indexed: true,
+        internalType: "address",
+        name: "to",
+        type: "address",
+      },
+      {
+        indexed: true,
+        internalType: "uint256",
+        name: "tokenId",
+        type: "uint256",
+      },
+    ],
+    name: "Transfer",
     type: "event",
   },
   {
@@ -137,12 +146,12 @@ export const CONTRACT_ABI = [
       },
       {
         internalType: "uint256",
-        name: "_tokenId",
+        name: "_itemNumber",
         type: "uint256",
       },
       {
         internalType: "uint256",
-        name: "_parts",
+        name: "_tokenId",
         type: "uint256",
       },
     ],
@@ -155,7 +164,7 @@ export const CONTRACT_ABI = [
     inputs: [
       {
         internalType: "uint256",
-        name: "_parts",
+        name: "_newtokenId",
         type: "uint256",
       },
     ],
@@ -234,29 +243,22 @@ export const CONTRACT_ABI = [
     type: "function",
   },
   {
-    anonymous: false,
     inputs: [
       {
-        indexed: true,
-        internalType: "address",
-        name: "from",
-        type: "address",
-      },
-      {
-        indexed: true,
-        internalType: "address",
-        name: "to",
-        type: "address",
-      },
-      {
-        indexed: true,
         internalType: "uint256",
-        name: "tokenId",
+        name: "_itemNumber",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "_price",
         type: "uint256",
       },
     ],
-    name: "Transfer",
-    type: "event",
+    name: "setItemPrice",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
   },
   {
     inputs: [
@@ -282,6 +284,10 @@ export const CONTRACT_ABI = [
     type: "function",
   },
   {
+    stateMutability: "payable",
+    type: "receive",
+  },
+  {
     inputs: [],
     name: "withdraw",
     outputs: [],
@@ -289,8 +295,20 @@ export const CONTRACT_ABI = [
     type: "function",
   },
   {
-    stateMutability: "payable",
-    type: "receive",
+    inputs: [
+      {
+        internalType: "string",
+        name: "_name",
+        type: "string",
+      },
+      {
+        internalType: "string",
+        name: "_symbol",
+        type: "string",
+      },
+    ],
+    stateMutability: "nonpayable",
+    type: "constructor",
   },
   {
     inputs: [],
@@ -485,6 +503,25 @@ export const CONTRACT_ABI = [
       },
     ],
     name: "Part",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    name: "Price",
     outputs: [
       {
         internalType: "uint256",

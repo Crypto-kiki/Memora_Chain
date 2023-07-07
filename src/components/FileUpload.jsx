@@ -22,6 +22,7 @@ const FileUpload = ({
   weather,
   temperature,
   time,
+  setCanvasIndex,
 }) => {
   const [CanvasImage1, setCanvasImage1] = useState();
   const [CanvasImage2, setCanvasImage2] = useState();
@@ -70,18 +71,24 @@ const FileUpload = ({
   const FileToMint = () => {
     if (index == 0 && CanvasImage1) {
       setUrl(CanvasImage1);
+      setCanvasIndex(0);
       return;
     } else if (index == 1) {
       setUrl(CanvasImage2);
+      setCanvasIndex(1);
       return;
     } else if (index == 2) {
       setUrl(CanvasImage3);
+      setCanvasIndex(2);
     } else if (index == 3) {
       setUrl(CanvasImage4);
+      setCanvasIndex(3);
     } else if (index == 4) {
       setUrl(CanvasImage5);
+      setCanvasIndex(4);
     } else if (index == 5) {
       setUrl(CanvasImage6);
+      setCanvasIndex(5);
     }
   };
 
