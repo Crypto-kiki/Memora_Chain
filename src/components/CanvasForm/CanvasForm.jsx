@@ -327,7 +327,7 @@ function CanvasForm({
               cw / 1.84,
               (cw / 1.84) * (2 - iar)
             );
-            ctx.drawImage(image2, 20, 20, 74, 74);
+            ctx.drawImage(image2, 20, 30, 74, 74);
           }
 
           ctx.font = "bolder 37px SB ";

@@ -122,9 +122,9 @@ function CanvasForm2({
         }
         ctx.fillText(line, x2, y2);
 
-        ctx.font = " 12px EL";
-        ctx.fillStyle = "black";
-        ctx.fillText("made by memorachain", cw - 150, ch - 40);
+        // ctx.font = " 12px EL";
+        // ctx.fillStyle = "black";
+        // ctx.fillText("made by memorachain", cw - 150, ch - 40);
 
         ctx.font = "24px SB";
         ctx.fillStyle = "white";

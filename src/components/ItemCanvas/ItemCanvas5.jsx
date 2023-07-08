@@ -1,68 +1,99 @@
 import React, { useRef, useState } from "react";
 import { useEffect } from "react";
 
-function ItemCanvas5({
-//이미지 주소, 파츠 번호, img내보내는 함수, 가로폼세로폼 구분할 변수,
-}) {
+function ItemCanvas5({ size, img, setEnd, setItemOnImage, ItemIndex }) {
+  const ItemImage = [
+    `${process.env.PUBLIC_URL}/image/parts/items/tape.jpg`,
+    `${process.env.PUBLIC_URL}/image/parts/items/stamp.jpg`,
+    `${process.env.PUBLIC_URL}/image/parts/items/umbrella.png`,
+  ];
+
+  useEffect(() => {}, [size]);
   const canvasRef = useRef(null);
 
   const image2 = new Image();
-  //image2.src = `${process.env.PUBLIC_URL}/image/파츠번호에 해당하는 이미지주소.png`;
+  image2.src = ItemImage[ItemIndex];
 
-
-  //1 가로가 김, 2 세로가 김, 3 비율 비슷함
+  //1 가로가 김, 2 세로가 김
 
   // 이미지 그리기
+
+  
   useEffect(() => {
-
-
     //이미지 불러오기
 
     // 캔버스에 그리기
     const canvas = canvasRef.current;
     const ctx = canvas.getContext("2d");
-    const cw = canvas.width;
-    const ch = canvas.height;
+
+
+    function getColorAtPixel(x, y) {
+      const imageData = ctx.getImageData(x, y, 1, 1); // 해당 좌표의 픽셀 데이터를 가져옵니다.
+      const data = imageData.data; // 픽셀 데이터의 RGBA 값을 가져옵니다.
+    
+      const red = data[0];
+      const green = data[1];
+      const blue = data[2];
+      const alpha = data[3];
+    
+      return `rgba(${red}, ${green}, ${blue}, ${alpha})`; // 픽셀의 색상을 RGBA 형식으로 반환합니다.
+    }
+    
+    function isWhiteColor(color) {
+      return color === 'rgb(236, 236, 236)' || color === 'rgba(236, 236, 236, 255)'; // 흰색 여부를 확인합니다.
+    }
+    
+    // 사용 예시:
+    const x = 105;
+    const y = 80;
+
+
+    
     // 가로가 긴버전
-    if (size[0] == 1) {
+   
       const image = new Image();
-      image.src = {/*이미지 주소 */};
+      image.src = img;
+      image.crossOrigin = "Anonymous";
       image.onload = () => {
         //배경 프레임 그리기
-        ctx.drawImage(image, 0,0,900,550);
-        //추가할 파츠 그리기
-        ctx.drawImage(image2,x,y,크기, 크기);
+        ctx.drawImage(image, 0, 0, 900, 550);
+        const color = getColorAtPixel(x, y);
+        // console.log(color);    
+        if(isWhiteColor(color)){
+            //추가할 파츠 그리기
+            ctx.drawImage(image2,335, 60, 80, 80);
+            // ctx.fillStyle = "red"; //바꿔야되는부분
+            // ctx.fillRect(120, 80, 80, 80);
+
+            const imageDataUrl = canvas.toDataURL("image/png"); // 파일 url 저장부분
+
+            setItemOnImage(imageDataUrl);
+            setEnd(false);
+        }
+        else{
+          //추가할 파츠 그리기
+          ctx.drawImage(image2,700, 390, 80, 80);
+          // ctx.fillStyle = "blue"; //바꿔야되는부분
+          // ctx.fillRect(120, 80, 80, 80);
+
           const imageDataUrl = canvas.toDataURL("image/png"); // 파일 url 저장부분
-          img(imageDataUrl);
+
+          setItemOnImage(imageDataUrl);
           setEnd(false);
         }
+      
       };
-    
-    //세로가 긴 버전, 비율이 비슷한버전
-    if (size[0] == 2 || size[0] == 3) {
-      const image = new Image();
-      image.src = {/*이미지 주소 */};
-      image.onload = () => {
-        //배경 프레임 그리기
-        ctx.drawImage(image, 0,0,550,900);
-        //추가할 파츠 그리기
-        ctx.drawImage(image2,x,y,크기, 크기);
-          const imageDataUrl = canvas.toDataURL("image/png"); // 파일 url 저장부분
-          img(imageDataUrl);
-          setEnd(false);
-        }
-      };
-    
-  }, [size]);
+
+
+  }, [size, img]);
 
   return (
-    <div className="hidden">
-      {size[0] == 1 ? (
-        <canvas ref={canvasRef} width={900} height={550} />
-      ) : (
-        <canvas ref={canvasRef} width={550} height={900} />
-      )}
-    </div>
+    <canvas
+      ref={canvasRef}
+      width={size === 1 ? 900 : 550}
+      height={size === 1 ? 550 : 900}
+      className="max-w-[90%] max-h-[90%] w-auto h-auto"
+    />
   );
 }
 

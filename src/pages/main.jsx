@@ -202,6 +202,18 @@ const Main = () => {
             </div>
           </div>
         </div>
+        <div className='hidden md:flex'>
+          <img
+            src={`${process.env.PUBLIC_URL}/image/mainFourthDiv.png`}
+            className="w-full mt-3"
+          />
+        </div>
+        <div className='flex md:hidden'>
+          <img
+            src={`${process.env.PUBLIC_URL}/image/mainmobile/mainbackground4.png`}
+            className="w-full mt-1"
+          />
+        </div>
         <div className="flex flex-col justify-center items-center mt-1 md:mt-3 bg-[#96A9C2] pt-10 md:pt-20 pb-10">
           <img
             src={`${process.env.PUBLIC_URL}/image/airplane.png`}
