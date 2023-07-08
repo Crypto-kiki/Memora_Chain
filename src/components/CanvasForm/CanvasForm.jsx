@@ -30,7 +30,7 @@ function CanvasForm({
   //1 가로가 김, 2 세로가 김, 3 비율 비슷함
 
   // 이미지 그리기
-  useEffect(() => { 
+  useEffect(() => {
     //이미지 불러오기
 
     // 캔버스에 그리기
@@ -327,7 +327,7 @@ function CanvasForm({
               cw / 1.84,
               (cw / 1.84) * (2 - iar)
             );
-            ctx.drawImage(image2, 20, 20, 74, 74);
+            ctx.drawImage(image2, 20, 30, 74, 74);
           }
 
           ctx.font = "bolder 37px SB ";
@@ -348,7 +348,11 @@ function CanvasForm({
           ctx.fillText("MEMO", cw / 2.03, ch / 1.1 - 90);
           ctx.font = " 13px EL";
           ctx.fillStyle = "#4d4d4d";
-          ctx.fillText(`${time[0]} ${time[1]} ${time[2]} ${weather}`, cw / 2.03, ch / 1.1 - 75);
+          ctx.fillText(
+            `${time[0]} ${time[1]} ${time[2]} ${weather}`,
+            cw / 2.03,
+            ch / 1.1 - 75
+          );
 
           ctx.font = "14px EL";
           ctx.fillStyle = "#4d4d4d";
@@ -437,7 +441,11 @@ function CanvasForm({
           ctx.fillText("MEMO", cw / 2.03, ch / 1.1 - 90);
           ctx.font = " 13px EL";
           ctx.fillStyle = "#4d4d4d";
-          ctx.fillText(`${time[0]} ${time[1]} ${time[2]} ${weather}`, cw / 2.03, ch / 1.1 - 75);
+          ctx.fillText(
+            `${time[0]} ${time[1]} ${time[2]} ${weather}`,
+            cw / 2.03,
+            ch / 1.1 - 75
+          );
 
           ctx.font = "14px EL";
           ctx.fillStyle = "#4d4d4d";

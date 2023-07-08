@@ -16,6 +16,7 @@ import { v4 as uuidv4 } from "uuid";
 import Web3 from "web3";
 import { CONTRACT_ABI, CONTRACT_ADDRESS } from "../web3.config";
 import { FiPower } from "react-icons/fi";
+import { RxHamburgerMenu } from "react-icons/rx";
 import { motion } from "framer-motion";
 
 const Mint = () => {
@@ -40,6 +41,30 @@ const Mint = () => {
   const [uploadFileName, setUploadFileName] = useState();
 
   const [isLocationAllowed, setIsLocationAllowed] = useState(false); // 위치 정보 동의 상태를 저장
+  const [isPopupOpen, setPopupOpen] = useState(false);
+  const [isMenuOpen, setMenuOpen] = useState(false);
+
+  const openPopup = () => {
+    setPopupOpen(true);
+  };
+
+  const closePopup = () => {
+    setPopupOpen(false);
+    // setQrvalue(DEFAULT_QR_CODE); // QR 코드를 숨김
+  };
+
+  const toggleMenu = () => {
+    setMenuOpen(!isMenuOpen);
+  };
+
+  // 메뉴 탭이 열렸을 때 스크롤 막기
+  useEffect(() => {
+    if (isMenuOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+  }, [isMenuOpen]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -534,22 +559,22 @@ const Mint = () => {
     animateBackground();
   });
 
-  // // 민트 모달
-  // const modalRef = useRef(null);
-  // useEffect(() => {
-  //   if (downloadURL) {
-  //     setShowVideo(true);
-  //   }
-  // }, [downloadURL]);
+  // 민트 모달
+  const modalRef = useRef(null);
+  useEffect(() => {
+    if (downloadURL) {
+      setShowVideo(true);
+    }
+  }, [downloadURL]);
 
-  // const [showVideo, setShowVideo] = useState(false);
-  // const handleVideoLoaded = () => {
-  //   modalRef.current.classList.add("show");
-  // };
+  const [showVideo, setShowVideo] = useState(false);
+  const handleVideoLoaded = () => {
+    modalRef.current.classList.add("show");
+  };
 
-  // const handleVideoEnded = () => {
-  //   modalRef.current.classList.remove("show");
-  // };
+  const handleVideoEnded = () => {
+    modalRef.current.classList.remove("show");
+  };
 
   return (
     <motion.div
@@ -560,21 +585,81 @@ const Mint = () => {
       transition={{ duration: 2, ease: "easeIn" }}
     >
       <div className="w-full flex flex-col">
-        <header className="flex justify-between items-center px-10 font-julius text-2xl tracking-wider text-[#686667]">
+        <header className="flex justify-between items-center px-3 md:px-10 font-julius md:text-2xl tracking-wider text-[#686667]">
           <Link to="/">
-            <div className="mt-6">
+            <div className="mt-3">
               <img
                 src={`${process.env.PUBLIC_URL}/image/Logo.png`}
-                className="w-28"
+                className="w-14 md:w-28"
               />
             </div>
           </Link>
-          <div className="flex">
+          <div className="md:hidden absolute z-10 top-0 right-0 w-full ">
+            {isMenuOpen ? (
+              <>
+                <div
+                  className="fixed inset-0 opacity-30 bg-black "
+                  onClick={() => {
+                    setMenuOpen(false);
+                  }}
+                ></div>
+                <div
+                  className={`bg-gray-100 overflow-hidden absolute z-10 top-0 right-0  w-2/5   min-h-screen `}
+                >
+                  <div className="mt-5 flex justify-center mb-12">
+                    <img
+                      src={`${process.env.PUBLIC_URL}/image/Logo.png`}
+                      className="w-12 "
+                    />
+                  </div>
+                  <div className="flex flex-col gap-2 items-start ml-4 w-full ">
+                    <div className="text-lg ">
+                      {account ? (
+                        <div>
+                          <button className="" onClick={onClickLogOut}>
+                            LOGOUT
+                          </button>
+                        </div>
+                      ) : (
+                        <button
+                          className=" btn-style"
+                          onClick={connectWithMetamask}
+                        >
+                          LOGIN
+                        </button>
+                      )}
+                    </div>
+                    <Link to="/mint" className="text-lg">
+                      <div>MINT</div>
+                    </Link>
+                    <Link to="/partsshop" className="text-lg">
+                      <div>PARTS SHOP</div>
+                    </Link>
+                    <Link to="/myPage" className="text-lg">
+                      MY PAGE
+                    </Link>
+                  </div>
+                </div>
+              </>
+            ) : (
+              <div className="flex  justify-end ">
+                <button
+                  className="mt-3 mr-3 "
+                  onClick={() => {
+                    setMenuOpen(true);
+                  }}
+                >
+                  <RxHamburgerMenu size={25} />
+                </button>
+              </div>
+            )}
+          </div>
+          <div className="hidden md:flex ">
             <Link to="/mint">
-              <div className="font-bold">Mint</div>
+              <div>Mint</div>
             </Link>
             <Link to="/partsshop">
-              <div className="mx-10">Sticker</div>
+              <div className="mx-10">Parts Shop</div>
             </Link>
             <Link
               to={account ? "/mypage" : ""}
@@ -584,39 +669,45 @@ const Mint = () => {
                 <div className="mr-10 ">MyPage</div>
               ) : (
                 <div>LogIn</div>
-              )}{" "}
+              )}
             </Link>
             {account && (
-              <button onClick={onClickLogOut}>
-                <FiPower className="drop-shaow-lg" size={33} />
+              <button className="" onClick={onClickLogOut}>
+                <FiPower className="" size={33} />
               </button>
             )}
           </div>
         </header>
         <div className="flex flex-col justify-center items-center">
-          <div className="mt-12">
-            <div className="block text-[#686667] font-julius text-2xl font-bold">
+          <div className="mt-6 md:mt-12">
+            <div className="block text-[#686667] font-julius text-xl md:text-2xl font-bold">
               "Samples."
             </div>
-            <div className="my-10 flex">
+            <div className="my-4 md:my-10 flex">
               <img
                 src={`${process.env.PUBLIC_URL}/image/1.png`}
-                className="w-96"
+                className="w-24 md:w-96"
               />
               <img
                 src={`${process.env.PUBLIC_URL}/image/2.png`}
-                className="w-96 mx-10"
+                className="w-24 md:w-96 mx-5 md:mx-10"
               />
               <img
                 src={`${process.env.PUBLIC_URL}/image/3.png`}
-                className="w-96"
+                className="w-24 md:w-96"
               />
             </div>
           </div>
-          <div className="text-2xl tracking-widest text-[#686667]">
+          <div className="hidden md:flex mb-10 md:mb-0 md:text-2xl tracking-widest text-[#686667]">
             "Capture your Memories forever on the Blockchains."
           </div>
-          <div className="w-full flex mt-40 mb-10 justify-center items-center">
+          <div className="flex md:hidden  md:mb-0 md:text-2xl tracking-widest text-[#686667]">
+            Capture your Memories forever
+          </div>
+          <div className="flex md:hidden mb-10 md:mb-0 md:text-2xl tracking-widest text-[#686667]">
+            on the Blockchains.
+          </div>
+          <div className="w-full flex flex-col md:flex-row  md:mt-40 mb-10 justify-center items-center">
             <div>
               {!isLocationAllowed && (
                 <button
@@ -627,10 +718,13 @@ const Mint = () => {
                 </button>
               )}
               {isLocationAllowed && (
-                <div ref={mapElement} className="w-[400px] h-80 shadow-2xl" />
+                <div
+                  ref={mapElement}
+                  className="w-[240px]  md:w-[400px] h-60 md:h-80 shadow-2xl"
+                />
               )}
             </div>
-            <div className="w-1/3 flex flex-col ml-20 items-center h-80">
+            <div className="w-3/5 md:w-1/3 flex flex-col mt-5 md:mt-0 md:ml-20  items-center h-60 md:h-80">
               <label className="w-full border border-[#8b8b8b] h-1/4 flex items-center justify-center shadow-lg">
                 <input
                   type="file"
@@ -660,16 +754,16 @@ const Mint = () => {
               </form>
             </div>
           </div>
-          <div className="text-[#686667] text-xl mb-20">
+          <div className="text-[#686667] text-lg md:text-xl mb-10 md:mb-20">
             "My location is with memories."
           </div>
           {downloadURL && (
             <motion.div
-              className={`fixed top-0 left-0 right-0 bottom-0 backdrop-filter backdrop-blur-md flex flex-col justify-center items-center z-20 `}
+              className={`fixed top-0 left-0 right-0 bottom-0 backdrop-filter backdrop-blur-sm flex flex-col justify-center items-center  z-20`}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              transition={{ duration: 1.5, ease: "easeIn" }}
+              transition={{ duration: 2, ease: "easeIn" }}
             >
               <img
                 src={`${process.env.PUBLIC_URL}/image/mint/memorachainGIF.gif`}
@@ -677,46 +771,49 @@ const Mint = () => {
             </motion.div>
           )}
           {!selectedFile ? (
-            <div className="h-[900px] w-[1000px] flex flex-col justify-center items-center border border-[#8b8b8b] text-2xl">
+            <div className="h-[300px] w-[330px] md:h-[900px] md:w-[1000px] flex flex-col justify-center items-center border border-[#8b8b8b] p-10 md:p-0 text-md  md:text-2xl">
               <div>Image Upload First,</div>
-              <div>And you can watch NFT Samples by your image</div>
+              <div className="hidden md:flex">
+                And you can watch NFT Samples by your image
+              </div>
+              <div className="flex md:hidden">And you can watch NFT </div>
+              <div className="flex md:hidden">Samples by your image</div>
             </div>
           ) : (
-            <FileUpload
-              file={selectedFileURL}
-              setUrl={setCanvasImgurl}
-              lat={lat}
-              lon={lon}
-              country={country}
-              city={city}
-              address={formatted_address}
-              account={account}
-              message={message}
-              countryCode={countryCode}
-              temperature={temperature}
-              weather={weather}
-              time={time}
-              setCanvasIndex={setCanvasIndex}
-            />
+            <div>
+              <FileUpload
+                file={selectedFileURL}
+                setUrl={setCanvasImgurl}
+                lat={lat}
+                lon={lon}
+                country={country}
+                city={city}
+                address={formatted_address}
+                account={account}
+                message={message}
+                countryCode={countryCode}
+                temperature={temperature}
+                weather={weather}
+                time={time}
+                setCanvasIndex={setCanvasIndex}
+              />
+            </div>
           )}
         </div>
-        <div className="mt-10 text-[#686667] text-xl flex flex-col justify-center items-center">
+        <div className="mt-5 md:mt-10 text-[#686667] text-lg md:text-xl flex flex-col justify-center items-center">
           "MINT, Your own memory"
         </div>
         <div className="flex justify-center items-center">
           {downloadURL ? (
             <Link to="/mypage">
-              <button
-                onClick={upLoadImage}
-                className="w-56 border border-[#8b8b8b] shadow-lg py-3 mt-10 mb-56 text-4xl text-[#686667]"
-              >
+              <button className="w-44 md:w-56 border border-[#8b8b8b] shadow-lg py-3 mt-5 md:mt-10 mb-36  md:mb-56 text-xl md:text-4xl text-[#686667]">
                 Move to Gallery
               </button>
             </Link>
           ) : (
             <button
               onClick={upLoadImage}
-              className="w-56 border border-[#8b8b8b] shadow-lg py-3 mt-10 mb-56 text-4xl text-[#686667]"
+              className="w-44 md:w-56 border border-[#8b8b8b] shadow-lg py-3 mt-5 md:mt-10 mb-36 md:mb-56 text-xl md:text-4xl text-[#686667]"
             >
               MINT
             </button>

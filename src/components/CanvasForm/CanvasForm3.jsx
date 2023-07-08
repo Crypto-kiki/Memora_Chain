@@ -89,7 +89,11 @@ function CanvasForm3({
         ctx.fillText("MEMO", x, y + height * 0.5 + 20);
         ctx.font = "13px EL";
         ctx.fillStyle = "black";
-        ctx.fillText(`${time[0]} ${time[1]} ${time[2]}  ${weather}`, x, y + height * 0.5 + 35);
+        ctx.fillText(
+          `${time[0]} ${time[1]} ${time[2]}  ${weather}`,
+          x,
+          y + height * 0.5 + 35
+        );
         ctx.font = "lighter 14px EL";
         ctx.fillStyle = "black";
         const maxWidth = 260; // 최대 너비
@@ -114,9 +118,9 @@ function CanvasForm3({
         }
         ctx.fillText(line, x2, y2);
 
-        ctx.font = "14px EL";
-        ctx.fillStyle = "white";
-        ctx.fillText("made by memorachain", cw - 160, ch - 30);
+        // ctx.font = "14px EL";
+        // ctx.fillStyle = "white";
+        // ctx.fillText("made by memorachain", cw - 160, ch - 30);
         ctx.font = "24px SB";
         ctx.fillStyle = "#999999";
         ctx.fillText(
@@ -198,7 +202,11 @@ function CanvasForm3({
             ctx.fillText("MEMO", x, y2 + 30);
             ctx.font = "13px EL";
             ctx.fillStyle = "black";
-            ctx.fillText(`${time[0]} ${time[1]} ${time[2]}  ${weather}`, x, y2 + 45);
+            ctx.fillText(
+              `${time[0]} ${time[1]} ${time[2]}  ${weather}`,
+              x,
+              y2 + 45
+            );
             ctx.font = "lighter 14px EL";
             ctx.fillStyle = "black";
             const maxWidth = 200; // 최대 너비
@@ -268,7 +276,11 @@ function CanvasForm3({
             ctx.fillText("MEMO", x, y2 + 80);
             ctx.font = "13px EL";
             ctx.fillStyle = "black";
-            ctx.fillText(`${time[0]} ${time[1]} ${time[2]} ${weather}`, x, y2 + 95);
+            ctx.fillText(
+              `${time[0]} ${time[1]} ${time[2]} ${weather}`,
+              x,
+              y2 + 95
+            );
             ctx.font = "bold 14px EL";
             ctx.fillStyle = "black";
             const maxWidth = 200; // 최대 너비
@@ -345,7 +357,11 @@ function CanvasForm3({
           ctx.fillText("MEMO", x, y2 + 30);
           ctx.font = "13px EL";
           ctx.fillStyle = "white";
-          ctx.fillText(`${time[0]} ${time[1]} ${time[2]}  ${weather}`, x, y2 + 45);
+          ctx.fillText(
+            `${time[0]} ${time[1]} ${time[2]}  ${weather}`,
+            x,
+            y2 + 45
+          );
 
           ctx.font = " 14px EL";
           ctx.fillStyle = "white";
