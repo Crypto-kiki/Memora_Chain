@@ -63,13 +63,12 @@ function ItemCanvas({ size, img, setEnd, setItemOnImage, ItemIndex }) {
   }, [size, img]);
 
   return (
-    <div className="">
-      {size == 1 ? (
-        <canvas ref={canvasRef} width={900} height={550} />
-      ) : (
-        <canvas ref={canvasRef} width={550} height={900} />
-      )}
-    </div>
+    <canvas
+      ref={canvasRef}
+      width={size === 1 ? 900 : 550}
+      height={size === 1 ? 550 : 900}
+      className="max-w-[90%] max-h-[90%] w-auto h-auto"
+    />
   );
 }
 

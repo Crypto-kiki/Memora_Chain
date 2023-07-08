@@ -81,58 +81,58 @@
   background-size: cover;
 }
 
-@media (min-width: 768px){
-.mainSecondDiv {
-  background-image: url(../public/image/mainSecondDiv2.png);
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
-}
+@media (min-width: 768px) {
+  .mainSecondDiv {
+    background-image: url(../public/image/mainSecondDiv2.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
 }
 @media (max-width: 767px) {
-.mainmobileSecondDiv{  
-  background-image: url(../public/image/mainmobile/mainbackground1.png);
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
-}
+  .mainmobileSecondDiv {
+    background-image: url(../public/image/mainmobile/mainbackground1.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
 }
 
-@media (min-width: 768px){
-.mainThirdDiv {
-  background-image: url(../public/image/mainThirdDiv.png);
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
-}
+@media (min-width: 768px) {
+  .mainThirdDiv {
+    background-image: url(../public/image/mainThirdDiv.png);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
 }
 
 @media (max-width: 767px) {
-.mainmobileThirdDiv{  
-  background-image: url(../public/image/mainmobile/mainbackground2.png);
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
-}
+  .mainmobileThirdDiv {
+    background-image: url(../public/image/mainmobile/mainbackground2.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
 }
 
-@media (min-width: 768px){
+@media (min-width: 768px) {
   .mainFourthDiv {
     background-image: url(../public/image/mainFourthDiv.png);
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
   }
-  }
-  
-  @media (max-width: 767px) {
-  .mainmobileFourthDiv{  
+}
+
+@media (max-width: 767px) {
+  .mainmobileFourthDiv {
     background-image: url(../public/image/mainmobile/background3.png);
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
   }
-  }
+}
 
 /* Modal Effect */
 @keyframes fadeIn {
@@ -177,14 +177,14 @@
   background-size: cover;
 }
 
-@media (min-width: 768px){
-.mintBackground {
-  background-image: url(../public/image/mint/background.png);
-  background-position: 0 0;
-  background-repeat: repeat-x;
-  background-size: auto 100%;
-  animation: moveBackground 20s linear infinite;
-}
+@media (min-width: 768px) {
+  .mintBackground {
+    background-image: url(../public/image/mint/background.png);
+    background-position: 0 0;
+    background-repeat: repeat-x;
+    background-size: auto 100%;
+    animation: moveBackground 20s linear infinite;
+  }
 }
 
 @media (max-width: 767px) {
@@ -215,22 +215,22 @@
   opacity: 1;
 }
 
-@media (min-width: 768px){
-.partsBackground {
-  background-image: url(../public/image/parts/background.png);
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-}
+@media (min-width: 768px) {
+  .partsBackground {
+    background-image: url(../public/image/parts/background.png);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
 }
 
 @media (max-width: 767px) {
-.partsmobileBackground {
-  background-image: url(../public/image/parts/partsbackground.png);
-  background-position: 0 0 ;
-  background-repeat: no-repeat;
-  background-size: contain 100vh;
-}
+  .partsmobileBackground {
+    background-image: url(../public/image/parts/partsbackground.png);
+    background-position: 0 0;
+    background-repeat: no-repeat;
+    background-size: contain 100vh;
+  }
 }
 
 /* 스크롤 바 커스텀 */
@@ -267,4 +267,25 @@ body::-webkit-scrollbar-track {
 
 .scrollBar::-webkit-scrollbar-track {
   background: rgba(33, 122, 244, 0.1); /*스크롤바 뒷 배경 색상*/
+}
+
+.itemBackground {
+  background-image: url(../public/image/parts/itemBackground2.png);
+  background-repeat: no-repeat;
+  background-size: 1160px 584px;
+  background-position: center;
+}
+
+.itemModalBackgroundLengthy {
+  background-image: url(../public/image/parts/nftLengthy.png);
+  background-repeat: repeat;
+  background-size: cover;
+  background-position: center;
+}
+
+.itemModalBackgroundWide {
+  background-image: url(../public/image/parts/nftWide.png);
+  background-repeat: repeat;
+  background-size: cover;
+  background-position: center;
 }

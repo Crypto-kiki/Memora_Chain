@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { AccountContext } from "../AccountContext";
-import { useCallback, useState, useEffect, useRef, useContext } from "react";
+import { useState, useEffect, useRef, useContext } from "react";
 import axios from "axios";
 import CryptoJS from "crypto-js";
 import { storage } from "../firebase";
@@ -10,12 +10,14 @@ import {
   getDownloadURL,
   updateMetadata,
 } from "firebase/storage";
-import FileUpload from "../components/FileUpload";
 import { v4 } from "uuid";
 import { v4 as uuidv4 } from "uuid";
 import Web3 from "web3";
 import { CONTRACT_ABI, CONTRACT_ADDRESS } from "../web3.config";
 import ItemCanvas from "../components/ItemCanvas/ItemCanvas";
+import { VscChromeClose } from "react-icons/vsc";
+import { FiPower } from "react-icons/fi";
+import { motion } from "framer-motion";
 
 const Parts = () => {
   // const { account, setAccount } = useContext(AccountContext); // Context에서 account 값과 setAccount 함수 가져오기
@@ -38,6 +40,7 @@ const Parts = () => {
   const [selectedImageInfo, setSelectedImageInfo] = useState([]);
   const [selectedNFTImage, setSelectedNFTImage] = useState();
   const [selectedTokenId, setSelectedTokenId] = useState();
+  const [selectedImageCanvas, setSelectedImageCanvas] = useState();
 
   const ItemImage = [
     {
@@ -215,6 +218,8 @@ const Parts = () => {
       const metadataResponse = await fetch(response);
       const metadata = await metadataResponse.json();
       setSelectedImageInfo(metadata.attributes);
+      setSelectedImageCanvas(metadata.attributes[10].value);
+      console.log(metadata.attributes);
     } catch (error) {
       console.error(error);
     }
@@ -235,6 +240,7 @@ const Parts = () => {
       const metadataResponse = await fetch(response);
       const metadata = await metadataResponse.json();
       setSelectedImageInfo(metadata.attributes);
+      setSelectedImageCanvas(metadata.attributes[10].value);
     } catch (error) {
       console.error(error);
     }
@@ -465,33 +471,14 @@ const Parts = () => {
     }
   }, [metadataURI]);
 
-  // const onClickSetItemPrice = async () => {
-  //   try {
-  //     const mintPrice = await contract.methods.Price(ItemIndex).call();
-  //     const mintNft = await contract.methods
-  //       .setItemPrice(ItemIndex, mintPrice)
-  //       .send({ from: account });
-  //     console.log(mintNft);
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // };
-
-  // const onClickCheckPrice = async () => {
-  //   try {
-  //     const price = await contract.methods.Price().call();
-  //     console.log(price);
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // };
-
   const initialize = () => {
     setSelectedNFTImage("");
     setIpfsHash("");
     setEncryptedIpfs("");
     setDownloadURL(null);
     setMetadataURI("");
+    setSize("");
+    setItemOnImage("");
   };
 
   useEffect(() => {
@@ -537,10 +524,16 @@ const Parts = () => {
   }, [end]);
 
   return (
-    <div className="flex justify-between min-h-screen partsmobileBackground partsBackground">
+    <motion.div
+      className="flex justify-between min-h-screen partsmobileBackground partsBackground"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 2, ease: "easeIn" }}
+    >
       {/* <div className="film-left w-24" /> */}
       <div className="w-full flex flex-col">
-        <header className="flex justify-between items-center px-10 font-julius text-2xl tracking-wider text-[#686667]">
+        <header className="flex justify-between items-center px-10 font-julius text-2xl tracking-wider text-white">
           <Link to="/">
             <div className="mt-6">
               <img
@@ -554,48 +547,58 @@ const Parts = () => {
               <div>Mint</div>
             </Link>
             <Link to="/partsshop">
-              <div className="mx-10 font-bold">Parts Shop</div>
+              <div className="mx-10 font-bold">Sticker</div>
             </Link>
             <Link
               to={account ? "/mypage" : ""}
               onClick={!account ? connectWithMetamask : null}
             >
-              {account ? <div>MyPage</div> : <div>Login</div>}
+              {account ? (
+                <div className="mr-10 ">MyPage</div>
+              ) : (
+                <div>LogIn</div>
+              )}{" "}
             </Link>
+            {account && (
+              <button onClick={onClickLogOut}>
+                <FiPower size={33} />
+              </button>
+            )}
           </div>
         </header>
-        <div className="flex flex-col p-20 justify-center items-start">
-          <div className="mb-20 text-6xl tracking-widest">Items</div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-20">
+        <div className="flex justify-center items-center">
+          <div className="text-white border border-white w-40 md:w-80 text-center text-xl md:text-5xl mt-5 md:mt-0 py-2 md:py-6 px-4 md:px-10 tracking-widest">
+            Sticker
+          </div>
+        </div>
+        <div className="w-full p-20">
+          <div className="w-full grid grid-cols-2 gap-20">
             {ItemImage.map((item, index) => (
               <div
                 key={index}
-                className="flex flex-col md:grid md:grid-cols-2  border border-white p-4 rounded-md"
+                className="grid grid-cols-2 w-full h-80 itemBackground text-[#668585]"
               >
-                <img
-                  src={item.url}
-                  alt={`NFT ${index}`}
-                  className="md:w-64 md:h-64 border-2 mr-2"
-                />
-                <div className="ml-6">
-                  <div className="text-3xl font-bold mb-6">{item.name}</div>
-                  <div className="text-lg font-bold mb-6">
-                    아이템 부착 위치
-                    <div className="text-base font-normal">{item.position}</div>
+                <div className="flex justify-center items-center ">
+                  <img
+                    src={item.url}
+                    alt={`NFT ${index}`}
+                    className="w-52 h-52"
+                  />
+                </div>
+                <div className="flex flex-col justify-center items-center">
+                  <div className="text-5xl font-bold my-12 tracking-wide">
+                    {item.name}
                   </div>
-                  <div className="text-lg font-bold mb-6">
-                    가격
-                    <div className="text-base font-normal">
-                      {item.price} Eth
-                    </div>
+                  <div className="text-base font-normal mt-4">
+                    PRICE {item.price} ETH
                   </div>
-                  <div className="flex justify-end">
+                  <div className="flex justify-end mt-5">
                     <button
-                      className="border border-b-zinc-300 px-6 py-2 rounded-md"
+                      className="text-3xl border border-[#F3EED4] text-[#F3EED4] px-12 py-1"
                       ref={modalRef}
                       onClick={() => openItemModal(index)}
                     >
-                      구매하기
+                      BUY
                     </button>
                   </div>
                 </div>
@@ -605,9 +608,18 @@ const Parts = () => {
         </div>
         {modalIsOpen && (
           <div className="fixed top-0 left-0 right-0 bottom-0 backdrop-filter backdrop-blur-sm flex flex-col justify-center modal px-10 ">
-            <div className="font-bold text-2xl mb-6">My NFTs</div>
-            <div className="modal-content border border-white w-full h-4/5 flex justify-between text-2xl font-bold p-4 relative">
-              <div className="w-1/2 h-full overflow-y-scroll scrollBar mr-4">
+            <div className="pl-4 flex flex-col">
+              <div className="font-bold text-4xl text-white mb-6">Select</div>
+              <ul className="font-bold text-[#F3EED4] text-sm">
+                <li>스티커를 미부착한 NFT만 사용 가능합니다.</li>
+                <li>
+                  스티커를 제거 후 다시 부착할 수 있습니다. 스티커는 제거하면
+                  소각됩니다.
+                </li>
+              </ul>
+            </div>
+            <div className="border border-[#F3EED4] rounded-md w-full h-4/5 mt-6 flex justify-between text-2xl font-bold p-4 relative">
+              <div className="w-7/12 h-full overflow-y-scroll scrollBar">
                 <div className="grid grid-cols-3 gap-4">
                   {lengthyImages.map((imageUrl, index) => (
                     <img
@@ -635,50 +647,59 @@ const Parts = () => {
                   ))}
                 </div>
               </div>
-              <div className="bg-pink-200 w-1/2 relative flex flex-col justify-center items-center">
+              <div className="w-5/12 relative flex flex-col justify-center items-center">
                 {size == 1 ? (
                   // 가로
-                  <div className="w-full flex justify-center items-start overflow-hidden">
-                    <ItemCanvas
-                      img={selectedNFTImage}
-                      ItemIndex={ItemIndex}
-                      size={size}
-                      setEnd={setEnd}
-                      setItemOnImage={setItemOnImage}
-                    />
-                  </div>
+                  <>
+                    <div className="h-full w-full flex flex-col justify-between items-center">
+                      <div className="h-[80%] flex justify-center items-center mt-[5%] itemModalBackgroundWide">
+                        <ItemCanvas
+                          img={selectedNFTImage}
+                          ItemIndex={ItemIndex}
+                          size={size}
+                          setEnd={setEnd}
+                          setItemOnImage={setItemOnImage}
+                        />
+                      </div>
+                      <button
+                        onClick={upLoadImage}
+                        className="w-56 border border-[#F3EED4] shadow-lg py-2 text-4xl text-[#F3EED4] mb-[20%]"
+                      >
+                        BUY
+                      </button>
+                    </div>
+                  </>
                 ) : (
                   // 세로
-                  <div className="w-full flex justify-center items-start">
-                    <ItemCanvas
-                      img={selectedNFTImage}
-                      ItemIndex={ItemIndex}
-                      size={size}
-                      setEnd={setEnd}
-                      setItemOnImage={setItemOnImage}
-                    />
-                  </div>
+                  <>
+                    <div className="h-full w-full flex flex-col justify-between items-center">
+                      <div className="h-[80%] flex justify-center items-center mt-[5%] itemModalBackgroundLengthy">
+                        <ItemCanvas
+                          img={selectedNFTImage}
+                          ItemIndex={ItemIndex}
+                          size={size}
+                          setEnd={setEnd}
+                          setItemOnImage={setItemOnImage}
+                        />
+                      </div>
+                      <button
+                        onClick={upLoadImage}
+                        className="w-56 border border-[#F3EED4] shadow-lg py-2 text-4xl text-[#F3EED4] mb-[20%]"
+                      >
+                        BUY
+                      </button>
+                    </div>
+                  </>
                 )}
-                <button
-                  onClick={upLoadImage}
-                  className="w-56 border border-[#8b8b8b] shadow-lg py-3 text-4xl text-[#686667]"
-                >
-                  MINT
+                <button onClick={closeItemModal}>
+                  <VscChromeClose className=" text-[#f3f2dc] text-xl md:text-3xl font-extrabold absolute right-0 top-0 border rounded-full border-[#f3f2dc]" />
                 </button>
-                <button
-                  className="bg-yellow-200 absolute -top-10 -right-10"
-                  onClick={closeItemModal}
-                >
-                  &times;
-                </button>
-                {/* <button onClick={onClickSetItemPrice}>가격 설정</button>
-                <button onClick={onClickCheckPrice}>가격확인</button> */}
               </div>
             </div>
           </div>
         )}
       </div>
-    </div>
+    </motion.div>
   );
 };
 

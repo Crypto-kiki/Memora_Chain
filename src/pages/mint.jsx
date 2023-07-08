@@ -16,6 +16,7 @@ import { v4 as uuidv4 } from "uuid";
 import Web3 from "web3";
 import { CONTRACT_ABI, CONTRACT_ADDRESS } from "../web3.config";
 import { FiPower } from "react-icons/fi";
+import { motion } from "framer-motion";
 
 const Mint = () => {
   const { account, setAccount } = useContext(AccountContext);
@@ -533,25 +534,31 @@ const Mint = () => {
     animateBackground();
   });
 
-  // 민트 모달
-  const modalRef = useRef(null);
-  useEffect(() => {
-    if (downloadURL) {
-      setShowVideo(true);
-    }
-  }, [downloadURL]);
+  // // 민트 모달
+  // const modalRef = useRef(null);
+  // useEffect(() => {
+  //   if (downloadURL) {
+  //     setShowVideo(true);
+  //   }
+  // }, [downloadURL]);
 
-  const [showVideo, setShowVideo] = useState(false);
-  const handleVideoLoaded = () => {
-    modalRef.current.classList.add("show");
-  };
+  // const [showVideo, setShowVideo] = useState(false);
+  // const handleVideoLoaded = () => {
+  //   modalRef.current.classList.add("show");
+  // };
 
-  const handleVideoEnded = () => {
-    modalRef.current.classList.remove("show");
-  };
+  // const handleVideoEnded = () => {
+  //   modalRef.current.classList.remove("show");
+  // };
 
   return (
-    <div className="flex justify-between min-h-screen mintmobileBackground mintBackground">
+    <motion.div
+      className="flex justify-between min-h-screen mintmobileBackground mintBackground"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 2, ease: "easeIn" }}
+    >
       <div className="w-full flex flex-col">
         <header className="flex justify-between items-center px-10 font-julius text-2xl tracking-wider text-[#686667]">
           <Link to="/">
@@ -567,13 +574,17 @@ const Mint = () => {
               <div className="font-bold">Mint</div>
             </Link>
             <Link to="/partsshop">
-              <div className="mx-10">Parts Shop</div>
+              <div className="mx-10">Sticker</div>
             </Link>
             <Link
               to={account ? "/mypage" : ""}
               onClick={!account ? connectWithMetamask : null}
             >
-              {account ? <div>MyPage</div> : <div>Login</div>}
+              {account ? (
+                <div className="mr-10 ">MyPage</div>
+              ) : (
+                <div>LogIn</div>
+              )}{" "}
             </Link>
             {account && (
               <button onClick={onClickLogOut}>
@@ -653,26 +664,17 @@ const Mint = () => {
             "My location is with memories."
           </div>
           {downloadURL && (
-            <div
-              className={`fixed top-0 left-0 right-0 bottom-0 backdrop-filter backdrop-blur-sm flex flex-col justify-center items-center video z-20 ${
-                showVideo ? "show" : ""
-              }`}
-              ref={modalRef}
+            <motion.div
+              className={`fixed top-0 left-0 right-0 bottom-0 backdrop-filter backdrop-blur-md flex flex-col justify-center items-center z-20 `}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 1.5, ease: "easeIn" }}
             >
               <img
                 src={`${process.env.PUBLIC_URL}/image/mint/memorachainGIF.gif`}
               />
-              {/* <video
-                src={`${process.env.PUBLIC_URL}/image/mint/loading.mp4`}
-                autoPlay
-                muted
-                loop
-                className="modal"
-                style={{ width: "100%", height: "100%", objectFit: "cover" }}
-                // onLoadedData={handleVideoLoaded}
-                // onEnded={handleVideoEnded}
-              /> */}
-            </div>
+            </motion.div>
           )}
           {!selectedFile ? (
             <div className="h-[900px] w-[1000px] flex flex-col justify-center items-center border border-[#8b8b8b] text-2xl">
@@ -721,7 +723,7 @@ const Mint = () => {
           )}
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 
