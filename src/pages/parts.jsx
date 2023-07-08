@@ -15,6 +15,11 @@ import { v4 as uuidv4 } from "uuid";
 import Web3 from "web3";
 import { CONTRACT_ABI, CONTRACT_ADDRESS } from "../web3.config";
 import ItemCanvas from "../components/ItemCanvas/ItemCanvas";
+import ItemCanvas2 from "../components/ItemCanvas/ItemCanvas2";
+import ItemCanvas3 from "../components/ItemCanvas/ItemCanvas3";
+import ItemCanvas4 from "../components/ItemCanvas/ItemCanvas4";
+import ItemCanvas5 from "../components/ItemCanvas/ItemCanvas5";
+import ItemCanvas6 from "../components/ItemCanvas/ItemCanvas6";
 import { VscChromeClose } from "react-icons/vsc";
 import { FiPower } from "react-icons/fi";
 import { motion } from "framer-motion";
@@ -653,13 +658,60 @@ const Parts = () => {
                   <>
                     <div className="h-full w-full flex flex-col justify-between items-center">
                       <div className="h-[80%] flex justify-center items-center mt-[5%] itemModalBackgroundWide">
-                        <ItemCanvas
-                          img={selectedNFTImage}
-                          ItemIndex={ItemIndex}
-                          size={size}
-                          setEnd={setEnd}
-                          setItemOnImage={setItemOnImage}
-                        />
+                        {selectedImageCanvas === 0 && (
+                          <ItemCanvas
+                            img={selectedNFTImage}
+                            ItemIndex={ItemIndex}
+                            size={size}
+                            setEnd={setEnd}
+                            setItemOnImage={setItemOnImage}
+                          />
+                        )}
+                        {selectedImageCanvas === 1 && (
+                          <ItemCanvas2
+                            img={selectedNFTImage}
+                            ItemIndex={ItemIndex}
+                            size={size}
+                            setEnd={setEnd}
+                            setItemOnImage={setItemOnImage}
+                          />
+                        )}
+                        {selectedImageCanvas === 2 && (
+                          <ItemCanvas3
+                            img={selectedNFTImage}
+                            ItemIndex={ItemIndex}
+                            size={size}
+                            setEnd={setEnd}
+                            setItemOnImage={setItemOnImage}
+                          />
+                        )}
+                        {selectedImageCanvas === 3 && (
+                          <ItemCanvas4
+                            img={selectedNFTImage}
+                            ItemIndex={ItemIndex}
+                            size={size}
+                            setEnd={setEnd}
+                            setItemOnImage={setItemOnImage}
+                          />
+                        )}
+                        {selectedImageCanvas === 4 && (
+                          <ItemCanvas5
+                            img={selectedNFTImage}
+                            ItemIndex={ItemIndex}
+                            size={size}
+                            setEnd={setEnd}
+                            setItemOnImage={setItemOnImage}
+                          />
+                        )}
+                        {selectedImageCanvas === 5 && (
+                          <ItemCanvas6
+                            img={selectedNFTImage}
+                            ItemIndex={ItemIndex}
+                            size={size}
+                            setEnd={setEnd}
+                            setItemOnImage={setItemOnImage}
+                          />
+                        )}
                       </div>
                       <button
                         onClick={upLoadImage}
@@ -674,13 +726,60 @@ const Parts = () => {
                   <>
                     <div className="h-full w-full flex flex-col justify-between items-center">
                       <div className="h-[80%] flex justify-center items-center mt-[5%] itemModalBackgroundLengthy">
-                        <ItemCanvas
-                          img={selectedNFTImage}
-                          ItemIndex={ItemIndex}
-                          size={size}
-                          setEnd={setEnd}
-                          setItemOnImage={setItemOnImage}
-                        />
+                        {selectedImageCanvas === 0 && (
+                          <ItemCanvas
+                            img={selectedNFTImage}
+                            ItemIndex={ItemIndex}
+                            size={size}
+                            setEnd={setEnd}
+                            setItemOnImage={setItemOnImage}
+                          />
+                        )}
+                        {selectedImageCanvas === 1 && (
+                          <ItemCanvas2
+                            img={selectedNFTImage}
+                            ItemIndex={ItemIndex}
+                            size={size}
+                            setEnd={setEnd}
+                            setItemOnImage={setItemOnImage}
+                          />
+                        )}
+                        {selectedImageCanvas === 2 && (
+                          <ItemCanvas3
+                            img={selectedNFTImage}
+                            ItemIndex={ItemIndex}
+                            size={size}
+                            setEnd={setEnd}
+                            setItemOnImage={setItemOnImage}
+                          />
+                        )}
+                        {selectedImageCanvas === 3 && (
+                          <ItemCanvas4
+                            img={selectedNFTImage}
+                            ItemIndex={ItemIndex}
+                            size={size}
+                            setEnd={setEnd}
+                            setItemOnImage={setItemOnImage}
+                          />
+                        )}
+                        {selectedImageCanvas === 4 && (
+                          <ItemCanvas5
+                            img={selectedNFTImage}
+                            ItemIndex={ItemIndex}
+                            size={size}
+                            setEnd={setEnd}
+                            setItemOnImage={setItemOnImage}
+                          />
+                        )}
+                        {selectedImageCanvas === 5 && (
+                          <ItemCanvas6
+                            img={selectedNFTImage}
+                            ItemIndex={ItemIndex}
+                            size={size}
+                            setEnd={setEnd}
+                            setItemOnImage={setItemOnImage}
+                          />
+                        )}
                       </div>
                       <button
                         onClick={upLoadImage}
