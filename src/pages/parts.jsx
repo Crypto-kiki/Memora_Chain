@@ -537,7 +537,7 @@ const Parts = () => {
   }, [end]);
 
   return (
-    <div className="flex justify-between min-h-screen partsBackground ">
+    <div className="flex justify-between min-h-screen partsmobileBackground partsBackground">
       {/* <div className="film-left w-24" /> */}
       <div className="w-full flex flex-col">
         <header className="flex justify-between items-center px-10 font-julius text-2xl tracking-wider text-[#686667]">

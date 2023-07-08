@@ -6,6 +6,8 @@ import { useContext, useState, useEffect } from "react";
 import MyNfts from "../components/MyNfts";
 import axios from "axios";
 import { FiPower } from "react-icons/fi";
+import { RxHamburgerMenu } from "react-icons/rx";
+import { IoIosClose } from "react-icons/io";
 
 const MyPage = () => {
   const web3 = new Web3(window.ethereum);
@@ -16,6 +18,30 @@ const MyPage = () => {
   const [tokenIdsWithMetadataUris, setTokenIdsWithMetadataUris] = useState({});
   const [metadataUris, setMetadataURIs] = useState([]);
   const [burnTx, setBurnTx] = useState(null);
+  const [isPopupOpen, setPopupOpen] = useState(false);
+  const [isMenuOpen, setMenuOpen] = useState(false);
+
+  const openPopup = () => {
+    setPopupOpen(true);
+  };
+
+  const closePopup = () => {
+    setPopupOpen(false);
+    // setQrvalue(DEFAULT_QR_CODE); // QR 코드를 숨김
+  };
+
+  const toggleMenu = () => {
+    setMenuOpen(!isMenuOpen);
+  };
+
+   // 메뉴 탭이 열렸을 때 스크롤 막기
+   useEffect(() => {
+    if (isMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+  }, [isMenuOpen]);
 
   const handleBurnTx = (tx) => {
     setBurnTx(tx);
@@ -115,46 +141,112 @@ const MyPage = () => {
     <div className="flex justify-between min-h-screen myPageBackground w-full">
       {/* <div className="film-left w-24" /> */}
       <div className="w-full flex flex-col">
-        <header className="flex justify-between items-center px-10 font-julius text-2xl tracking-wider">
-          <Link to="/">
-            <div className="mt-6">
-              <img
-                src={`${process.env.PUBLIC_URL}/image/Logo.png`}
-                className="w-28"
-                alt="Logo"
-              />
-            </div>
-          </Link>
-          <div className="flex">
-            <Link to="/mint">
-              <div>Mint</div>
+      <header className="flex justify-between items-center px-3 md:px-10 font-julius md:text-2xl tracking-wider text-[#686667]">
+            <Link to="/">
+              <div className="mt-3">
+                <img
+                  src={`${process.env.PUBLIC_URL}/image/Logo6big.png`}
+                  className="w-14 md:w-28"
+                />
+              </div>
             </Link>
-            <Link to="/partsshop">
-              <div className="mx-10">Parts Shop</div>
-            </Link>
-            <Link
-              to={account ? "/mypage" : ""}
-              onClick={!account ? connectWithMetamask : null}
-            >
-              {account ? (
-                <div className="font-bold">MyPage</div>
+            <div className="md:hidden absolute z-10 top-0 right-0 w-full ">
+              {isMenuOpen ? (
+                <>
+                <div className='fixed inset-0 opacity-30 bg-black ' onClick={()=>{setMenuOpen(false)}}></div>
+                <div className={`bg-gray-100 overflow-hidden absolute z-10 top-0 right-0  w-2/5   min-h-screen `}>
+                  <div className="mt-5 flex justify-center mb-12">
+                    <img
+                      src={`${process.env.PUBLIC_URL}/image/Logo.png`}
+                      className="w-12 "
+                    />
+                 </div>
+                  {/* <div>
+                      <button
+                        className="p-1 absolute top-0 right-0 mt-1 hover:bg-gray-300"
+                        onClick={() => {
+                          setMenuOpen(false);
+                        }}
+                      >
+                        <IoIosClose size={25} />
+                      </button>
+                  </div> */}
+                  <div className="flex flex-col gap-2 items-start ml-4 w-full ">
+                    <div className="text-lg ">
+                      {account ? (
+                        <div>
+                          <button
+                            className=""
+                            onClick={onClickLogOut}
+                          >
+                            LOGOUT
+                          </button>
+                        </div>
+                      ) : (
+                        <button className=" btn-style" onClick={connectWithMetamask}>
+                          LOGIN
+                        </button>
+                      )}
+                    </div>
+                    <Link to="/mint" className="text-lg" >
+                      <div>
+                      MINT
+                      </div>
+                    </Link>
+                    <Link to="/partsshop" className="text-lg">
+                      <div >PARTS SHOP</div>
+                    </Link>
+                    <Link
+                      to="/myPage"
+                      className="text-lg"                      
+                    >
+                      MY PAGE
+                    </Link>
+                  </div>
+                </div></>
               ) : (
-                <div>Login</div>
+                <div className="flex  justify-end ">
+                  <button
+                    className="mt-3 mr-3 "
+                    onClick={() => {
+                      setMenuOpen(true);
+                    }}
+                  >
+                    <RxHamburgerMenu className='text-white' size={25} />
+                  </button>
+                </div>
               )}
-            </Link>
-            {account && (
-              <button onClick={onClickLogOut}>
-                <FiPower className="drop-shaow-lg" size={33} />
-              </button>
-            )}
-          </div>
-        </header>
+            </div>
+            <div className="hidden md:flex ">
+              <Link to="/mint">
+                <div>Mint</div>
+              </Link>
+              <Link to="/partsshop">
+                <div className="mx-10">Parts Shop</div>
+              </Link>
+              <Link
+                to={account ? "/mypage" : ""}
+                onClick={!account ? connectWithMetamask : null}
+              >
+                {account ? (
+                  <div className="mr-10 ">MyPage</div>
+                ) : (
+                  <div>LogIn</div>
+                )}
+              </Link>
+              {account && (
+                <button className="" onClick={onClickLogOut}>
+                  <FiPower className="" size={33} />
+                </button>
+              )}
+            </div>
+          </header>
         <div className="flex justify-center items-center">
-          <div className="border border-[#f3f2dc] w-80 text-center text-5xl py-6 px-10 tracking-widest">
+          <div className="border border-[#f3f2dc] w-40 md:w-80 text-center text-xl md:text-5xl mt-5 md:mt-0 py-2 md:py-6 px-4 md:px-10 tracking-widest">
             Gallery
           </div>
         </div>
-        <div className="mt-44">
+        <div className="mt-10 md:mt-44">
           <MyNfts
             metadataUris={metadataUris}
             tokenIds={tokenIds}

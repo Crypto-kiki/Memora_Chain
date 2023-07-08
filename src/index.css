@@ -81,19 +81,58 @@
   background-size: cover;
 }
 
+@media (min-width: 768px){
 .mainSecondDiv {
   background-image: url(../public/image/mainSecondDiv2.png);
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
 }
+}
+@media (max-width: 767px) {
+.mainmobileSecondDiv{  
+  background-image: url(../public/image/mainmobile/mainbackground1.png);
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+}
 
+@media (min-width: 768px){
 .mainThirdDiv {
   background-image: url(../public/image/mainThirdDiv.png);
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
 }
+}
+
+@media (max-width: 767px) {
+.mainmobileThirdDiv{  
+  background-image: url(../public/image/mainmobile/mainbackground2.png);
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+}
+
+@media (min-width: 768px){
+  .mainFourthDiv {
+    background-image: url(../public/image/mainFourthDiv.png);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+  }
+  
+  @media (max-width: 767px) {
+  .mainmobileFourthDiv{  
+    background-image: url(../public/image/mainmobile/background3.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+  }
 
 /* Modal Effect */
 @keyframes fadeIn {
@@ -138,12 +177,23 @@
   background-size: cover;
 }
 
+@media (min-width: 768px){
 .mintBackground {
   background-image: url(../public/image/mint/background.png);
   background-position: 0 0;
   background-repeat: repeat-x;
   background-size: auto 100%;
   animation: moveBackground 20s linear infinite;
+}
+}
+
+@media (max-width: 767px) {
+  .mintmobileBackground {
+    background-image: url(../public/image/mint/backgroundmobile.png);
+    background-position: 0 0;
+    background-repeat: no-repeat;
+    background-size: contain;
+  }
 }
 
 @keyframes moveBackground {
@@ -165,11 +215,22 @@
   opacity: 1;
 }
 
+@media (min-width: 768px){
 .partsBackground {
   background-image: url(../public/image/parts/background.png);
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
+}
+}
+
+@media (max-width: 767px) {
+.partsmobileBackground {
+  background-image: url(../public/image/parts/partsbackground.png);
+  background-position: 0 0 ;
+  background-repeat: no-repeat;
+  background-size: contain 100vh;
+}
 }
 
 /* 스크롤 바 커스텀 */
