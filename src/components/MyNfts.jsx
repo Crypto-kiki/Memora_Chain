@@ -132,7 +132,7 @@ const MyNfts = ({
       setSelectedBurn("");
       setMetadataFileName("");
       // setBurnTx(null);
-    }, 600);
+    }, 500);
   };
 
   const handleModalOutsideClick = (event) => {
@@ -144,7 +144,7 @@ const MyNfts = ({
         setSelectedImageInfo(null);
         setSelectedBurn("");
         setMetadataFileName("");
-      }, 600);
+      }, 500);
     }
   };
 
@@ -184,11 +184,12 @@ const MyNfts = ({
       setSelectedBurn("");
       setMetadataFileName("");
       // setBurnTx(null);
-    }, 600);
+    }, 500);
   };
 
   const handleWideModalOutsideClick = (event) => {
     if (!modalRef2.current.contains(event.target)) {
+
       setmodalt(false);
       setTimeout(() => {
         handleWideModalClose();
@@ -196,7 +197,7 @@ const MyNfts = ({
         setSelectedImageInfo(null);
         setSelectedBurn("");
         setMetadataFileName("");
-      }, 600);
+      }, 500);
     }
   };
 
@@ -227,9 +228,9 @@ const MyNfts = ({
   };
 
   return (
-    <div className="px-40">
-      <div className="flex justify-between items-center mb-14">
-        <div className="text-2xl font-bold">
+    <div className="px-10 md:px-40">
+      <div className="flex justify-between items-center mb-4 md:mb-14">
+        <div className="text-lg md:text-2xl font-semibold md:font-bold tracking-wider">
           My Total Nfts: {metadataUris.length} EA
         </div>
       </div>
@@ -239,7 +240,7 @@ const MyNfts = ({
             <>
               {" "}
               <div>
-                <div className="grid grid-cols-3 justify-center gap-40">
+                <div className="grid grid-cols-3 justify-center gap-5 md:gap-40">
                   {lengthyImages.map((imageUrl, index) => (
                     <div key={index}>
                       <img
@@ -257,53 +258,54 @@ const MyNfts = ({
                     }`}
                     onClick={handleModalOutsideClick}
                   >
-                    <div className="flex justify-evenly" ref={modalRef}>
-                      <div className="flex items-center">
+                    <div className="grid grid-row-2 md:flex  p-4 md:p-0 justify-center items-center md:flex-row md:justify-evenly md:items-center overflow-scroll md:overflow-auto" ref={modalRef}>
+                      <div className="flex p-4 justify-center items-start md:items-center md:justify-center" >
                         <img
                           src={lengthyImages[selectedImageIndex]}
                           alt={`NFT ${selectedImageIndex}`}
-                          style={{ maxWidth: "100%", maxHeight: "100%" }}
+                          className=' h-full  md:h-1/2 md:w-5/6'
+                          // style={{ maxWidth: "100%", maxHeight: "100%" }}
                         />
                       </div>
-                      <div className="flex flex-col justify-end items-center">
-                        <div className="flex flex-col justify-center items-center ml-10">
+                      <div className="flex flex-col justify-center items-center">
+                        <div className="flex  flex-col  justify-center items-center  md:ml-10">
                           {selectedImageInfo &&
                             selectedImageInfo.length > 0 && (
-                              <div className="flex flex-col text-xl p-20 modalLetter w-[700px] relative">
+                              <div className="flex flex-col  text-xs md:text-xl pr-16 py-8 md:p-20 modalLetter w-[375px]   md:w-[700px] relative">
                                 <VscChromeClose
                                   onClick={handleModalClose}
-                                  className=" text-[#f3f2dc] text-3xl font-extrabold absolute right-5 top-0 border rounded-full border-[#f3f2dc]"
+                                  className=" text-[#f3f2dc] text-xl md:text-3xl font-extrabold absolute right-5 top-0 border rounded-full border-[#f3f2dc]"
                                 />
-                                <div className="flex justify-center mb-14 text-3xl font-bold tracking-widest">
+                                <div className="flex justify-center pl-16  mb-3 md:mb-14 text-xl md:text-3xl font-bold  tracking-widest">
                                   INFO
                                 </div>
-                                <div className="pl-10">
+                                <div className="pl-16 md:pl-10">
                                   Latitude: {selectedImageInfo[0]?.value}
                                 </div>
-                                <div className="pl-10">
+                                <div className="pl-16 md:pl-10">
                                   Longitude: {selectedImageInfo[1]?.value}
                                 </div>
-                                <div className="mt-6 pl-10">
+                                <div className="mt-3 md:mt-6 pl-16 md:pl-10">
                                   Country: {selectedImageInfo[2]?.value}
                                 </div>
-                                <div className="pl-10">
+                                <div className="pl-16 md:pl-10">
                                   City:{" "}
                                   {selectedImageInfo[3]?.value.toLowerCase()}
                                 </div>
-                                <div className="mt-6 pl-10">
+                                <div className="mt-3 md:mt-6 pl-16 md:pl-10">
                                   Address
                                   <div>{selectedImageInfo[4]?.value}</div>
                                 </div>
-                                <div className="mt-6 pl-10">
+                                <div className="mt-3 md:mt-6 pl-16 md:pl-10">
                                   Weather: {selectedImageInfo[5]?.value}
                                 </div>
-                                <div className="pl-10">
+                                <div className="pl-16 md:pl-10">
                                   Temperature: {selectedImageInfo[6]?.value}
                                 </div>
-                                <div className="mt-6 pl-10">
+                                <div className="mt-3 md:mt-6 pl-16 md:pl-10 break-words">
                                   Message:
-                                  <div className="break-words">
-                                    {selectedImageInfo[7]?.value}
+                                  <div className="">
+                                    {selectedImageInfo[7]?.value}oaeifjaoaeifja;weoifjwa;eaoaeifja;weoifjwa;eaoaeifja;weoifjwa;eaoaeifja;weoifjwa;eaoaeifja;weoifjwa;ea;weoifjwa;ea
                                   </div>
                                 </div>
                               </div>
@@ -312,7 +314,7 @@ const MyNfts = ({
                         <div>
                           <button
                             onClick={onClickBurn}
-                            className="border-4 border-[#f3f2dc] px-20 py-4 font-extrabold text-xl tracking-widest"
+                            className="mt-2 md:mt-0 border-4 border-[#f3f2dc] px-10 md:px-20 py-2 md:py-4 font-extrabold text-xl tracking-widest"
                           >
                             Burn NFT
                           </button>
@@ -322,8 +324,8 @@ const MyNfts = ({
                   </div>
                 )}
               </div>
-              <div className="mt-40">
-                <div className="grid grid-cols-2 justify-center gap-40">
+              <div className="mt-10 md:mt-40">
+                <div className="grid grid-cols-2 justify-center gap-5 md:gap-40">
                   {wideImages.map((imageUrl, index) => (
                     <div key={index}>
                       <img
@@ -341,50 +343,50 @@ const MyNfts = ({
                     }`}
                     onClick={handleWideModalOutsideClick}
                   >
-                    <div className="flex justify-evenly" ref={modalRef2}>
-                      <div className="flex items-center">
+                    <div className="grid gird-rows-2 md:flex md:justify-evenly" ref={modalRef2}>
+                      <div className="flex justify-center items-center">
                         <img
                           src={wideImages[selectedWideImageIndex]}
                           alt={`NFT ${selectedWideImageIndex}`}
-                          style={{ maxWidth: "100%", maxHeight: "100%" }}
-                        />
+                          className='w-full md:h-5/6 md:max-w-full'
+                          />
                       </div>
-                      <div className="flex flex-col justify-end items-center">
-                        <div className="flex flex-col justify-center items-center ml-10">
+                      <div className="flex flex-col justify-center items-center">
+                        <div className="flex flex-col justify-center items-center md:ml-10">
                           {selectedImageInfo &&
                             selectedImageInfo.length > 0 && (
-                              <div className="flex flex-col text-xl p-20 modalLetter w-[700px] relative">
+                              <div className="flex flex-col text-xs md:text-xl p-8 md:p-20 modalLetter w-[370px] md:w-[700px]  relative ">
                                 <VscChromeClose
                                   onClick={handleWideModalClose}
-                                  className=" text-[#f3f2dc] text-3xl font-extrabold absolute right-5 top-0 border rounded-full border-[#f3f2dc]"
+                                  className=" text-[#f3f2dc] text-xl md:text-3xl font-extrabold absolute right-5 top-0 border rounded-full border-[#f3f2dc]"
                                 />
-                                <div className="flex justify-center mb-14 text-3xl font-bold tracking-widest">
+                                <div className="flex justify-center pl-6 mb-3 md:mb-14 text-xl md:text-3xl font-bold tracking-widest">
                                   INFO
                                 </div>
-                                <div className="pl-10">
+                                <div className="pl-8 md:pl-10">
                                   Latitude: {selectedImageInfo[0]?.value}
                                 </div>
-                                <div className="pl-10">
+                                <div className="pl-8 md:pl-10">
                                   Longitude: {selectedImageInfo[1]?.value}
                                 </div>
-                                <div className="mt-6 pl-10">
+                                <div className="mt-3 md:mt-6 pl-8 md:pl-10">
                                   Country: {selectedImageInfo[2]?.value}
                                 </div>
-                                <div className="pl-10">
+                                <div className="pl-8 md:pl-10">
                                   City:{" "}
                                   {selectedImageInfo[3]?.value.toLowerCase()}
                                 </div>
-                                <div className="mt-6 pl-10">
+                                <div className="mt-3 md:mt-6 pl-8 md:pl-10">
                                   Address
                                   <div>{selectedImageInfo[4]?.value}</div>
                                 </div>
-                                <div className="mt-6 pl-10">
+                                <div className="mt-3 md:mt-6 pl-8 md:pl-10">
                                   Weather: {selectedImageInfo[5]?.value}
                                 </div>
-                                <div className="pl-10">
+                                <div className="pl-8 md:pl-10">
                                   Temperature: {selectedImageInfo[6]?.value}
                                 </div>
-                                <div className="mt-6 pl-10">
+                                <div className="mt-3 md:mt-6 pl-8 md:pl-10">
                                   Message:
                                   <div className="break-words">
                                     {selectedImageInfo[7]?.value}
@@ -396,7 +398,7 @@ const MyNfts = ({
                         <div>
                           <button
                             onClick={onClickBurn}
-                            className="border-4 border-[#f3f2dc] px-20 py-4 font-extrabold text-xl tracking-widest"
+                            className="mt-2 md:mt-0 border-4 border-[#f3f2dc] px-10 md:px-20 py-2 md:py-4 font-extrabold text-xl tracking-widest"
                           >
                             Burn NFT
                           </button>

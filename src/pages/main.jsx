@@ -5,6 +5,7 @@ import { AccountContext } from "../AccountContext";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { IoIosClose } from "react-icons/io";
 import { FiPower } from "react-icons/fi";
+import { useEffect } from 'react';
 
 const Main = () => {
   const { account, setAccount } = useContext(AccountContext); // Context에서 account 값과 setAccount 함수 가져오기
@@ -23,6 +24,15 @@ const Main = () => {
   const toggleMenu = () => {
     setMenuOpen(!isMenuOpen);
   };
+
+   // 메뉴 탭이 열렸을 때 스크롤 막기
+   useEffect(() => {
+    if (isMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+  }, [isMenuOpen]);
 
   const slideImages = [
     { url: `${process.env.PUBLIC_URL}/image/1.png` },
@@ -52,87 +62,82 @@ const Main = () => {
   };
 
   return (
-    <div className="flex grow  justify-between bg-pink-300">
-      <div className="film-left xl:w-24 lg:w-20 md:w-16 sm:12    flex-shrink-0" />
+    <div className="flex grow  justify-between bg-[#CDDDEA]">
+      <div className="film-left md:w-24 md:visible md:flex-shrink-0"  />
       <div className="w-full flex flex-col">
         <div className="bg-[#F3EED4]">
-          <header className="flex justify-between items-center px-10 font-julius text-2xl tracking-wider text-[#686667]">
+          <header className="flex justify-between items-center px-3 md:px-10 font-julius md:text-2xl tracking-wider text-[#686667]">
             <Link to="/">
               <div className="mt-3">
                 <img
                   src={`${process.env.PUBLIC_URL}/image/Logo.png`}
-                  className="w-28"
+                  className="w-14 md:w-28"
                 />
               </div>
             </Link>
-            <div className="md:hidden absolute top-0 right-0 mt-2 mr-2 w-3/4 ">
+            <div className="md:hidden absolute z-10 top-0 right-0 w-full ">
               {isMenuOpen ? (
-                <div className={`relative bg-gray-200 rounded p-8 `}>
-                  <div>
-                    <div>
+                <>
+                <div className='fixed inset-0 opacity-30 bg-black ' onClick={()=>{setMenuOpen(false)}}></div>
+                <div className={`bg-gray-100 overflow-hidden absolute z-10 top-0 right-0  w-2/5   min-h-screen `}>
+                  <div className="mt-5 flex justify-center mb-12">
+                    <img
+                      src={`${process.env.PUBLIC_URL}/image/Logo.png`}
+                      className="w-12 "
+                    />
+                 </div>
+                  {/* <div>
                       <button
-                        className="px-4 absolute top-0 right-0 mt-1 mr-0"
+                        className="p-1 absolute top-0 right-0 mt-1 hover:bg-gray-300"
                         onClick={() => {
                           setMenuOpen(false);
                         }}
                       >
-                        <IoIosClose size={40} />
+                        <IoIosClose size={25} />
                       </button>
-                    </div>
-                  </div>
-                  <nav className="flex flex-col w-full min-h-screen ">
-                    <div className="bg-amber-500 p-1 text-xl">
-                      <div>
-                        <button
-                          className="px-4 absolute top-0 right-0 mt-1 mr-0"
-                          onClick={() => {
-                            setMenuOpen(false);
-                          }}
-                        >
-                          <IoIosClose size={40} />
-                        </button>
-                      </div>
+                  </div> */}
+                  <div className="flex flex-col gap-2 items-start ml-4 w-full ">
+                    <div className="text-lg ">
                       {account ? (
                         <div>
-                          <div className="px-4">
-                            {`${account.substring(0, 4)}...${account.substring(
-                              account.length - 4
-                            )}`}
-                          </div>
                           <button
-                            className="ml-2 btn-style"
+                            className=""
                             onClick={onClickLogOut}
                           >
-                            Logout
+                            LOGOUT
                           </button>
                         </div>
                       ) : (
-                        <button className=" btn-style" onClick={openPopup}>
-                          Login
+                        <button className=" btn-style" onClick={connectWithMetamask}>
+                          LOGIN
                         </button>
                       )}
                     </div>
-                    <Link to="/mint" className=" text-xl" onClick={toggleMenu}>
-                      Mint
+                    <Link to="/mint" className="text-lg" >
+                      <div>
+                      MINT
+                      </div>
+                    </Link>
+                    <Link to="/partsshop" className="text-lg">
+                      <div >PARTS SHOP</div>
                     </Link>
                     <Link
                       to="/myPage"
-                      className=" text-xl"
-                      onClick={toggleMenu}
+                      className="text-lg"                      
                     >
-                      My Page
+                      MY PAGE
                     </Link>
-                  </nav>
-                </div>
+                  </div>
+                </div></>
               ) : (
-                <div className="flex abosolute right-12 ">
+                <div className="flex  justify-end ">
                   <button
-                    className=" mt-4 mr-16"
+                    className="mt-3 mr-3 "
                     onClick={() => {
                       setMenuOpen(true);
                     }}
                   >
-                    <RxHamburgerMenu size={33} />
+                    <RxHamburgerMenu size={25} />
                   </button>
                 </div>
               )}
@@ -168,59 +173,54 @@ const Main = () => {
             type="video/mp4"
           />
         </video>
-        <div className="bg-[#E3C9B2] mainSecondDiv h-[80vh] relative justify-center items-center mt-3"></div>
-        <div className="mainThirdDiv w-full  h-[80vh] mt-3"></div>
-        <div className="flex mt-3 bg-gradient-to-b from-[#85A0BD] from-78.1% via-[#CEC3B7] via-86% via-[#D2B9A6] to-[#B4958D] to-100% justify-around px-40 py-32">
-          <div>
-            <div className="border-4 border-yellow-100">
+        <div className="bg-[#E3C9B2] mainSecondDiv mainmobileSecondDiv   h-[40vh] md:h-[80vh] relative justify-center items-center mt-1 md:mt-3"></div>
+        <div className="mainmobileThirdDiv mainThirdDiv w-full h-[40vh] md:h-[80vh] mt-1 md:mt-3"></div>
+        <div className="flex w-full flex-col md:w-full md:flex-row items-center md:justify-center mt-1 md:mt-3 bg-gradient-to-b from-[#85A0BD] from-78.1% via-[#CEC3B7] via-86% via-[#D2B9A6] to-[#B4958D] to-100%  px-15 md:px-20 py-12 md:pl-32 md:pr-16">
+          <div className='md:hidden flex font-semiboldbold text-2xl mt-10 text-[#F3EED4]'>
+            my stream of consciousness
+          </div>
+            <div className="border-4 border-yellow-100 w-3/4 md:w-1/3 my-8 md:ml-8 md:mb-0">
               <img
                 src={`${process.env.PUBLIC_URL}/image/mainMap.png`}
-                className="w-[350px]"
+                className=""
               />
             </div>
-          </div>
-          <div className="flex flex-col justify-center items-center">
-            <div className="text-4xl mb-10 text-[#F3EED4]  ">
+          <div className="flex flex-col justify-center items-center w-full">
+            <div className="hidden md:flex text-xs md:text-4xl mb-10 text-[#F3EED4]  ">
               my stream of consciousness
             </div>
-            <div className="text-[#857464] font-semibold flex flex-col justify-center items-center text-lg tracking-widest">
+            <div className="text-[#857464] font-semibold flex flex-col justify-center items-center text-md md:text-lg tracking-widest">
               "Capture Your Memories Forever on the<div>BlockChain"</div>
             </div>
-            <div className="text-[#857464] font-semibold flex flex-col justify-center items-center text-lg">
+            <div className="text-[#857464] font-semibold flex flex-col justify-center items-center text-md">
               "Preserve Your Memories Forever as
               <div>NFTs on the Blockchain"</div>
             </div>
-            <div className="text-[#857464] font-semibold flex flex-col justify-center items-center text-lg">
+            <div className="text-[#857464] font-semibold flex flex-col justify-center items-center text-md">
               "Savor Your Memories Forever with
               <div>NFTs"</div>
             </div>
           </div>
         </div>
-        <div>
-          <img
-            src={`${process.env.PUBLIC_URL}/image/mainFourthDiv.png`}
-            className="w-full mt-3"
-          />
-        </div>
-        <div className="flex flex-col justify-center items-center mt-3 bg-[#96A9C2] pt-20 pb-10">
+        <div className="flex flex-col justify-center items-center mt-1 md:mt-3 bg-[#96A9C2] pt-10 md:pt-20 pb-10">
           <img
             src={`${process.env.PUBLIC_URL}/image/airplane.png`}
-            className="w-1/2"
+            className="w-6/7 md:w-1/2"
           />
           <Link to="/mint">
-            <button className="bg-[#D9D9D9] px-16 py-4 text-2xl mt-10 tracking-wider text-[#857464]">
+            <button className="bg-[#D9D9D9] px-8 md:px-16 py-2 md:py-4 text-xl md:text-2xl mt-8 md:mt-10 tracking-wider text-[#857464]">
               mint now
             </button>
           </Link>
         </div>
-        <div className="bg-[#F3EED4] grid grid-cols-3 items-center text-[#857464]">
+        <div className="bg-[#F3EED4] flex flex-col md:grid md:grid-cols-3 items-center md:items-center text-[#857464]">
           <img
             src={`${process.env.PUBLIC_URL}/image/Logo.png`}
-            className="w-36"
+            className="w-12 md:w-36 mb-2 md:mb-0 "
           />
           <div className="flex flex-col justify-center items-center">
-            <div className="text-2xl mb-4">contact us</div>
-            <div className="flex flex-col justify-center items-center">
+            <div className="hidden md:flex text-2xl mb-4">contact us</div>
+            <div className="hidden md:flex flex-col justify-center items-center">
               <div>Tel: 010-0000-0000</div>
               <div>Email: memorachain@gmail.com</div>
             </div>
