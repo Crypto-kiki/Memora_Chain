@@ -141,10 +141,10 @@ const MyPage = () => {
   return (
     <motion.div
       className="flex justify-between min-h-screen myPageBackground w-full"
-      initial={{ opacity: 0 }}
+      initial={{ opacity: 0.2 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      transition={{ duration: 2, ease: "easeIn" }}
+      transition={{ duration: 1.5, ease: "easeIn" }}
     >
       {/* <div className="film-left w-24" /> */}
       <div className="w-full flex flex-col">

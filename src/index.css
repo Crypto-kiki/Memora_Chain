@@ -191,8 +191,9 @@
   .mintmobileBackground {
     background-image: url(../public/image/mint/backgroundmobile.png);
     background-position: 0 0;
-    background-repeat: no-repeat;
-    background-size: contain;
+    background-repeat: repeat-x;
+    background-size: auto 100%;
+    animation: moveBackground 20s linear infinite;
   }
 }
 

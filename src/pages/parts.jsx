@@ -531,10 +531,10 @@ const Parts = () => {
   return (
     <motion.div
       className="flex justify-between min-h-screen partsmobileBackground partsBackground"
-      initial={{ opacity: 0 }}
+      initial={{ opacity: 0.2 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      transition={{ duration: 2, ease: "easeIn" }}
+      transition={{ duration: 1.5, ease: "easeIn" }}
     >
       {/* <div className="film-left w-24" /> */}
       <div className="w-full flex flex-col">
@@ -542,8 +542,8 @@ const Parts = () => {
           <Link to="/">
             <div className="mt-6">
               <img
-                src={`${process.env.PUBLIC_URL}/image/Logo.png`}
-                className="w-28 "
+                src={`${process.env.PUBLIC_URL}/image/Logo6big.png`}
+                className="w-28"
               />
             </div>
           </Link>

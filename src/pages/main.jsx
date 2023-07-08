@@ -65,10 +65,10 @@ const Main = () => {
   return (
     <motion.div
       className="flex grow  justify-between bg-[#CDDDEA]"
-      initial={{ opacity: 0 }}
+      initial={{ opacity: 0.2 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      transition={{ duration: 2, ease: "easeIn" }}
+      transition={{ duration: 1.5, ease: "easeIn" }}
     >
       <div className="film-left md:w-24 md:visible md:flex-shrink-0" />
       <div className="w-full flex flex-col">
@@ -177,7 +177,7 @@ const Main = () => {
         <div className="mainmobileThirdDiv mainThirdDiv w-full h-[40vh] md:h-[80vh] mt-1 md:mt-3"></div>
         <div className="flex w-full flex-col md:w-full md:flex-row items-center md:justify-center mt-1 md:mt-3 bg-gradient-to-b from-[#85A0BD] from-78.1% via-[#CEC3B7] via-86% via-[#D2B9A6] to-[#B4958D] to-100%  px-15 md:px-20 py-12 md:pl-32 md:pr-16">
           <div className="md:hidden flex font-semiboldbold text-2xl mt-10 text-[#F3EED4]">
-            my stream of consciousness
+            Where time and space meet
           </div>
           <div className="border-4 border-yellow-100 w-3/4 md:w-1/3 my-8 md:ml-8 md:mb-0">
             <img
@@ -187,21 +187,37 @@ const Main = () => {
           </div>
           <div className="flex flex-col justify-center items-center w-full">
             <div className="hidden md:flex text-xs md:text-4xl mb-10 text-[#F3EED4]  ">
-              my stream of consciousness
+              Where time and space meet
             </div>
             <div className="text-[#857464] font-semibold flex flex-col justify-center items-center text-md md:text-lg tracking-widest">
-              "Capture Your Memories Forever on the<div>BlockChain"</div>
+              "Preserve the significance of
+              <div>the present moment by minting NFTs</div>
+              <div className="hidden"> of the present moment</div>
+              <div className="hidden">by minting NFTs</div>
             </div>
             <div className="text-[#857464] font-semibold flex flex-col justify-center items-center text-md">
-              "Preserve Your Memories Forever as
-              <div>NFTs on the Blockchain"</div>
+              that combine imagery, location coordinates,
+              <div>and weather data, all secured</div>
             </div>
             <div className="text-[#857464] font-semibold flex flex-col justify-center items-center text-md">
-              "Savor Your Memories Forever with
-              <div>NFTs"</div>
+              on the blockchain."
             </div>
           </div>
         </div>
+
+        <div className="hidden md:flex">
+          <img
+            src={`${process.env.PUBLIC_URL}/image/mainFourthDiv.png`}
+            className="w-full mt-3"
+          />
+        </div>
+        <div className="flex md:hidden">
+          <img
+            src={`${process.env.PUBLIC_URL}/image/AboutUs.png`}
+            className="w-full mt-1"
+          />
+        </div>
+
         <div className="flex flex-col justify-center items-center mt-1 md:mt-3 bg-[#96A9C2] pt-10 md:pt-20 pb-10">
           <img
             src={`${process.env.PUBLIC_URL}/image/airplane.png`}

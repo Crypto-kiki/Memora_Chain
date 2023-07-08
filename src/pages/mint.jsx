@@ -495,6 +495,7 @@ const Mint = () => {
         setDownloadURL(null);
         setNftBlockHash(mintNft.blockHash);
       } catch (error) {
+        setDownloadURL(null);
         console.error(error);
       }
     };
@@ -579,10 +580,10 @@ const Mint = () => {
   return (
     <motion.div
       className="flex justify-between min-h-screen mintmobileBackground mintBackground"
-      initial={{ opacity: 0 }}
+      initial={{ opacity: 0.2 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      transition={{ duration: 2, ease: "easeIn" }}
+      transition={{ duration: 1.5, ease: "easeIn" }}
     >
       <div className="w-full flex flex-col">
         <header className="flex justify-between items-center px-3 md:px-10 font-julius md:text-2xl tracking-wider text-[#686667]">
@@ -699,13 +700,13 @@ const Mint = () => {
             </div>
           </div>
           <div className="hidden md:flex mb-10 md:mb-0 md:text-2xl tracking-widest text-[#686667]">
-            "Capture your Memories forever on the Blockchains."
+            "Eternalize your memories with own your NFT."
           </div>
           <div className="flex md:hidden  md:mb-0 md:text-2xl tracking-widest text-[#686667]">
-            Capture your Memories forever
+            Eternalize your memories
           </div>
           <div className="flex md:hidden mb-10 md:mb-0 md:text-2xl tracking-widest text-[#686667]">
-            on the Blockchains.
+            with own your NFT.
           </div>
           <div className="w-full flex flex-col md:flex-row  md:mt-40 mb-10 justify-center items-center">
             <div>
@@ -755,7 +756,7 @@ const Mint = () => {
             </div>
           </div>
           <div className="text-[#686667] text-lg md:text-xl mb-10 md:mb-20">
-            "My location is with memories."
+            "Remembering the Present, Leaving a Mark on the Blockchain"
           </div>
           {downloadURL && (
             <motion.div

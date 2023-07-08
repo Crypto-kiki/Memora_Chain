@@ -6,6 +6,7 @@ import Web3 from "web3";
 import { VscChromeClose } from "react-icons/vsc";
 import { getStorage, ref, deleteObject } from "firebase/storage";
 import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
 
 const MyNfts = ({
   metadataUris,
@@ -128,28 +129,24 @@ const MyNfts = ({
 
   const handleModalClose = () => {
     setmodalt(false);
-    setTimeout(() => {
-      setSelectedImageIndex(null);
-      setMetadataByTokenIdLengthy("");
-      setSelectedImageInfo(null);
-      setSelectedBurn("");
-      setMetadataFileName("");
-      setPartsNumber("");
-      // setBurnTx(null);
-    }, 200); // useEffect 점검하기
+    setSelectedImageIndex(null);
+    setMetadataByTokenIdLengthy("");
+    setSelectedImageInfo(null);
+    setSelectedBurn("");
+    setMetadataFileName("");
+    setPartsNumber("");
+    // setBurnTx(null);
   };
 
   const handleModalOutsideClick = (event) => {
     if (!modalRef.current.contains(event.target)) {
       setmodalt(false);
-      setTimeout(() => {
-        handleModalClose();
-        setMetadataByTokenIdLengthy("");
-        setSelectedImageInfo(null);
-        setSelectedBurn("");
-        setMetadataFileName("");
-        setPartsNumber("");
-      }, 200);
+      handleModalClose();
+      setMetadataByTokenIdLengthy("");
+      setSelectedImageInfo(null);
+      setSelectedBurn("");
+      setMetadataFileName("");
+      setPartsNumber("");
     }
   };
 
@@ -183,28 +180,24 @@ const MyNfts = ({
 
   const handleWideModalClose = () => {
     setmodalt(false);
-    setTimeout(() => {
-      setSelectedWideImageIndex(null);
-      setMetadataByTokenIdWide("");
-      setSelectedImageInfo(null);
-      setSelectedBurn("");
-      setMetadataFileName("");
-      setPartsNumber("");
-      // setBurnTx(null);
-    }, 200);
+    setSelectedWideImageIndex(null);
+    setMetadataByTokenIdWide("");
+    setSelectedImageInfo(null);
+    setSelectedBurn("");
+    setMetadataFileName("");
+    setPartsNumber("");
+    // setBurnTx(null);
   };
 
   const handleWideModalOutsideClick = (event) => {
     if (!modalRef2.current.contains(event.target)) {
       setmodalt(false);
-      setTimeout(() => {
-        handleWideModalClose();
-        setMetadataByTokenIdWide("");
-        setSelectedImageInfo(null);
-        setSelectedBurn("");
-        setMetadataFileName("");
-        setPartsNumber("");
-      }, 200);
+      handleWideModalClose();
+      setMetadataByTokenIdWide("");
+      setSelectedImageInfo(null);
+      setSelectedBurn("");
+      setMetadataFileName("");
+      setPartsNumber("");
     }
   };
 
@@ -278,11 +271,13 @@ const MyNfts = ({
                   ))}
                 </div>
                 {selectedImageIndex !== null && (
-                  <div
-                    className={`fixed top-0 left-0 right-0 bottom-0 backdrop-filter backdrop-blur-sm flex flex-col justify-center items-center  ${
-                      modalt == true ? "modal" : "modalhidden"
-                    }`}
+                  <motion.div
+                    className="fixed top-0 left-0 right-0 bottom-0 backdrop-filter backdrop-blur-sm flex flex-col justify-center items-center"
                     onClick={handleModalOutsideClick}
+                    initial={{ opacity: 0.2 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 1.5, ease: "easeIn" }}
                   >
                     <div
                       className="grid grid-row-2 md:flex  p-4 md:p-0 justify-center items-center md:flex-row md:justify-evenly md:items-center overflow-scroll md:overflow-auto"
@@ -365,7 +360,7 @@ const MyNfts = ({
                         </div>
                       </div>
                     </div>
-                  </div>
+                  </motion.div>
                 )}
               </div>
               <div className="mt-10 md:mt-40">
@@ -382,10 +377,12 @@ const MyNfts = ({
                 </div>
                 {selectedWideImageIndex !== null && (
                   <div
-                    className={`fixed top-0 left-0 right-0 bottom-0 backdrop-filter backdrop-blur-sm flex flex-col justify-center items-center  ${
-                      modalt == true ? "modal" : "modalhidden"
-                    }`}
+                    className="fixed top-0 left-0 right-0 bottom-0 backdrop-filter backdrop-blur-sm flex flex-col justify-center items-center "
                     onClick={handleWideModalOutsideClick}
+                    initial={{ opacity: 0.2 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 1.5, ease: "easeIn" }}
                   >
                     <div
                       className="grid gird-rows-2 md:flex md:justify-evenly"
@@ -402,7 +399,7 @@ const MyNfts = ({
                         <div className="flex flex-col justify-center items-center md:ml-10">
                           {selectedImageInfo &&
                             selectedImageInfo.length > 0 && (
-                              <div className="flex flex-col text-xs md:text-xl p-8 md:p-10 modalLetter w-[370px] md:w-[700px]  relative ">
+                              <div className="flex flex-col text-xs md:text-xl p-8 md:p-20 modalLetter w-[370px] md:w-[700px] relative ">
                                 <button onClick={handleWideModalClose}>
                                   <VscChromeClose className=" text-[#f3f2dc] text-xl md:text-3xl font-extrabold absolute right-5 top-0 border rounded-full border-[#f3f2dc]" />
                                 </button>
