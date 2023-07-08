@@ -35,7 +35,11 @@ function ItemCanvas({ size, img, setEnd, setItemOnImage, ItemIndex }) {
         ctx.drawImage(image, 0, 0, 900, 550);
         //추가할 파츠 그리기
         ctx.drawImage(image2, 15, 15, 120, 120);
+<<<<<<< HEAD
  
+=======
+
+>>>>>>> 2a3a16a3c79af6fa79cea8feb6d950ed0e331a0a
         const imageDataUrl = canvas.toDataURL("image/png"); // 파일 url 저장부분
 
         setItemOnImage(imageDataUrl);
@@ -53,8 +57,12 @@ function ItemCanvas({ size, img, setEnd, setItemOnImage, ItemIndex }) {
         //배경 프레임 그리기
         ctx.drawImage(image, 0, 0, 550, 900);
         //추가할 파츠 그리기
+<<<<<<< HEAD
         ctx.drawImage(image2,  420, 30, 100, 100);     
 
+=======
+        ctx.drawImage(image2, 420, 30, 100, 100);
+>>>>>>> 2a3a16a3c79af6fa79cea8feb6d950ed0e331a0a
 
         const imageDataUrl = canvas.toDataURL("image/png"); // 파일 url 저장부분
         setItemOnImage(imageDataUrl);

@@ -14,6 +14,7 @@ import { v4 } from "uuid";
 import { v4 as uuidv4 } from "uuid";
 import Web3 from "web3";
 import { CONTRACT_ABI, CONTRACT_ADDRESS } from "../web3.config";
+<<<<<<< HEAD
 
 
 import { VscChromeClose } from "react-icons/vsc";
@@ -24,6 +25,17 @@ import ItemCanvas3 from '../components/ItemCanvas/ItemCanvas3';
 import ItemCanvas4 from '../components/ItemCanvas/ItemCanvas4';
 import ItemCanvas5 from '../components/ItemCanvas/ItemCanvas5';
 import ItemCanvas6 from '../components/ItemCanvas/ItemCanvas6';
+=======
+import ItemCanvas from "../components/ItemCanvas/ItemCanvas";
+import ItemCanvas2 from "../components/ItemCanvas/ItemCanvas2";
+import ItemCanvas3 from "../components/ItemCanvas/ItemCanvas3";
+import ItemCanvas4 from "../components/ItemCanvas/ItemCanvas4";
+import ItemCanvas5 from "../components/ItemCanvas/ItemCanvas5";
+import ItemCanvas6 from "../components/ItemCanvas/ItemCanvas6";
+import { VscChromeClose } from "react-icons/vsc";
+import { FiPower } from "react-icons/fi";
+import { motion } from "framer-motion";
+>>>>>>> 2a3a16a3c79af6fa79cea8feb6d950ed0e331a0a
 
 const Parts = () => {
   // const { account, setAccount } = useContext(AccountContext); // Context에서 account 값과 setAccount 함수 가져오기
@@ -530,7 +542,13 @@ const Parts = () => {
   }, [end]);
 
   return (
-    <div className="flex justify-between min-h-screen partsmobileBackground partsBackground">
+    <motion.div
+      className="flex justify-between min-h-screen partsmobileBackground partsBackground"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 2, ease: "easeIn" }}
+    >
       {/* <div className="film-left w-24" /> */}
       <div className="w-full flex flex-col">
         <header className="flex justify-between items-center px-10 font-julius text-2xl tracking-wider text-white">
@@ -567,8 +585,13 @@ const Parts = () => {
           </div>
         </header>
         <div className="flex justify-center items-center">
+<<<<<<< HEAD
           <div className="mb-10 text-4xl text-white border px-8 py-3 tracking-wider">
             STICKER SHOP
+=======
+          <div className="text-white border border-white w-40 md:w-80 text-center text-xl md:text-5xl mt-5 md:mt-0 py-2 md:py-6 px-4 md:px-10 tracking-widest">
+            Sticker
+>>>>>>> 2a3a16a3c79af6fa79cea8feb6d950ed0e331a0a
           </div>
         </div>
         <div className="w-full p-20">
@@ -793,7 +816,7 @@ const Parts = () => {
           </div>
         )}
       </div>
-    </div>
+    </motion.div>
   );
 };
 

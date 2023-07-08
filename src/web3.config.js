@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 export const CONTRACT_ADDRESS = "0xdBa806C6Cb638Bc5b4b6AB1cc6B7064EB16691c0";
+=======
+export const CONTRACT_ADDRESS = "0x465Bc8610a4957D6F801Dd1C308Fd4957f184496";
+>>>>>>> 2a3a16a3c79af6fa79cea8feb6d950ed0e331a0a
 export const CONTRACT_ABI = [
   {
     anonymous: false,
@@ -284,17 +288,6 @@ export const CONTRACT_ABI = [
     type: "function",
   },
   {
-    stateMutability: "payable",
-    type: "receive",
-  },
-  {
-    inputs: [],
-    name: "withdraw",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
     inputs: [
       {
         internalType: "string",
@@ -309,6 +302,17 @@ export const CONTRACT_ABI = [
     ],
     stateMutability: "nonpayable",
     type: "constructor",
+  },
+  {
+    inputs: [],
+    name: "withdraw",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    stateMutability: "payable",
+    type: "receive",
   },
   {
     inputs: [],

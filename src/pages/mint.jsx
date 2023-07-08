@@ -17,6 +17,10 @@ import Web3 from "web3";
 import { CONTRACT_ABI, CONTRACT_ADDRESS } from "../web3.config";
 import { FiPower } from "react-icons/fi";
 import { RxHamburgerMenu } from "react-icons/rx";
+<<<<<<< HEAD
+=======
+import { motion } from "framer-motion";
+>>>>>>> 2a3a16a3c79af6fa79cea8feb6d950ed0e331a0a
 
 const Mint = () => {
   const { account, setAccount } = useContext(AccountContext);
@@ -56,12 +60,21 @@ const Mint = () => {
     setMenuOpen(!isMenuOpen);
   };
 
+<<<<<<< HEAD
    // 메뉴 탭이 열렸을 때 스크롤 막기
    useEffect(() => {
     if (isMenuOpen) {
       document.body.style.overflow = 'hidden';
     } else {
       document.body.style.overflow = 'unset';
+=======
+  // 메뉴 탭이 열렸을 때 스크롤 막기
+  useEffect(() => {
+    if (isMenuOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+>>>>>>> 2a3a16a3c79af6fa79cea8feb6d950ed0e331a0a
     }
   }, [isMenuOpen]);
 
@@ -576,8 +589,15 @@ const Mint = () => {
   };
 
   return (
-    <div className="flex justify-between min-h-screen mintmobileBackground mintBackground">
+    <motion.div
+      className="flex justify-between min-h-screen mintmobileBackground mintBackground"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 2, ease: "easeIn" }}
+    >
       <div className="w-full flex flex-col">
+<<<<<<< HEAD
       <header className="flex justify-between items-center px-3 md:px-10 font-julius md:text-2xl tracking-wider text-[#686667]">
             <Link to="/">
               <div className="mt-3">
@@ -668,6 +688,101 @@ const Mint = () => {
               )}
             </div>
           </header>
+=======
+        <header className="flex justify-between items-center px-3 md:px-10 font-julius md:text-2xl tracking-wider text-[#686667]">
+          <Link to="/">
+            <div className="mt-3">
+              <img
+                src={`${process.env.PUBLIC_URL}/image/Logo.png`}
+                className="w-14 md:w-28"
+              />
+            </div>
+          </Link>
+          <div className="md:hidden absolute z-10 top-0 right-0 w-full ">
+            {isMenuOpen ? (
+              <>
+                <div
+                  className="fixed inset-0 opacity-30 bg-black "
+                  onClick={() => {
+                    setMenuOpen(false);
+                  }}
+                ></div>
+                <div
+                  className={`bg-gray-100 overflow-hidden absolute z-10 top-0 right-0  w-2/5   min-h-screen `}
+                >
+                  <div className="mt-5 flex justify-center mb-12">
+                    <img
+                      src={`${process.env.PUBLIC_URL}/image/Logo.png`}
+                      className="w-12 "
+                    />
+                  </div>
+                  <div className="flex flex-col gap-2 items-start ml-4 w-full ">
+                    <div className="text-lg ">
+                      {account ? (
+                        <div>
+                          <button className="" onClick={onClickLogOut}>
+                            LOGOUT
+                          </button>
+                        </div>
+                      ) : (
+                        <button
+                          className=" btn-style"
+                          onClick={connectWithMetamask}
+                        >
+                          LOGIN
+                        </button>
+                      )}
+                    </div>
+                    <Link to="/mint" className="text-lg">
+                      <div>MINT</div>
+                    </Link>
+                    <Link to="/partsshop" className="text-lg">
+                      <div>PARTS SHOP</div>
+                    </Link>
+                    <Link to="/myPage" className="text-lg">
+                      MY PAGE
+                    </Link>
+                  </div>
+                </div>
+              </>
+            ) : (
+              <div className="flex  justify-end ">
+                <button
+                  className="mt-3 mr-3 "
+                  onClick={() => {
+                    setMenuOpen(true);
+                  }}
+                >
+                  <RxHamburgerMenu size={25} />
+                </button>
+              </div>
+            )}
+          </div>
+          <div className="hidden md:flex ">
+            <Link to="/mint">
+              <div>Mint</div>
+            </Link>
+            <Link to="/partsshop">
+              <div className="mx-10">Parts Shop</div>
+            </Link>
+            <Link
+              to={account ? "/mypage" : ""}
+              onClick={!account ? connectWithMetamask : null}
+            >
+              {account ? (
+                <div className="mr-10 ">MyPage</div>
+              ) : (
+                <div>LogIn</div>
+              )}
+            </Link>
+            {account && (
+              <button className="" onClick={onClickLogOut}>
+                <FiPower className="" size={33} />
+              </button>
+            )}
+          </div>
+        </header>
+>>>>>>> 2a3a16a3c79af6fa79cea8feb6d950ed0e331a0a
         <div className="flex flex-col justify-center items-center">
           <div className="mt-6 md:mt-12">
             <div className="block text-[#686667] font-julius text-xl md:text-2xl font-bold">
@@ -696,7 +811,11 @@ const Mint = () => {
           </div>
           <div className="flex md:hidden mb-10 md:mb-0 md:text-2xl tracking-widest text-[#686667]">
             on the Blockchains.
+<<<<<<< HEAD
             </div>
+=======
+          </div>
+>>>>>>> 2a3a16a3c79af6fa79cea8feb6d950ed0e331a0a
           <div className="w-full flex flex-col md:flex-row  md:mt-40 mb-10 justify-center items-center">
             <div>
               {!isLocationAllowed && (
@@ -708,7 +827,14 @@ const Mint = () => {
                 </button>
               )}
               {isLocationAllowed && (
+<<<<<<< HEAD
                 <div ref={mapElement} className="w-[240px]  md:w-[400px] h-60 md:h-80 shadow-2xl" />
+=======
+                <div
+                  ref={mapElement}
+                  className="w-[240px]  md:w-[400px] h-60 md:h-80 shadow-2xl"
+                />
+>>>>>>> 2a3a16a3c79af6fa79cea8feb6d950ed0e331a0a
               )}
             </div>
             <div className="w-3/5 md:w-1/3 flex flex-col mt-5 md:mt-0 md:ml-20  items-center h-60 md:h-80">
@@ -745,30 +871,22 @@ const Mint = () => {
             "My location is with memories."
           </div>
           {downloadURL && (
-            <div
-              className={`fixed top-0 left-0 right-0 bottom-0 backdrop-filter backdrop-blur-sm flex flex-col justify-center items-center video z-20 ${
-                showVideo ? "show" : ""
-              }`}
-              ref={modalRef}
+            <motion.div
+              className={`fixed top-0 left-0 right-0 bottom-0 backdrop-filter backdrop-blur-sm flex flex-col justify-center items-center  z-20`}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 2, ease: "easeIn" }}
             >
               <img
                 src={`${process.env.PUBLIC_URL}/image/mint/memorachainGIF.gif`}
               />
-              {/* <video
-                src={`${process.env.PUBLIC_URL}/image/mint/loading.mp4`}
-                autoPlay
-                muted
-                loop
-                className="modal"
-                style={{ width: "100%", height: "100%", objectFit: "cover" }}
-                // onLoadedData={handleVideoLoaded}
-                // onEnded={handleVideoEnded}
-              /> */}
-            </div>
+            </motion.div>
           )}
           {!selectedFile ? (
             <div className="h-[300px] w-[330px] md:h-[900px] md:w-[1000px] flex flex-col justify-center items-center border border-[#8b8b8b] p-10 md:p-0 text-md  md:text-2xl">
               <div>Image Upload First,</div>
+<<<<<<< HEAD
               <div className='hidden md:flex'>And you can watch NFT Samples by your image</div>
               <div className='flex md:hidden'>And you can watch NFT </div>
               <div className='flex md:hidden'>Samples by your image</div>
@@ -793,6 +911,33 @@ const Mint = () => {
               setCanvasIndex={setCanvasIndex}
               />
               </div>
+=======
+              <div className="hidden md:flex">
+                And you can watch NFT Samples by your image
+              </div>
+              <div className="flex md:hidden">And you can watch NFT </div>
+              <div className="flex md:hidden">Samples by your image</div>
+            </div>
+          ) : (
+            <div>
+              <FileUpload
+                file={selectedFileURL}
+                setUrl={setCanvasImgurl}
+                lat={lat}
+                lon={lon}
+                country={country}
+                city={city}
+                address={formatted_address}
+                account={account}
+                message={message}
+                countryCode={countryCode}
+                temperature={temperature}
+                weather={weather}
+                time={time}
+                setCanvasIndex={setCanvasIndex}
+              />
+            </div>
+>>>>>>> 2a3a16a3c79af6fa79cea8feb6d950ed0e331a0a
           )}
         </div>
         <div className="mt-5 md:mt-10 text-[#686667] text-lg md:text-xl flex flex-col justify-center items-center">
@@ -801,10 +946,14 @@ const Mint = () => {
         <div className="flex justify-center items-center">
           {downloadURL ? (
             <Link to="/mypage">
+<<<<<<< HEAD
               <button
                 onClick={upLoadImage}
                 className="w-44 md:w-56 border border-[#8b8b8b] shadow-lg py-3 mt-5 md:mt-10 mb-36  md:mb-56 text-xl md:text-4xl text-[#686667]"
                 >
+=======
+              <button className="w-44 md:w-56 border border-[#8b8b8b] shadow-lg py-3 mt-5 md:mt-10 mb-36  md:mb-56 text-xl md:text-4xl text-[#686667]">
+>>>>>>> 2a3a16a3c79af6fa79cea8feb6d950ed0e331a0a
                 Move to Gallery
               </button>
             </Link>
@@ -818,7 +967,7 @@ const Mint = () => {
           )}
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

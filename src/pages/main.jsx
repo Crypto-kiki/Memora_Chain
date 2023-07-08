@@ -5,7 +5,8 @@ import { AccountContext } from "../AccountContext";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { IoIosClose } from "react-icons/io";
 import { FiPower } from "react-icons/fi";
-import { useEffect } from 'react';
+import { useEffect } from "react";
+import { motion } from "framer-motion";
 
 const Main = () => {
   const { account, setAccount } = useContext(AccountContext); // Context에서 account 값과 setAccount 함수 가져오기
@@ -25,12 +26,12 @@ const Main = () => {
     setMenuOpen(!isMenuOpen);
   };
 
-   // 메뉴 탭이 열렸을 때 스크롤 막기
-   useEffect(() => {
+  // 메뉴 탭이 열렸을 때 스크롤 막기
+  useEffect(() => {
     if (isMenuOpen) {
-      document.body.style.overflow = 'hidden';
+      document.body.style.overflow = "hidden";
     } else {
-      document.body.style.overflow = 'unset';
+      document.body.style.overflow = "unset";
     }
   }, [isMenuOpen]);
 
@@ -62,8 +63,14 @@ const Main = () => {
   };
 
   return (
-    <div className="flex grow  justify-between bg-[#CDDDEA]">
-      <div className="film-left md:w-24 md:visible md:flex-shrink-0"  />
+    <motion.div
+      className="flex grow  justify-between bg-[#CDDDEA]"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 2, ease: "easeIn" }}
+    >
+      <div className="film-left md:w-24 md:visible md:flex-shrink-0" />
       <div className="w-full flex flex-col">
         <div className="bg-[#F3EED4]">
           <header className="flex justify-between items-center px-3 md:px-10 font-julius md:text-2xl tracking-wider text-[#686667]">
@@ -78,57 +85,50 @@ const Main = () => {
             <div className="md:hidden absolute z-10 top-0 right-0 w-full ">
               {isMenuOpen ? (
                 <>
-                <div className='fixed inset-0 opacity-30 bg-black ' onClick={()=>{setMenuOpen(false)}}></div>
-                <div className={`bg-gray-100 overflow-hidden absolute z-10 top-0 right-0  w-2/5   min-h-screen `}>
-                  <div className="mt-5 flex justify-center mb-12">
-                    <img
-                      src={`${process.env.PUBLIC_URL}/image/Logo.png`}
-                      className="w-12 "
-                    />
-                 </div>
-                  {/* <div>
-                      <button
-                        className="p-1 absolute top-0 right-0 mt-1 hover:bg-gray-300"
-                        onClick={() => {
-                          setMenuOpen(false);
-                        }}
-                      >
-                        <IoIosClose size={25} />
-                      </button>
-                  </div> */}
-                  <div className="flex flex-col gap-2 items-start ml-4 w-full ">
-                    <div className="text-lg ">
-                      {account ? (
-                        <div>
-                          <button
-                            className=""
-                            onClick={onClickLogOut}
-                          >
-                            LOGOUT
-                          </button>
-                        </div>
-                      ) : (
-                        <button className=" btn-style" onClick={connectWithMetamask}>
-                          LOGIN
-                        </button>
-                      )}
+                  <div
+                    className="fixed inset-0 opacity-30 bg-black "
+                    onClick={() => {
+                      setMenuOpen(false);
+                    }}
+                  ></div>
+                  <div
+                    className={`bg-gray-100 overflow-hidden absolute z-10 top-0 right-0  w-2/5   min-h-screen `}
+                  >
+                    <div className="mt-5 flex justify-center mb-12">
+                      <img
+                        src={`${process.env.PUBLIC_URL}/image/Logo.png`}
+                        className="w-12 "
+                      />
                     </div>
-                    <Link to="/mint" className="text-lg" >
-                      <div>
-                      MINT
+                    <div className="flex flex-col gap-2 items-start ml-4 w-full ">
+                      <div className="text-lg ">
+                        {account ? (
+                          <div>
+                            <button className="" onClick={onClickLogOut}>
+                              LOGOUT
+                            </button>
+                          </div>
+                        ) : (
+                          <button
+                            className=" btn-style"
+                            onClick={connectWithMetamask}
+                          >
+                            LOGIN
+                          </button>
+                        )}
                       </div>
-                    </Link>
-                    <Link to="/partsshop" className="text-lg">
-                      <div >PARTS SHOP</div>
-                    </Link>
-                    <Link
-                      to="/myPage"
-                      className="text-lg"                      
-                    >
-                      MY PAGE
-                    </Link>
+                      <Link to="/mint" className="text-lg">
+                        <div>MINT</div>
+                      </Link>
+                      <Link to="/partsshop" className="text-lg">
+                        <div>Sticker</div>
+                      </Link>
+                      <Link to="/myPage" className="text-lg">
+                        MY PAGE
+                      </Link>
+                    </div>
                   </div>
-                </div></>
+                </>
               ) : (
                 <div className="flex  justify-end ">
                   <button
@@ -147,7 +147,7 @@ const Main = () => {
                 <div>Mint</div>
               </Link>
               <Link to="/partsshop">
-                <div className="mx-10">Parts Shop</div>
+                <div className="mx-10">Sticker</div>
               </Link>
               <Link
                 to={account ? "/mypage" : ""}
@@ -160,8 +160,8 @@ const Main = () => {
                 )}
               </Link>
               {account && (
-                <button className="" onClick={onClickLogOut}>
-                  <FiPower className="" size={33} />
+                <button onClick={onClickLogOut}>
+                  <FiPower size={33} />
                 </button>
               )}
             </div>
@@ -176,15 +176,15 @@ const Main = () => {
         <div className="bg-[#E3C9B2] mainSecondDiv mainmobileSecondDiv   h-[40vh] md:h-[80vh] relative justify-center items-center mt-1 md:mt-3"></div>
         <div className="mainmobileThirdDiv mainThirdDiv w-full h-[40vh] md:h-[80vh] mt-1 md:mt-3"></div>
         <div className="flex w-full flex-col md:w-full md:flex-row items-center md:justify-center mt-1 md:mt-3 bg-gradient-to-b from-[#85A0BD] from-78.1% via-[#CEC3B7] via-86% via-[#D2B9A6] to-[#B4958D] to-100%  px-15 md:px-20 py-12 md:pl-32 md:pr-16">
-          <div className='md:hidden flex font-semiboldbold text-2xl mt-10 text-[#F3EED4]'>
+          <div className="md:hidden flex font-semiboldbold text-2xl mt-10 text-[#F3EED4]">
             my stream of consciousness
           </div>
-            <div className="border-4 border-yellow-100 w-3/4 md:w-1/3 my-8 md:ml-8 md:mb-0">
-              <img
-                src={`${process.env.PUBLIC_URL}/image/mainMap.png`}
-                className=""
-              />
-            </div>
+          <div className="border-4 border-yellow-100 w-3/4 md:w-1/3 my-8 md:ml-8 md:mb-0">
+            <img
+              src={`${process.env.PUBLIC_URL}/image/mainMap.png`}
+              className=""
+            />
+          </div>
           <div className="flex flex-col justify-center items-center w-full">
             <div className="hidden md:flex text-xs md:text-4xl mb-10 text-[#F3EED4]  ">
               my stream of consciousness
@@ -244,7 +244,7 @@ const Main = () => {
         </div>
       </div>
       <div className="flex-shrink-0 film-right xl:w-24 lg:w-20 md:w-16 sm:12 " />
-    </div>
+    </motion.div>
   );
 };
 

@@ -24,6 +24,7 @@ const MyNfts = ({
   const [metadataByTokenIdWide, setMetadataByTokenIdWide] = useState("");
   const [selectedBurn, setSelectedBurn] = useState();
   const [selectedImageInfo, setSelectedImageInfo] = useState([]);
+  const [partsNumber, setPartsNumber] = useState();
 
   const [metadataFileName, setMetadataFileName] = useState(null);
   const [burnTx, setBurnTx] = useState();
@@ -104,6 +105,7 @@ const MyNfts = ({
       const metadataResponse = await fetch(response);
       const metadata = await metadataResponse.json();
       setSelectedImageInfo(metadata.attributes);
+      setPartsNumber(metadata.attributes[9].value);
       const uploadedFileNameAttribute = metadata.attributes.find(
         (attribute) => attribute.trait_type === "Uploaded File Name"
       );
@@ -120,6 +122,7 @@ const MyNfts = ({
   useEffect(() => {
     if (metadataFileName !== null) {
       console.log(metadataFileName);
+      console.log(selectedImageInfo);
     }
   }, [metadataFileName]);
 
@@ -131,6 +134,7 @@ const MyNfts = ({
       setSelectedImageInfo(null);
       setSelectedBurn("");
       setMetadataFileName("");
+      setPartsNumber("");
       // setBurnTx(null);
     }, 200); // useEffect 점검하기
   };
@@ -144,6 +148,7 @@ const MyNfts = ({
         setSelectedImageInfo(null);
         setSelectedBurn("");
         setMetadataFileName("");
+        setPartsNumber("");
       }, 200);
     }
   };
@@ -162,6 +167,7 @@ const MyNfts = ({
       const metadataResponse = await fetch(response);
       const metadata = await metadataResponse.json();
       setSelectedImageInfo(metadata.attributes);
+      setPartsNumber(metadata.attributes[9].value);
       const uploadedFileNameAttribute = metadata.attributes.find(
         (attribute) => attribute.trait_type === "Uploaded File Name"
       );
@@ -183,6 +189,7 @@ const MyNfts = ({
       setSelectedImageInfo(null);
       setSelectedBurn("");
       setMetadataFileName("");
+      setPartsNumber("");
       // setBurnTx(null);
     }, 200);
   };
@@ -196,6 +203,7 @@ const MyNfts = ({
         setSelectedImageInfo(null);
         setSelectedBurn("");
         setMetadataFileName("");
+        setPartsNumber("");
       }, 200);
     }
   };
@@ -221,6 +229,25 @@ const MyNfts = ({
         handleWideModalClose();
         console.log(burnTx);
       }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const restoreNft = async () => {
+    if (partsNumber == "none") {
+      alert("메타데이터를 업로드해야 합니다.");
+      return;
+    }
+    try {
+      const mintNft = await contract.methods
+        .restoreNft(selectedBurn)
+        .send({ from: account });
+      console.log(mintNft);
+      const txHash = mintNft.transactionHash;
+      onBurnTx(txHash); // 부모 컴포넌트로 burnTx 값 전달
+      handleModalClose();
+      handleWideModalClose();
     } catch (error) {
       console.error(error);
     }
@@ -266,7 +293,6 @@ const MyNfts = ({
                           src={lengthyImages[selectedImageIndex]}
                           alt={`NFT ${selectedImageIndex}`}
                           className=" h-full  md:h-1/2 md:w-5/6"
-                          // style={{ maxWidth: "100%", maxHeight: "100%" }}
                         />
                       </div>
                       <div className="flex flex-col justify-center items-center">
@@ -274,10 +300,9 @@ const MyNfts = ({
                           {selectedImageInfo &&
                             selectedImageInfo.length > 0 && (
                               <div className="flex flex-col  text-xs md:text-xl pr-16 py-8 md:p-20 modalLetter w-[375px]   md:w-[700px] relative">
-                                <VscChromeClose
-                                  onClick={handleModalClose}
-                                  className=" text-[#f3f2dc] text-xl md:text-3xl font-extrabold absolute right-5 top-0 border rounded-full border-[#f3f2dc]"
-                                />
+                                <button onClick={handleModalClose}>
+                                  <VscChromeClose className=" text-[#f3f2dc] text-xl md:text-3xl font-extrabold absolute right-5 top-0 border rounded-full border-[#f3f2dc]" />
+                                </button>
                                 <div className="flex justify-center pl-16  mb-3 md:mb-14 text-xl md:text-3xl font-bold  tracking-widest">
                                   INFO
                                 </div>
@@ -308,19 +333,35 @@ const MyNfts = ({
                                   Message:
                                   <div className="">
                                     {selectedImageInfo[7]?.value}
-                                    oaeifjaoaeifja;weoifjwa;eaoaeifja;weoifjwa;eaoaeifja;weoifjwa;eaoaeifja;weoifjwa;eaoaeifja;weoifjwa;ea;weoifjwa;ea
                                   </div>
                                 </div>
                               </div>
                             )}
                         </div>
                         <div>
-                          <button
-                            onClick={onClickBurn}
-                            className="mt-2 md:mt-0 border-4 border-[#f3f2dc] px-10 md:px-20 py-2 md:py-4 font-extrabold text-xl tracking-widest"
-                          >
-                            Burn NFT
-                          </button>
+                          {partsNumber == "none" ? (
+                            <button
+                              onClick={onClickBurn}
+                              className="mt-2 md:mt-0 border-4 border-[#f3f2dc] px-10 md:px-20 py-2 md:py-4 font-extrabold text-xl tracking-widest"
+                            >
+                              Burn NFT
+                            </button>
+                          ) : (
+                            <div className="w-full flex justify-end items-end">
+                              <button
+                                onClick={onClickBurn}
+                                className="mt-2 md:mt-0 border-4 border-[#f3f2dc] px-10 md:px-20 py-2 md:py-4 font-extrabold text-xl tracking-widest"
+                              >
+                                Burn NFT
+                              </button>
+                              <button
+                                onClick={restoreNft}
+                                className="mt-2 md:mt-0 border-4 border-[#f3f2dc] px-10 md:px-10 py-2 md:py-4 font-extrabold text-xl tracking-widest"
+                              >
+                                Dettache Sticker
+                              </button>
+                            </div>
+                          )}
                         </div>
                       </div>
                     </div>
@@ -361,11 +402,10 @@ const MyNfts = ({
                         <div className="flex flex-col justify-center items-center md:ml-10">
                           {selectedImageInfo &&
                             selectedImageInfo.length > 0 && (
-                              <div className="flex flex-col text-xs md:text-xl p-8 md:p-20 modalLetter w-[370px] md:w-[700px]  relative ">
-                                <VscChromeClose
-                                  onClick={handleWideModalClose}
-                                  className=" text-[#f3f2dc] text-xl md:text-3xl font-extrabold absolute right-5 top-0 border rounded-full border-[#f3f2dc]"
-                                />
+                              <div className="flex flex-col text-xs md:text-xl p-8 md:p-10 modalLetter w-[370px] md:w-[700px]  relative ">
+                                <button onClick={handleWideModalClose}>
+                                  <VscChromeClose className=" text-[#f3f2dc] text-xl md:text-3xl font-extrabold absolute right-5 top-0 border rounded-full border-[#f3f2dc]" />
+                                </button>
                                 <div className="flex justify-center pl-6 mb-3 md:mb-14 text-xl md:text-3xl font-bold tracking-widest">
                                   INFO
                                 </div>
@@ -402,12 +442,29 @@ const MyNfts = ({
                             )}
                         </div>
                         <div>
-                          <button
-                            onClick={onClickBurn}
-                            className="mt-2 md:mt-0 border-4 border-[#f3f2dc] px-10 md:px-20 py-2 md:py-4 font-extrabold text-xl tracking-widest"
-                          >
-                            Burn NFT
-                          </button>
+                          {partsNumber == "none" ? (
+                            <button
+                              onClick={onClickBurn}
+                              className="mt-2 md:mt-0 border-4 border-[#f3f2dc] px-10 md:px-20 py-2 md:py-4 font-extrabold text-xl tracking-widest"
+                            >
+                              Burn NFT
+                            </button>
+                          ) : (
+                            <div className="w-full flex justify-end items-end">
+                              <button
+                                onClick={onClickBurn}
+                                className="mt-2 md:mt-0 border-4 border-[#f3f2dc] px-10 md:px-20 py-2 md:py-4 font-extrabold text-xl tracking-widest"
+                              >
+                                Burn NFT
+                              </button>
+                              <button
+                                onClick={restoreNft}
+                                className="mt-2 md:mt-0 border-4 border-[#f3f2dc] px-10 md:px-20 py-2 md:py-4 font-extrabold text-xl tracking-widest"
+                              >
+                                Dettache Sticker
+                              </button>
+                            </div>
+                          )}
                         </div>
                       </div>
                     </div>
