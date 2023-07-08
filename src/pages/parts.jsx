@@ -52,19 +52,19 @@ const Parts = () => {
       url: `${process.env.PUBLIC_URL}/image/parts/items/tape.jpg`,
       name: "Tape",
       position: "우측 상단",
-      price: "0.001",
+      price: "1",
     },
     {
       url: `${process.env.PUBLIC_URL}/image/parts/items/stamp.jpg`,
       name: "stamp",
       position: "우측 상단",
-      price: "0.002",
+      price: "2",
     },
     {
       url: `${process.env.PUBLIC_URL}/image/parts/items/umbrella.png`,
       name: "Umbrella",
       position: "우측 상단",
-      price: "0.003",
+      price: "3",
     },
   ];
 
