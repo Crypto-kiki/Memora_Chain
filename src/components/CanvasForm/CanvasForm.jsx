@@ -38,12 +38,14 @@ function CanvasForm({
     const ctx = canvas.getContext("2d");
     const cw = canvas.width;
     const ch = canvas.height;
+
     // 가로가 긴버전
     if (size[0] == 1) {
       // console.log(size);
       const image = new Image();
       image.src = file;
       image.onload = () => {
+        ctx.drawImage(image3, 0, 0, 0, 0);
         //배경 프레임 그리기
         const rectWidth = cw / 2;
         const rectheight = ch;
@@ -267,7 +269,7 @@ function CanvasForm({
 
       image.onload = () => {
         //배경테두리 사각형 그리기
-
+        ctx.drawImage(image2, 0, 0, 0, 0);
         const rectWidth = cw / 2;
         const rectheight = ch;
         console.log(cw);
