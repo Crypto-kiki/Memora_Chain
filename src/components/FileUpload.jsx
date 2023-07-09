@@ -116,6 +116,15 @@ const FileUpload = ({
     loadFonts();
   }, [fonts]);
 
+  const loadImaget = (src) => {
+    return new Promise((resolve, reject) => {
+      const image = new Image();
+      image.src = src;
+      image.onload = () => resolve(image);
+      image.onerror = (error) => reject(error);
+    });
+  };
+
   useEffect(() => {
     FileToMint();
   }, [index, CanvasImage1]);
@@ -124,32 +133,11 @@ const FileUpload = ({
     console.log(end);
   }, [end]);
 
-  // useEffect(() => {
-  //   const image = new Image();
-  //   image.src = `${process.env.PUBLIC_URL}/image/Logo.png`;
-  //   const image2 = new Image();
-  //   image2.src = `${process.env.PUBLIC_URL}/image/logo2.png`;
-  //   const image3 = new Image();
-  //   image3.src = `${process.env.PUBLIC_URL}/image/logo3.png`;
-  //   const image4 = new Image();
-  //   image4.src = `${process.env.PUBLIC_URL}/image/logo4.png`;
-  //   const image5 = new Image();
-  //   image5.src = `${process.env.PUBLIC_URL}/image/logo5.png`;
-  //   const image6 = new Image();
-  //   image6.src = `${process.env.PUBLIC_URL}/image/logo6.png`;
-  //   image.onload = () => {};
-  //   image2.onload = () => {};
-  //   image3.onload = () => {};
-  //   image4.onload = () => {};
-  //   image5.onload = () => {};
-  //   image6.onload = () => {};
-  // }, []);
-
   return (
     <>
-      <div className="flex justify-center mb-4">
+      <div className="flex justify-center items-center mb-4">
         {file && (
-          <div className="xl:w-[1000px] lg:w-[800px] md:w-[500px] sm:w-[300px]">
+          <div className=" items-center w-[350px] md:w-[1000px] ">
             <SliderComponent
               imgurl1={CanvasImage1}
               imgurl2={CanvasImage2}
