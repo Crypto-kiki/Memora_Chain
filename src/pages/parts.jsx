@@ -599,12 +599,14 @@ const Parts = () => {
                 <div
                   className={`bg-gray-100 overflow-hidden absolute z-10 top-0 right-0  w-2/5   min-h-screen `}
                 >
-                  <div className="mt-5 flex justify-center mb-12">
-                    <img
-                      src={`${process.env.PUBLIC_URL}/image/Logo.png`}
-                      className="w-12 "
-                    />
-                  </div>
+                  <Link to="/">
+                    <div className="mt-5 flex justify-center mb-12">
+                      <img
+                        src={`${process.env.PUBLIC_URL}/image/Logo.png`}
+                        className="w-12 "
+                      />
+                    </div>
+                  </Link>
                   <div className="flex flex-col gap-2 items-start ml-4 w-full ">
                     <div className="text-lg ">
                       {account ? (
@@ -628,9 +630,11 @@ const Parts = () => {
                     <Link to="/partsshop" className="text-lg">
                       <div>Sticker</div>
                     </Link>
-                    <Link to="/myPage" className="text-lg">
-                      MY PAGE
-                    </Link>
+                    {account && (
+                      <Link to="/myPage" className="text-lg">
+                        MY PAGE
+                      </Link>
+                    )}
                   </div>
                 </div>
               </>
