@@ -156,7 +156,7 @@ const MyPage = () => {
                 className="hidden md:flex md:w-28"
               />
               <img
-                src={`${process.env.PUBLIC_URL}/image/Logo6.png`}
+                src={`${process.env.PUBLIC_URL}/image/Logo6big.png`}
                 className="flex md:hidden w-14"
               />
             </div>

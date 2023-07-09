@@ -45,6 +45,7 @@ const Parts = () => {
   const [selectedNFTImage, setSelectedNFTImage] = useState();
   const [selectedTokenId, setSelectedTokenId] = useState();
   const [selectedImageCanvas, setSelectedImageCanvas] = useState();
+  const [selectedNFTSticker, setSelectedNFTSticker] = useState();
 
   const ItemImage = [
     {
@@ -118,7 +119,7 @@ const Parts = () => {
         const metadataUri = await contract.methods
           .metadataUri(tokenIds[i])
           .call();
-        const response = await axios.get(metadataUri); // URI를 사용하여 이미지 데이터를 가져옴
+        const response = await axios.get(metadataUri);
         const imageUrl = response.data.image;
         uris[imageUrl] = tokenIds[i];
         token.push(tokenIds[i]);
@@ -224,7 +225,7 @@ const Parts = () => {
       const metadata = await metadataResponse.json();
       setSelectedImageInfo(metadata.attributes);
       setSelectedImageCanvas(metadata.attributes[10].value);
-      console.log(metadata.attributes);
+      setSelectedNFTSticker(metadata.attributes[9].value);
     } catch (error) {
       console.error(error);
     }
@@ -246,6 +247,7 @@ const Parts = () => {
       const metadata = await metadataResponse.json();
       setSelectedImageInfo(metadata.attributes);
       setSelectedImageCanvas(metadata.attributes[10].value);
+      setSelectedNFTSticker(metadata.attributes[9].value);
     } catch (error) {
       console.error(error);
     }
@@ -658,59 +660,65 @@ const Parts = () => {
                   <>
                     <div className="h-full w-full flex flex-col justify-between items-center">
                       <div className="h-[80%] w-[70%] flex justify-center items-center mt-[5%] itemModalBackgroundWide">
-                        {selectedImageCanvas === 0 && (
-                          <ItemCanvas
-                            img={selectedNFTImage}
-                            ItemIndex={ItemIndex}
-                            size={size}
-                            setEnd={setEnd}
-                            setItemOnImage={setItemOnImage}
-                          />
-                        )}
-                        {selectedImageCanvas === 1 && (
-                          <ItemCanvas2
-                            img={selectedNFTImage}
-                            ItemIndex={ItemIndex}
-                            size={size}
-                            setEnd={setEnd}
-                            setItemOnImage={setItemOnImage}
-                          />
-                        )}
-                        {selectedImageCanvas === 2 && (
-                          <ItemCanvas3
-                            img={selectedNFTImage}
-                            ItemIndex={ItemIndex}
-                            size={size}
-                            setEnd={setEnd}
-                            setItemOnImage={setItemOnImage}
-                          />
-                        )}
-                        {selectedImageCanvas === 3 && (
-                          <ItemCanvas4
-                            img={selectedNFTImage}
-                            ItemIndex={ItemIndex}
-                            size={size}
-                            setEnd={setEnd}
-                            setItemOnImage={setItemOnImage}
-                          />
-                        )}
-                        {selectedImageCanvas === 4 && (
-                          <ItemCanvas5
-                            img={selectedNFTImage}
-                            ItemIndex={ItemIndex}
-                            size={size}
-                            setEnd={setEnd}
-                            setItemOnImage={setItemOnImage}
-                          />
-                        )}
-                        {selectedImageCanvas === 5 && (
-                          <ItemCanvas6
-                            img={selectedNFTImage}
-                            ItemIndex={ItemIndex}
-                            size={size}
-                            setEnd={setEnd}
-                            setItemOnImage={setItemOnImage}
-                          />
+                        {selectedNFTSticker == "none" ? (
+                          selectedImageCanvas === 0 ? (
+                            <ItemCanvas
+                              img={selectedNFTImage}
+                              ItemIndex={ItemIndex}
+                              size={size}
+                              setEnd={setEnd}
+                              setItemOnImage={setItemOnImage}
+                            />
+                          ) : selectedImageCanvas === 1 ? (
+                            <ItemCanvas2
+                              img={selectedNFTImage}
+                              ItemIndex={ItemIndex}
+                              size={size}
+                              setEnd={setEnd}
+                              setItemOnImage={setItemOnImage}
+                            />
+                          ) : selectedImageCanvas === 2 ? (
+                            <ItemCanvas3
+                              img={selectedNFTImage}
+                              ItemIndex={ItemIndex}
+                              size={size}
+                              setEnd={setEnd}
+                              setItemOnImage={setItemOnImage}
+                            />
+                          ) : selectedImageCanvas === 3 ? (
+                            <ItemCanvas4
+                              img={selectedNFTImage}
+                              ItemIndex={ItemIndex}
+                              size={size}
+                              setEnd={setEnd}
+                              setItemOnImage={setItemOnImage}
+                            />
+                          ) : selectedImageCanvas === 4 ? (
+                            <ItemCanvas5
+                              img={selectedNFTImage}
+                              ItemIndex={ItemIndex}
+                              size={size}
+                              setEnd={setEnd}
+                              setItemOnImage={setItemOnImage}
+                            />
+                          ) : selectedImageCanvas === 5 ? (
+                            <ItemCanvas6
+                              img={selectedNFTImage}
+                              ItemIndex={ItemIndex}
+                              size={size}
+                              setEnd={setEnd}
+                              setItemOnImage={setItemOnImage}
+                            />
+                          ) : null
+                        ) : (
+                          <div>
+                            <div>스티커가 부착된 NFT 입니다.</div>
+                            <div>스티커는 NFT당 1개만 부착이 가능합니다.</div>
+                            <div>
+                              다른 NFT를 선택하시거나 MyPage에서 스티커를
+                              제거해주세요.
+                            </div>
+                          </div>
                         )}
                       </div>
                       <button
@@ -726,59 +734,65 @@ const Parts = () => {
                   <>
                     <div className="h-full w-full flex flex-col justify-between items-center">
                       <div className="h-[80%] w-[90%] flex justify-center items-center mt-[5%] itemModalBackgroundLengthy">
-                        {selectedImageCanvas === 0 && (
-                          <ItemCanvas
-                            img={selectedNFTImage}
-                            ItemIndex={ItemIndex}
-                            size={size}
-                            setEnd={setEnd}
-                            setItemOnImage={setItemOnImage}
-                          />
-                        )}
-                        {selectedImageCanvas === 1 && (
-                          <ItemCanvas2
-                            img={selectedNFTImage}
-                            ItemIndex={ItemIndex}
-                            size={size}
-                            setEnd={setEnd}
-                            setItemOnImage={setItemOnImage}
-                          />
-                        )}
-                        {selectedImageCanvas === 2 && (
-                          <ItemCanvas3
-                            img={selectedNFTImage}
-                            ItemIndex={ItemIndex}
-                            size={size}
-                            setEnd={setEnd}
-                            setItemOnImage={setItemOnImage}
-                          />
-                        )}
-                        {selectedImageCanvas === 3 && (
-                          <ItemCanvas4
-                            img={selectedNFTImage}
-                            ItemIndex={ItemIndex}
-                            size={size}
-                            setEnd={setEnd}
-                            setItemOnImage={setItemOnImage}
-                          />
-                        )}
-                        {selectedImageCanvas === 4 && (
-                          <ItemCanvas5
-                            img={selectedNFTImage}
-                            ItemIndex={ItemIndex}
-                            size={size}
-                            setEnd={setEnd}
-                            setItemOnImage={setItemOnImage}
-                          />
-                        )}
-                        {selectedImageCanvas === 5 && (
-                          <ItemCanvas6
-                            img={selectedNFTImage}
-                            ItemIndex={ItemIndex}
-                            size={size}
-                            setEnd={setEnd}
-                            setItemOnImage={setItemOnImage}
-                          />
+                        {selectedNFTSticker == "none" ? (
+                          selectedImageCanvas === 0 ? (
+                            <ItemCanvas
+                              img={selectedNFTImage}
+                              ItemIndex={ItemIndex}
+                              size={size}
+                              setEnd={setEnd}
+                              setItemOnImage={setItemOnImage}
+                            />
+                          ) : selectedImageCanvas === 1 ? (
+                            <ItemCanvas2
+                              img={selectedNFTImage}
+                              ItemIndex={ItemIndex}
+                              size={size}
+                              setEnd={setEnd}
+                              setItemOnImage={setItemOnImage}
+                            />
+                          ) : selectedImageCanvas === 2 ? (
+                            <ItemCanvas3
+                              img={selectedNFTImage}
+                              ItemIndex={ItemIndex}
+                              size={size}
+                              setEnd={setEnd}
+                              setItemOnImage={setItemOnImage}
+                            />
+                          ) : selectedImageCanvas === 3 ? (
+                            <ItemCanvas4
+                              img={selectedNFTImage}
+                              ItemIndex={ItemIndex}
+                              size={size}
+                              setEnd={setEnd}
+                              setItemOnImage={setItemOnImage}
+                            />
+                          ) : selectedImageCanvas === 4 ? (
+                            <ItemCanvas5
+                              img={selectedNFTImage}
+                              ItemIndex={ItemIndex}
+                              size={size}
+                              setEnd={setEnd}
+                              setItemOnImage={setItemOnImage}
+                            />
+                          ) : selectedImageCanvas === 5 ? (
+                            <ItemCanvas6
+                              img={selectedNFTImage}
+                              ItemIndex={ItemIndex}
+                              size={size}
+                              setEnd={setEnd}
+                              setItemOnImage={setItemOnImage}
+                            />
+                          ) : null
+                        ) : (
+                          <div>
+                            <div>스티커가 부착된 NFT 입니다.</div>
+                            <div>스티커는 NFT당 1개만 부착이 가능합니다.</div>
+                            <div>
+                              다른 NFT를 선택하시거나 MyPage에서 스티커를
+                              제거해주세요.
+                            </div>
+                          </div>
                         )}
                       </div>
                       <button
