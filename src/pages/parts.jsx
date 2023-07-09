@@ -22,6 +22,7 @@ import ItemCanvas5 from "../components/ItemCanvas/ItemCanvas5";
 import ItemCanvas6 from "../components/ItemCanvas/ItemCanvas6";
 import { VscChromeClose } from "react-icons/vsc";
 import { FiPower } from "react-icons/fi";
+import { RxHamburgerMenu } from "react-icons/rx";
 import { motion } from "framer-motion";
 
 const Parts = () => {
@@ -45,7 +46,32 @@ const Parts = () => {
   const [selectedNFTImage, setSelectedNFTImage] = useState();
   const [selectedTokenId, setSelectedTokenId] = useState();
   const [selectedImageCanvas, setSelectedImageCanvas] = useState();
-  const [selectedNFTSticker, setSelectedNFTSticker] = useState();
+  const [selectedNFTSticker, setSelectedNFTSticker] = useState("none");
+
+  const [isPopupOpen, setPopupOpen] = useState(false);
+  const [isMenuOpen, setMenuOpen] = useState(false);
+
+  const openPopup = () => {
+    setPopupOpen(true);
+  };
+
+  const closePopup = () => {
+    setPopupOpen(false);
+    // setQrvalue(DEFAULT_QR_CODE); // QR 코드를 숨김
+  };
+
+  const toggleMenu = () => {
+    setMenuOpen(!isMenuOpen);
+  };
+
+  // 메뉴 탭이 열렸을 때 스크롤 막기
+  useEffect(() => {
+    if (isMenuOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+  }, [isMenuOpen]);
 
   const ItemImage = [
     {
@@ -212,6 +238,8 @@ const Parts = () => {
   // 세로 이미지
   const handleImageClick = async (index) => {
     setSize("");
+    setSelectedImageInfo("");
+    setSelectedImageCanvas("");
     const imageUrl = lengthyImages[index];
     setSelectedNFTImage(imageUrl);
     const tokenId = tokenIdsWithMetadataUris[imageUrl];
@@ -225,6 +253,7 @@ const Parts = () => {
       const metadata = await metadataResponse.json();
       setSelectedImageInfo(metadata.attributes);
       setSelectedImageCanvas(metadata.attributes[10].value);
+      setSelectedNFTSticker("");
       setSelectedNFTSticker(metadata.attributes[9].value);
     } catch (error) {
       console.error(error);
@@ -234,6 +263,9 @@ const Parts = () => {
   // 가로 이미지
   const handleWideImageClick = async (index) => {
     setSize("");
+    setSize("");
+    setSelectedImageInfo("");
+    setSelectedImageCanvas("");
     const imageUrl = wideImages[index];
     setSelectedNFTImage(imageUrl);
     const tokenId = tokenIdsWithMetadataUris[imageUrl];
@@ -247,6 +279,7 @@ const Parts = () => {
       const metadata = await metadataResponse.json();
       setSelectedImageInfo(metadata.attributes);
       setSelectedImageCanvas(metadata.attributes[10].value);
+      setSelectedNFTSticker("");
       setSelectedNFTSticker(metadata.attributes[9].value);
     } catch (error) {
       console.error(error);
@@ -256,6 +289,7 @@ const Parts = () => {
   // 아이템 모달
   const openItemModal = (index) => {
     setItemIndex(index);
+    setSelectedNFTSticker("none");
     setModalIsOpen(true);
   };
   const closeItemModal = () => {
@@ -486,6 +520,10 @@ const Parts = () => {
     setMetadataURI("");
     setSize("");
     setItemOnImage("");
+    setSelectedImageInfo("");
+    setSelectedImageCanvas("");
+    setSelectedNFTSticker("");
+    getMyNfts();
   };
 
   useEffect(() => {
@@ -540,21 +578,81 @@ const Parts = () => {
     >
       {/* <div className="film-left w-24" /> */}
       <div className="w-full flex flex-col">
-        <header className="flex justify-between items-center px-10 font-julius text-2xl tracking-wider text-white">
+        <header className="flex justify-between items-center px-3 md:px-10 font-julius md:text-2xl tracking-wider text-[#686667]">
           <Link to="/">
-            <div className="mt-6">
+            <div className="mt-3">
               <img
-                src={`${process.env.PUBLIC_URL}/image/logo6big.png`}
-                className="w-28"
+                src={`${process.env.PUBLIC_URL}/image/Logo.png`}
+                className="w-14 md:w-28"
               />
             </div>
           </Link>
-          <div className="flex">
+          <div className="md:hidden absolute z-10 top-0 right-0 w-full ">
+            {isMenuOpen ? (
+              <>
+                <div
+                  className="fixed inset-0 opacity-30 bg-black "
+                  onClick={() => {
+                    setMenuOpen(false);
+                  }}
+                ></div>
+                <div
+                  className={`bg-gray-100 overflow-hidden absolute z-10 top-0 right-0  w-2/5   min-h-screen `}
+                >
+                  <div className="mt-5 flex justify-center mb-12">
+                    <img
+                      src={`${process.env.PUBLIC_URL}/image/Logo.png`}
+                      className="w-12 "
+                    />
+                  </div>
+                  <div className="flex flex-col gap-2 items-start ml-4 w-full ">
+                    <div className="text-lg ">
+                      {account ? (
+                        <div>
+                          <button className="" onClick={onClickLogOut}>
+                            LOGOUT
+                          </button>
+                        </div>
+                      ) : (
+                        <button
+                          className=" btn-style"
+                          onClick={connectWithMetamask}
+                        >
+                          LOGIN
+                        </button>
+                      )}
+                    </div>
+                    <Link to="/mint" className="text-lg">
+                      <div>MINT</div>
+                    </Link>
+                    <Link to="/partsshop" className="text-lg">
+                      <div>Sticker</div>
+                    </Link>
+                    <Link to="/myPage" className="text-lg">
+                      MY PAGE
+                    </Link>
+                  </div>
+                </div>
+              </>
+            ) : (
+              <div className="flex  justify-end ">
+                <button
+                  className="mt-3 mr-3 "
+                  onClick={() => {
+                    setMenuOpen(true);
+                  }}
+                >
+                  <RxHamburgerMenu size={25} />
+                </button>
+              </div>
+            )}
+          </div>
+          <div className="hidden md:flex ">
             <Link to="/mint">
               <div>Mint</div>
             </Link>
             <Link to="/partsshop">
-              <div className="mx-10 font-bold">Sticker</div>
+              <div className="mx-10">Sticker</div>
             </Link>
             <Link
               to={account ? "/mypage" : ""}
@@ -578,30 +676,30 @@ const Parts = () => {
             Sticker
           </div>
         </div>
-        <div className="w-full p-20">
-          <div className="w-full grid grid-cols-2 gap-20">
+        <div className="w-full p-8 md:p-20">
+          <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-20">
             {ItemImage.map((item, index) => (
               <div
                 key={index}
-                className="grid grid-cols-2 w-[700px] h-80 itemBackground text-[#668585]"
+                className="grid grid-cols-2 w-[700px] h-40 md:h-80 itemBackground text-[#668585]"
               >
                 <div className="flex justify-center items-center ">
                   <img
                     src={item.url}
                     alt={`NFT ${index}`}
-                    className="w-52 h-52"
+                    className="w-24 h-24 md:w-52 md:h-52"
                   />
                 </div>
                 <div className="flex flex-col justify-center items-center">
-                  <div className="text-5xl font-bold my-12 tracking-wide">
+                  <div className="text-2xl md:text-5xl font-bold my-4 md:my-12 tracking-wide">
                     {item.name}
                   </div>
-                  <div className="text-base font-normal mt-4">
+                  <div className="text-sm md:text-base font-normal mt-1 md:mt-4">
                     PRICE {item.price} ETH
                   </div>
-                  <div className="flex justify-end mt-5">
+                  <div className="flex justify-end mt-3 md:mt-5">
                     <button
-                      className="text-3xl border border-[#F3EED4] text-[#F3EED4] px-12 py-1"
+                      className="text-xl md:text-3xl border border-[#F3EED4] text-[#F3EED4] px-4  md:px-12 md:py-1"
                       ref={modalRef}
                       onClick={() => openItemModal(index)}
                     >
@@ -659,7 +757,7 @@ const Parts = () => {
                   // 가로
                   <>
                     <div className="h-full w-full flex flex-col justify-between items-center">
-                      <div className="h-[80%] w-[70%] flex justify-center items-center mt-[5%] itemModalBackgroundWide">
+                      <div className="h-[80%] w-[80%] flex justify-center items-center mt-[5%] itemModalBackgroundWide">
                         {selectedNFTSticker == "none" ? (
                           selectedImageCanvas === 0 ? (
                             <ItemCanvas
@@ -711,22 +809,30 @@ const Parts = () => {
                             />
                           ) : null
                         ) : (
-                          <div>
+                          <div className="w-[60%] text-lg">
                             <div>스티커가 부착된 NFT 입니다.</div>
-                            <div>스티커는 NFT당 1개만 부착이 가능합니다.</div>
+                            <div>NFT당 1개만 부착이 가능합니다.</div>
                             <div>
-                              다른 NFT를 선택하시거나 MyPage에서 스티커를
-                              제거해주세요.
+                              다른 NFT를 선택하시거나
+                              <div>MyPage에서 스티커를 제거해주세요.</div>
                             </div>
+                            <Link to="/mypage">
+                              <button className="mt-20 border border-black px-10 py-3">
+                                MyPage로 이동
+                              </button>
+                            </Link>
                           </div>
                         )}
                       </div>
-                      <button
-                        onClick={upLoadImage}
-                        className="w-56 border border-[#F3EED4] shadow-lg py-2 text-4xl text-[#F3EED4] mb-[20%]"
-                      >
-                        BUY
-                      </button>
+
+                      {selectedNFTSticker == "none" && (
+                        <button
+                          onClick={upLoadImage}
+                          className="w-56 border border-[#F3EED4] shadow-lg py-2 text-4xl text-[#F3EED4] mb-[20%]"
+                        >
+                          BUY
+                        </button>
+                      )}
                     </div>
                   </>
                 ) : (
@@ -785,22 +891,29 @@ const Parts = () => {
                             />
                           ) : null
                         ) : (
-                          <div>
+                          <div className="w-[60%] text-lg">
                             <div>스티커가 부착된 NFT 입니다.</div>
-                            <div>스티커는 NFT당 1개만 부착이 가능합니다.</div>
+                            <div>NFT당 1개만 부착이 가능합니다.</div>
                             <div>
-                              다른 NFT를 선택하시거나 MyPage에서 스티커를
-                              제거해주세요.
+                              다른 NFT를 선택하시거나
+                              <div>MyPage에서 스티커를 제거해주세요.</div>
                             </div>
+                            <Link to="/mypage">
+                              <button className="mt-20 border border-black px-10 py-3">
+                                MyPage로 이동
+                              </button>
+                            </Link>
                           </div>
                         )}
                       </div>
-                      <button
-                        onClick={upLoadImage}
-                        className="w-56 border border-[#F3EED4] shadow-lg py-2 text-4xl text-[#F3EED4] mb-[20%]"
-                      >
-                        BUY
-                      </button>
+                      {selectedNFTSticker == "none" && (
+                        <button
+                          onClick={upLoadImage}
+                          className="w-56 border border-[#F3EED4] shadow-lg py-2 text-4xl text-[#F3EED4] mb-[20%]"
+                        >
+                          BUY
+                        </button>
+                      )}
                     </div>
                   </>
                 )}
