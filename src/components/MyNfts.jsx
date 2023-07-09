@@ -253,7 +253,7 @@ const MyNfts = ({
           My Total Nfts: {metadataUris.length} EA
         </div>
       </div>
-      {metadataUris && (
+      {metadataUris.length != 0 && (
         <div>
           {!loading ? (
             <>
@@ -478,7 +478,7 @@ const MyNfts = ({
           )}
         </div>
       )}
-      {!metadataUris && (
+      {metadataUris.legnth == 0 && (
         <div className="w-full h-screen  border-4 flex flex-col justify-center items-center ">
           <div className="flexjustify-center items-center text-4xl">
             You don't have any NFTs in your Wallet

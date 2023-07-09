@@ -220,8 +220,8 @@ const Main = () => {
 
         <div className="flex flex-col justify-center items-center mt-1 md:mt-3 bg-[#96A9C2] pt-10 md:pt-20 pb-10">
           <img
-            src={`${process.env.PUBLIC_URL}/image/airplane.png`}
-            className="hidden md:flex  md:w-1/2"
+            src={`${process.env.PUBLIC_URL}/image/AIRPLANE.png`}
+            className="hidden md:flex md:w-1/2"
           />
           <img
             src={`${process.env.PUBLIC_URL}/image/mainmobile/background3.png`}

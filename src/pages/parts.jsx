@@ -203,6 +203,7 @@ const Parts = () => {
     } catch (error) {
       console.error(error);
     }
+
     setLengthyImages(lengthy);
     setWideImages(wide);
   };
@@ -541,7 +542,7 @@ const Parts = () => {
           <Link to="/">
             <div className="mt-6">
               <img
-                src={`${process.env.PUBLIC_URL}/image/Logo6big.png`}
+                src={`${process.env.PUBLIC_URL}/image/logo6big.png`}
                 className="w-28"
               />
             </div>
@@ -561,7 +562,7 @@ const Parts = () => {
                 <div className="mr-10 ">MyPage</div>
               ) : (
                 <div>LogIn</div>
-              )}{" "}
+              )}
             </Link>
             {account && (
               <button onClick={onClickLogOut}>

@@ -495,8 +495,8 @@ const Mint = () => {
         setDownloadURL(null);
         setNftBlockHash(mintNft.blockHash);
       } catch (error) {
-        setDownloadURL(null);
         console.error(error);
+        setDownloadURL(null);
       }
     };
 
@@ -580,10 +580,10 @@ const Mint = () => {
   return (
     <motion.div
       className="flex justify-between min-h-screen mintmobileBackground mintBackground"
-      initial={{ opacity: 0.2 }}
+      initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      transition={{ duration: 1.5, ease: "easeIn" }}
+      transition={{ duration: 2, ease: "easeIn" }}
     >
       <div className="w-full flex flex-col">
         <header className="flex justify-between items-center px-3 md:px-10 font-julius md:text-2xl tracking-wider text-[#686667]">
@@ -700,13 +700,13 @@ const Mint = () => {
             </div>
           </div>
           <div className="hidden md:flex mb-10 md:mb-0 md:text-2xl tracking-widest text-[#686667]">
-            "Eternalize your memories with own your NFT."
+            "Capture your Memories forever on the Blockchains."
           </div>
           <div className="flex md:hidden  md:mb-0 md:text-2xl tracking-widest text-[#686667]">
-            Eternalize your memories
+            Capture your Memories forever
           </div>
           <div className="flex md:hidden mb-10 md:mb-0 md:text-2xl tracking-widest text-[#686667]">
-            with own your NFT.
+            on the Blockchains.
           </div>
           <div className="w-full flex flex-col md:flex-row  md:mt-40 mb-10 justify-center items-center">
             <div>
@@ -756,7 +756,7 @@ const Mint = () => {
             </div>
           </div>
           <div className="text-[#686667] text-lg md:text-xl mb-10 md:mb-20">
-            "Remembering the Present, Leaving a Mark on the Blockchain"
+            "My location is with memories."
           </div>
           {downloadURL && (
             <motion.div
@@ -781,7 +781,7 @@ const Mint = () => {
               <div className="flex md:hidden">Samples by your image</div>
             </div>
           ) : (
-            <div>
+            <div className="">
               <FileUpload
                 file={selectedFileURL}
                 setUrl={setCanvasImgurl}
