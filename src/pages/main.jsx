@@ -7,6 +7,8 @@ import { IoIosClose } from "react-icons/io";
 import { FiPower } from "react-icons/fi";
 import { useEffect } from "react";
 import { motion } from "framer-motion";
+import { useEffect } from "react";
+import { motion } from "framer-motion";
 
 const Main = () => {
   const { account, setAccount } = useContext(AccountContext); // Context에서 account 값과 setAccount 함수 가져오기
@@ -182,6 +184,12 @@ const Main = () => {
         <div className="flex w-full flex-col md:w-full md:flex-row items-center md:justify-center mt-1 md:mt-3 bg-gradient-to-b from-[#85A0BD] from-78.1% via-[#CEC3B7] via-86% via-[#D2B9A6] to-[#B4958D] to-100%  px-15 md:px-20 py-12 md:pl-32 md:pr-16">
           <div className="md:hidden flex font-semiboldbold text-2xl mt-10 text-[#F3EED4]">
             Where time and space meet
+          </div>
+          <div className="border-4 border-yellow-100 w-3/4 md:w-1/3 my-8 md:ml-8 md:mb-0">
+            <img
+              src={`${process.env.PUBLIC_URL}/image/mainMap.png`}
+              className=""
+            />
           </div>
           <div className="border-4 border-yellow-100 w-3/4 md:w-1/3 my-8 md:ml-8 md:mb-0">
             <img

@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { AccountContext } from "../AccountContext";
-import { useState, useEffect, useRef, useContext } from "react";
+import { useCallback, useState, useEffect, useRef, useContext } from "react";
 import axios from "axios";
 import CryptoJS from "crypto-js";
 import { storage } from "../firebase";
@@ -14,16 +14,16 @@ import { v4 } from "uuid";
 import { v4 as uuidv4 } from "uuid";
 import Web3 from "web3";
 import { CONTRACT_ABI, CONTRACT_ADDRESS } from "../web3.config";
-import ItemCanvas from "../components/ItemCanvas/ItemCanvas";
-import ItemCanvas2 from "../components/ItemCanvas/ItemCanvas2";
-import ItemCanvas3 from "../components/ItemCanvas/ItemCanvas3";
-import ItemCanvas4 from "../components/ItemCanvas/ItemCanvas4";
-import ItemCanvas5 from "../components/ItemCanvas/ItemCanvas5";
-import ItemCanvas6 from "../components/ItemCanvas/ItemCanvas6";
+
 import { VscChromeClose } from "react-icons/vsc";
 import { FiPower } from "react-icons/fi";
-import { RxHamburgerMenu } from "react-icons/rx";
-import { motion } from "framer-motion";
+import ItemCanvas from '../components/ItemCanvas/ItemCanvas';
+import ItemCanvas2 from '../components/ItemCanvas/ItemCanvas2';
+import ItemCanvas3 from '../components/ItemCanvas/ItemCanvas3';
+import ItemCanvas4 from '../components/ItemCanvas/ItemCanvas4';
+import ItemCanvas5 from '../components/ItemCanvas/ItemCanvas5';
+import ItemCanvas6 from '../components/ItemCanvas/ItemCanvas6';
+import ItemCanvas from "../components/ItemCanvas/ItemCanvas";
 
 const Parts = () => {
   const { account, setAccount } = useContext(AccountContext);
@@ -45,33 +45,6 @@ const Parts = () => {
   const [selectedImageInfo, setSelectedImageInfo] = useState([]);
   const [selectedNFTImage, setSelectedNFTImage] = useState();
   const [selectedTokenId, setSelectedTokenId] = useState();
-  const [selectedImageCanvas, setSelectedImageCanvas] = useState();
-  const [selectedNFTSticker, setSelectedNFTSticker] = useState("none");
-
-  const [isPopupOpen, setPopupOpen] = useState(false);
-  const [isMenuOpen, setMenuOpen] = useState(false);
-
-  const openPopup = () => {
-    setPopupOpen(true);
-  };
-
-  const closePopup = () => {
-    setPopupOpen(false);
-    // setQrvalue(DEFAULT_QR_CODE); // QR 코드를 숨김
-  };
-
-  const toggleMenu = () => {
-    setMenuOpen(!isMenuOpen);
-  };
-
-  // 메뉴 탭이 열렸을 때 스크롤 막기
-  useEffect(() => {
-    if (isMenuOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "unset";
-    }
-  }, [isMenuOpen]);
 
   const ItemImage = [
     {
@@ -252,9 +225,6 @@ const Parts = () => {
       const metadataResponse = await fetch(response);
       const metadata = await metadataResponse.json();
       setSelectedImageInfo(metadata.attributes);
-      setSelectedImageCanvas(metadata.attributes[10].value);
-      setSelectedNFTSticker("");
-      setSelectedNFTSticker(metadata.attributes[9].value);
     } catch (error) {
       console.error(error);
     }
@@ -278,9 +248,6 @@ const Parts = () => {
       const metadataResponse = await fetch(response);
       const metadata = await metadataResponse.json();
       setSelectedImageInfo(metadata.attributes);
-      setSelectedImageCanvas(metadata.attributes[10].value);
-      setSelectedNFTSticker("");
-      setSelectedNFTSticker(metadata.attributes[9].value);
     } catch (error) {
       console.error(error);
     }
@@ -518,12 +485,6 @@ const Parts = () => {
     setEncryptedIpfs("");
     setDownloadURL(null);
     setMetadataURI("");
-    setSize("");
-    setItemOnImage("");
-    setSelectedImageInfo("");
-    setSelectedImageCanvas("");
-    setSelectedNFTSticker("");
-    getMyNfts();
   };
 
   useEffect(() => {
@@ -569,13 +530,7 @@ const Parts = () => {
   }, [end]);
 
   return (
-    <motion.div
-      className="flex justify-between min-h-screen partsmobileBackground partsBackground"
-      initial={{ opacity: 0.2 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: 1.5, ease: "easeIn" }}
-    >
+    <motion.div className="flex justify-between min-h-screen partsmobileBackground partsBackground">
       {/* <div className="film-left w-24" /> */}
       <div className="w-full flex flex-col">
         <header className="flex justify-between items-center px-3 md:px-10 font-julius md:text-2xl tracking-wider text-[#686667]">
@@ -662,11 +617,7 @@ const Parts = () => {
               to={account ? "/mypage" : ""}
               onClick={!account ? connectWithMetamask : null}
             >
-              {account ? (
-                <div className="mr-10 ">MyPage</div>
-              ) : (
-                <div>LogIn</div>
-              )}
+              {account ? <div>MyPage</div> : <div>Login</div>}
             </Link>
             {account && (
               <button onClick={onClickLogOut}>
@@ -675,13 +626,9 @@ const Parts = () => {
             )}
           </div>
         </header>
-        <div className="flex justify-center items-center">
-          <div className="text-white border border-white w-40 md:w-80 text-center text-xl md:text-5xl mt-5 md:mt-0 py-2 md:py-6 px-4 md:px-10 tracking-widest">
-            Sticker
-          </div>
-        </div>
-        <div className="w-full p-8 md:p-20">
-          <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-20">
+        <div className="flex flex-col p-20 justify-center items-start">
+          <div className="mb-20 text-6xl tracking-widest">Items</div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-20">
             {ItemImage.map((item, index) => (
               <div
                 key={index}
@@ -707,7 +654,7 @@ const Parts = () => {
                       ref={modalRef}
                       onClick={() => openItemModal(index)}
                     >
-                      BUY
+                      구매하기
                     </button>
                   </div>
                 </div>
@@ -717,18 +664,9 @@ const Parts = () => {
         </div>
         {modalIsOpen && (
           <div className="fixed top-0 left-0 right-0 bottom-0 backdrop-filter backdrop-blur-sm flex flex-col justify-center modal px-10 ">
-            <div className="pl-4 flex flex-col">
-              <div className="font-bold text-4xl text-white mb-6">Select</div>
-              <ul className="font-bold text-[#F3EED4] text-sm">
-                <li>스티커를 미부착한 NFT만 사용 가능합니다.</li>
-                <li>
-                  스티커를 제거 후 다시 부착할 수 있습니다. 스티커는 제거하면
-                  재사용이 불가능합니다.
-                </li>
-              </ul>
-            </div>
-            <div className="border border-[#F3EED4] rounded-md w-full h-4/5 mt-6 flex justify-between text-2xl font-bold p-4 relative">
-              <div className="w-7/12 h-full overflow-y-scroll scrollBar">
+            <div className="font-bold text-2xl mb-6">My NFTs</div>
+            <div className="modal-content border border-white w-full h-4/5 flex justify-between text-2xl font-bold p-4 relative">
+              <div className="w-1/2 h-full overflow-y-scroll scrollBar mr-4">
                 <div className="grid grid-cols-3 gap-4">
                   {lengthyImages.map((imageUrl, index) => (
                     <img
@@ -756,173 +694,41 @@ const Parts = () => {
                   ))}
                 </div>
               </div>
-              <div className="w-5/12 relative flex flex-col justify-center items-center">
+              <div className="bg-pink-200 w-1/2 relative flex flex-col justify-center items-center">
                 {size == 1 ? (
                   // 가로
-                  <>
-                    <div className="h-full w-full flex flex-col justify-between items-center">
-                      <div className="h-[80%] w-[80%] flex justify-center items-center mt-[5%] itemModalBackgroundWide">
-                        {selectedNFTSticker == "none" ? (
-                          selectedImageCanvas === 0 ? (
-                            <ItemCanvas
-                              img={selectedNFTImage}
-                              ItemIndex={ItemIndex}
-                              size={size}
-                              setEnd={setEnd}
-                              setItemOnImage={setItemOnImage}
-                            />
-                          ) : selectedImageCanvas === 1 ? (
-                            <ItemCanvas2
-                              img={selectedNFTImage}
-                              ItemIndex={ItemIndex}
-                              size={size}
-                              setEnd={setEnd}
-                              setItemOnImage={setItemOnImage}
-                            />
-                          ) : selectedImageCanvas === 2 ? (
-                            <ItemCanvas3
-                              img={selectedNFTImage}
-                              ItemIndex={ItemIndex}
-                              size={size}
-                              setEnd={setEnd}
-                              setItemOnImage={setItemOnImage}
-                            />
-                          ) : selectedImageCanvas === 3 ? (
-                            <ItemCanvas4
-                              img={selectedNFTImage}
-                              ItemIndex={ItemIndex}
-                              size={size}
-                              setEnd={setEnd}
-                              setItemOnImage={setItemOnImage}
-                            />
-                          ) : selectedImageCanvas === 4 ? (
-                            <ItemCanvas5
-                              img={selectedNFTImage}
-                              ItemIndex={ItemIndex}
-                              size={size}
-                              setEnd={setEnd}
-                              setItemOnImage={setItemOnImage}
-                            />
-                          ) : selectedImageCanvas === 5 ? (
-                            <ItemCanvas6
-                              img={selectedNFTImage}
-                              ItemIndex={ItemIndex}
-                              size={size}
-                              setEnd={setEnd}
-                              setItemOnImage={setItemOnImage}
-                            />
-                          ) : null
-                        ) : (
-                          <div className="w-[60%] text-lg">
-                            <div>스티커가 부착된 NFT 입니다.</div>
-                            <div>NFT당 1개만 부착이 가능합니다.</div>
-                            <div>
-                              다른 NFT를 선택하시거나
-                              <div>MyPage에서 스티커를 제거해주세요.</div>
-                            </div>
-                            <Link to="/mypage">
-                              <button className="mt-20 border border-black px-10 py-3">
-                                MyPage로 이동
-                              </button>
-                            </Link>
-                          </div>
-                        )}
-                      </div>
-
-                      {selectedNFTSticker == "none" && (
-                        <button
-                          onClick={upLoadImage}
-                          className="w-56 border border-[#F3EED4] shadow-lg py-2 text-4xl text-[#F3EED4] mb-[20%]"
-                        >
-                          BUY
-                        </button>
-                      )}
-                    </div>
-                  </>
+                  <div className="w-full flex justify-center items-start overflow-hidden">
+                    <ItemCanvas
+                      img={selectedNFTImage}
+                      ItemIndex={ItemIndex}
+                      size={size}
+                      setEnd={setEnd}
+                      setItemOnImage={setItemOnImage}
+                    />
+                  </div>
                 ) : (
                   // 세로
-                  <>
-                    <div className="h-full w-full flex flex-col justify-between items-center">
-                      <div className="h-[80%] w-[90%] flex justify-center items-center mt-[5%] itemModalBackgroundLengthy">
-                        {selectedNFTSticker == "none" ? (
-                          selectedImageCanvas === 0 ? (
-                            <ItemCanvas
-                              img={selectedNFTImage}
-                              ItemIndex={ItemIndex}
-                              size={size}
-                              setEnd={setEnd}
-                              setItemOnImage={setItemOnImage}
-                            />
-                          ) : selectedImageCanvas === 1 ? (
-                            <ItemCanvas2
-                              img={selectedNFTImage}
-                              ItemIndex={ItemIndex}
-                              size={size}
-                              setEnd={setEnd}
-                              setItemOnImage={setItemOnImage}
-                            />
-                          ) : selectedImageCanvas === 2 ? (
-                            <ItemCanvas3
-                              img={selectedNFTImage}
-                              ItemIndex={ItemIndex}
-                              size={size}
-                              setEnd={setEnd}
-                              setItemOnImage={setItemOnImage}
-                            />
-                          ) : selectedImageCanvas === 3 ? (
-                            <ItemCanvas4
-                              img={selectedNFTImage}
-                              ItemIndex={ItemIndex}
-                              size={size}
-                              setEnd={setEnd}
-                              setItemOnImage={setItemOnImage}
-                            />
-                          ) : selectedImageCanvas === 4 ? (
-                            <ItemCanvas5
-                              img={selectedNFTImage}
-                              ItemIndex={ItemIndex}
-                              size={size}
-                              setEnd={setEnd}
-                              setItemOnImage={setItemOnImage}
-                            />
-                          ) : selectedImageCanvas === 5 ? (
-                            <ItemCanvas6
-                              img={selectedNFTImage}
-                              ItemIndex={ItemIndex}
-                              size={size}
-                              setEnd={setEnd}
-                              setItemOnImage={setItemOnImage}
-                            />
-                          ) : null
-                        ) : (
-                          <div className="w-[60%] text-lg">
-                            <div>스티커가 부착된 NFT 입니다.</div>
-                            <div>NFT당 1개만 부착이 가능합니다.</div>
-                            <div>
-                              다른 NFT를 선택하시거나
-                              <div>MyPage에서 스티커를 제거해주세요.</div>
-                            </div>
-                            <Link to="/mypage">
-                              <button className="mt-20 border border-black px-10 py-3">
-                                MyPage로 이동
-                              </button>
-                            </Link>
-                          </div>
-                        )}
-                      </div>
-                      {selectedNFTSticker == "none" && (
-                        <button
-                          onClick={upLoadImage}
-                          className="w-56 border border-[#F3EED4] shadow-lg py-2 text-4xl text-[#F3EED4] mb-[20%]"
-                        >
-                          BUY
-                        </button>
-                      )}
-                    </div>
-                  </>
+                  <div className="w-full flex justify-center items-start">
+                    <ItemCanvas
+                      img={selectedNFTImage}
+                      ItemIndex={ItemIndex}
+                      size={size}
+                      setEnd={setEnd}
+                      setItemOnImage={setItemOnImage}
+                    />
+                  </div>
                 )}
-                <button onClick={closeItemModal}>
-                  <VscChromeClose className=" text-[#f3f2dc] text-xl md:text-3xl font-extrabold absolute right-0 top-0 border rounded-full border-[#f3f2dc]" />
+                <button
+                  onClick={upLoadImage}
+                  className="w-56 border border-[#8b8b8b] shadow-lg py-3 text-4xl text-[#686667]"
+                >
+                  MINT
+                </button>
+                <button
+                  className="bg-yellow-200 absolute -top-10 -right-10"
+                  onClick={closeItemModal}
+                >
+                  &times;
                 </button>
               </div>
             </div>

@@ -101,6 +101,7 @@ function CanvasForm2({
           ctx.fillText("IN CHAIN.", x + width + 20, (y + height) / 2);
           ctx.drawImage(image2, cw - 102, 32, 73, 73);
 
+<<<<<<< HEAD
           ctx.font = "bold 17px EL";
           ctx.fillStyle = "white";
           ctx.fillText("MEMO", x + width + 20, (y + height) / 2 + 80);
@@ -111,6 +112,18 @@ function CanvasForm2({
             x + width + 20,
             (y + height) / 2 + 95
           );
+=======
+        ctx.font = "bold 17px EL";
+        ctx.fillStyle = "white";
+        ctx.fillText("MEMO", x + width + 20, (y + height) / 2 + 80);
+        ctx.font = "13px EL";
+        ctx.fillStyle = "white";
+        ctx.fillText(
+          `${time[0]} ${time[1]} ${time[2]}  ${weather}`,
+          x + width + 20,
+          (y + height) / 2 + 95
+        );
+>>>>>>> origin/0709habin
 
           ctx.font = "14px EL";
           ctx.fillStyle = "white";
@@ -136,9 +149,15 @@ function CanvasForm2({
           }
           ctx.fillText(line, x2, y2);
 
+<<<<<<< HEAD
           // ctx.font = " 12px EL";
           // ctx.fillStyle = "black";
           // ctx.fillText("made by memorachain", cw - 150, ch - 40);
+=======
+        // ctx.font = " 12px EL";
+        // ctx.fillStyle = "black";
+        // ctx.fillText("made by memorachain", cw - 150, ch - 40);
+>>>>>>> origin/0709habin
 
           ctx.font = "24px SB";
           ctx.fillStyle = "white";
@@ -208,10 +227,23 @@ function CanvasForm2({
           ctx.restore();
           ctx.drawImage(image3, 30, 35, 73, 73);
 
+<<<<<<< HEAD
           ctx.font = "bolder 37px SB ";
           ctx.fillStyle = "black";
           ctx.fillText("MEMORIES", x - 30, y - 80);
           ctx.fillText("IN CHAIN.", x - 30, y - 40);
+=======
+        ctx.font = "bold 17px EL";
+        ctx.fillStyle = "white";
+        ctx.fillText("MEMO", x - 30, y + height + 40);
+        ctx.font = " 13px EL";
+        ctx.fillStyle = "white";
+        ctx.fillText(
+          `${time[0]} ${time[1]} ${time[2]} ${weather}`,
+          x - 30,
+          y + height + 55
+        );
+>>>>>>> origin/0709habin
 
           ctx.font = "bold 17px EL";
           ctx.fillStyle = "white";

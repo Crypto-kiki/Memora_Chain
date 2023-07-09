@@ -459,6 +459,7 @@ function CanvasForm({
               cw / 1.84,
               cw / 1.84
             );
+<<<<<<< HEAD
             ctx.drawImage(image2, 20, 20, 74, 74);
 
             ctx.font = "bolder 37px SB ";
@@ -466,6 +467,68 @@ function CanvasForm({
             ctx.fillText(
               "MEMORIES",
               cw / 2.02,
+=======
+            ctx.drawImage(image2, 20, 30, 74, 74);
+          }
+
+          ctx.font = "bolder 37px SB ";
+          ctx.fillStyle = "black";
+          ctx.fillText(
+            "MEMORIES",
+            cw / 2.02,
+            ch / 2 - ch / 18.18 - (rectheight2 * (2 - iar) - rectheight2) - 52
+          );
+          ctx.fillText(
+            "IN CHAIN.",
+            cw / 2.02,
+            ch / 2 - ch / 18.18 - (rectheight2 * (2 - iar) - rectheight2) - 20
+          );
+
+          ctx.font = "bold 17px EL";
+          ctx.fillStyle = "#4d4d4d";
+          ctx.fillText("MEMO", cw / 2.03, ch / 1.1 - 90);
+          ctx.font = " 13px EL";
+          ctx.fillStyle = "#4d4d4d";
+          ctx.fillText(
+            `${time[0]} ${time[1]} ${time[2]} ${weather}`,
+            cw / 2.03,
+            ch / 1.1 - 75
+          );
+
+          ctx.font = "14px EL";
+          ctx.fillStyle = "#4d4d4d";
+
+          const maxWidth = 200; // 최대 너비
+          const lineHeight = 20;
+          const x = cw / 2.03;
+          let y = ch / 1.1 - 30;
+          const text = message;
+          const characters = text.split("");
+          let line = "";
+          for (let i = 0; i < characters.length; i++) {
+            const testLine = line + characters[i];
+            const metrics = ctx.measureText(testLine);
+            const testWidth = metrics.width;
+
+            if (testWidth > maxWidth && i > 0) {
+              ctx.fillText(line, x, y);
+              line = characters[i];
+              y += lineHeight;
+            } else {
+              line = testLine;
+            }
+          }
+          ctx.fillText(line, x, y);
+
+          ctx.rotate((270 * Math.PI) / 180);
+          const text2 = `${countryCode}. ${city}`;
+          const textWidth = ctx.measureText(text2).width;
+          ctx.font = "26px SB";
+          ctx.fillStyle = "#b3b3b3";
+          ctx.fillText(
+            text2,
+            -(
+>>>>>>> origin/0709habin
               ch / 2 -
                 ch / 18.18 -
                 (rectheight2 * (2 - iar) - rectheight2) -
@@ -488,6 +551,7 @@ function CanvasForm({
               ch / 1.1 - 75
             );
 
+<<<<<<< HEAD
             ctx.font = "14px EL";
             ctx.fillStyle = "#4d4d4d";
             const maxWidth = 200; // 최대 너비
@@ -501,6 +565,18 @@ function CanvasForm({
               const testLine = line + characters[i];
               const metrics = ctx.measureText(testLine);
               const testWidth = metrics.width;
+=======
+          ctx.font = "bold 17px EL";
+          ctx.fillStyle = "#4d4d4d";
+          ctx.fillText("MEMO", cw / 2.03, ch / 1.1 - 90);
+          ctx.font = " 13px EL";
+          ctx.fillStyle = "#4d4d4d";
+          ctx.fillText(
+            `${time[0]} ${time[1]} ${time[2]} ${weather}`,
+            cw / 2.03,
+            ch / 1.1 - 75
+          );
+>>>>>>> origin/0709habin
 
               if (testWidth > maxWidth && i > 0) {
                 ctx.fillText(line, x, y);
