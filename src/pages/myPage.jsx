@@ -9,7 +9,6 @@ import { FiPower } from "react-icons/fi";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { IoIosClose } from "react-icons/io";
 import { motion } from "framer-motion";
-import { motion } from "framer-motion";
 
 const MyPage = () => {
   const web3 = new Web3(window.ethereum);
@@ -205,12 +204,11 @@ const MyPage = () => {
                     <Link to="/partsshop" className="text-lg">
                       <div>Sticker</div>
                     </Link>
-                    <Link
-                      to="/myPage"
-                      className="text-lg"                      
-                    >
-                      MY PAGE
-                    </Link>
+                    {account && (
+                      <Link to="/myPage" className="text-lg">
+                        MY PAGE
+                      </Link>
+                    )}
                   </div>
                 </div>
               </>
