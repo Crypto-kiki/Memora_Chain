@@ -681,7 +681,7 @@ const Parts = () => {
             {ItemImage.map((item, index) => (
               <div
                 key={index}
-                className="grid grid-cols-2 w-[700px] h-40 md:h-80 itemBackground text-[#668585]"
+                className="grid grid-cols-2 md:w-[700px] h-40 md:h-80 itemBackground text-[#668585]"
               >
                 <div className="flex justify-center items-center ">
                   <img
