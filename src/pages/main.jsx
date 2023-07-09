@@ -221,7 +221,11 @@ const Main = () => {
         <div className="flex flex-col justify-center items-center mt-1 md:mt-3 bg-[#96A9C2] pt-10 md:pt-20 pb-10">
           <img
             src={`${process.env.PUBLIC_URL}/image/airplane.png`}
-            className="w-6/7 md:w-1/2"
+            className="hidden md:flex  md:w-1/2"
+          />
+          <img
+            src={`${process.env.PUBLIC_URL}/image/mainmobile/background3.png`}
+            className="flex md:hidden  w-5/6"
           />
           <Link to="/mint">
             <button className="bg-[#D9D9D9] px-8 md:px-16 py-2 md:py-4 text-xl md:text-2xl mt-8 md:mt-10 tracking-wider text-[#857464]">

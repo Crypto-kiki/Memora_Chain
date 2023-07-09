@@ -153,7 +153,11 @@ const MyPage = () => {
             <div className="mt-3">
               <img
                 src={`${process.env.PUBLIC_URL}/image/Logo6big.png`}
-                className="w-14 md:w-28"
+                className="hidden md:flex md:w-28"
+              />
+              <img
+                src={`${process.env.PUBLIC_URL}/image/Logo6.png`}
+                className="flex md:hidden w-14"
               />
             </div>
           </Link>
