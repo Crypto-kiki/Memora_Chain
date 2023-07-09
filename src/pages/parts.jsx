@@ -25,7 +25,6 @@ import { FiPower } from "react-icons/fi";
 import { motion } from "framer-motion";
 
 const Parts = () => {
-  // const { account, setAccount } = useContext(AccountContext); // Context에서 account 값과 setAccount 함수 가져오기
   const { account, setAccount } = useContext(AccountContext);
 
   const [ItemIndex, setItemIndex] = useState();
@@ -52,19 +51,19 @@ const Parts = () => {
       url: `${process.env.PUBLIC_URL}/image/parts/items/tape.jpg`,
       name: "Tape",
       position: "우측 상단",
-      price: "1",
+      price: "0.001",
     },
     {
       url: `${process.env.PUBLIC_URL}/image/parts/items/stamp.jpg`,
       name: "stamp",
       position: "우측 상단",
-      price: "2",
+      price: "0.002",
     },
     {
       url: `${process.env.PUBLIC_URL}/image/parts/items/umbrella.png`,
       name: "Umbrella",
       position: "우측 상단",
-      price: "3",
+      price: "0.003",
     },
   ];
 
@@ -581,7 +580,7 @@ const Parts = () => {
             {ItemImage.map((item, index) => (
               <div
                 key={index}
-                className="grid grid-cols-2 w-full h-80 itemBackground text-[#668585]"
+                className="grid grid-cols-2 w-[700px] h-80 itemBackground text-[#668585]"
               >
                 <div className="flex justify-center items-center ">
                   <img
@@ -657,7 +656,7 @@ const Parts = () => {
                   // 가로
                   <>
                     <div className="h-full w-full flex flex-col justify-between items-center">
-                      <div className="h-[80%] flex justify-center items-center mt-[5%] itemModalBackgroundWide">
+                      <div className="h-[80%] w-[70%] flex justify-center items-center mt-[5%] itemModalBackgroundWide">
                         {selectedImageCanvas === 0 && (
                           <ItemCanvas
                             img={selectedNFTImage}
@@ -725,7 +724,7 @@ const Parts = () => {
                   // 세로
                   <>
                     <div className="h-full w-full flex flex-col justify-between items-center">
-                      <div className="h-[80%] flex justify-center items-center mt-[5%] itemModalBackgroundLengthy">
+                      <div className="h-[80%] w-[90%] flex justify-center items-center mt-[5%] itemModalBackgroundLengthy">
                         {selectedImageCanvas === 0 && (
                           <ItemCanvas
                             img={selectedNFTImage}
