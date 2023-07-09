@@ -263,7 +263,6 @@ const MyPage = () => {
           />
         </div>
       </div>
-      {/* <div className="film-right w-24" /> */}
     </motion.div>
   );
 };
