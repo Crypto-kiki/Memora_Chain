@@ -18,13 +18,6 @@ function ItemCanvas4({ size, img, setEnd, setItemOnImage, ItemIndex }) {
 
   // 이미지 그리기
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-  
-=======
->>>>>>> 2a3a16a3c79af6fa79cea8feb6d950ed0e331a0a
->>>>>>> origin/0709habin
   useEffect(() => {
     //이미지 불러오기
 
@@ -32,41 +25,14 @@ function ItemCanvas4({ size, img, setEnd, setItemOnImage, ItemIndex }) {
     const canvas = canvasRef.current;
     const ctx = canvas.getContext("2d");
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-
-    function getColorAtPixel(x, y) {
-      const imageData = ctx.getImageData(x, y, 1, 1); // 해당 좌표의 픽셀 데이터를 가져옵니다.
-      const data = imageData.data; // 픽셀 데이터의 RGBA 값을 가져옵니다.
-    
-=======
->>>>>>> origin/0709habin
     function getColorAtPixel(x, y) {
       const imageData = ctx.getImageData(x, y, 1, 1); // 해당 좌표의 픽셀 데이터를 가져옵니다.
       const data = imageData.data; // 픽셀 데이터의 RGBA 값을 가져옵니다.
 
-<<<<<<< HEAD
-=======
->>>>>>> 2a3a16a3c79af6fa79cea8feb6d950ed0e331a0a
->>>>>>> origin/0709habin
       const red = data[0];
       const green = data[1];
       const blue = data[2];
       const alpha = data[3];
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-    
-      return `rgba(${red}, ${green}, ${blue}, ${alpha})`; // 픽셀의 색상을 RGBA 형식으로 반환합니다.
-    }
-    
-    function isWhiteColor(color) {
-      return color === 'rgb(236, 236, 236)' || color === 'rgba(236, 236, 236, 255)'; // 흰색 여부를 확인합니다.
-    }
-    
-=======
->>>>>>> origin/0709habin
 
       return `rgba(${red}, ${green}, ${blue}, ${alpha})`; // 픽셀의 색상을 RGBA 형식으로 반환합니다.
     }
@@ -77,59 +43,11 @@ function ItemCanvas4({ size, img, setEnd, setItemOnImage, ItemIndex }) {
       ); // 흰색 여부를 확인합니다.
     }
 
-<<<<<<< HEAD
-=======
->>>>>>> 2a3a16a3c79af6fa79cea8feb6d950ed0e331a0a
->>>>>>> origin/0709habin
     // 사용 예시:
     const x = 110;
     const y = 50;
 
-<<<<<<< HEAD
     // 가로가 긴버전
-=======
-<<<<<<< HEAD
-
-    
-    // 가로가 긴버전
-   
-      const image = new Image();
-      image.src = img;
-      image.crossOrigin = "Anonymous";
-      image.onload = () => {
-        //배경 프레임 그리기
-        ctx.drawImage(image, 0, 0, 900, 550);
-        const color = getColorAtPixel(x, y);
-        // console.log(color);    
-        if(isWhiteColor(color)){
-            //추가할 파츠 그리기
-            ctx.drawImage(image2,655, 425, 80, 80);
-            // ctx.fillStyle = "red"; //바꿔야되는부분
-            // ctx.fillRect(110, 50, 120, 120);
-
-            const imageDataUrl = canvas.toDataURL("image/png"); // 파일 url 저장부분
-
-            setItemOnImage(imageDataUrl);
-            setEnd(false);
-        }
-        else{
-                //추가할 파츠 그리기
-                ctx.drawImage(image2,720, 420, 80, 80);
-                // ctx.fillStyle = "blue"; //바꿔야되는부분
-                // ctx.fillRect(720, 420, 80, 80);
-    
-                const imageDataUrl = canvas.toDataURL("image/png"); // 파일 url 저장부분
-    
-                setItemOnImage(imageDataUrl);
-                setEnd(false);
-        }
-      
-      };
-
-
-=======
-    // 가로가 긴버전
->>>>>>> origin/0709habin
 
     const image = new Image();
     image.src = img;
@@ -161,10 +79,6 @@ function ItemCanvas4({ size, img, setEnd, setItemOnImage, ItemIndex }) {
         setEnd(false);
       }
     };
-<<<<<<< HEAD
-=======
->>>>>>> 2a3a16a3c79af6fa79cea8feb6d950ed0e331a0a
->>>>>>> origin/0709habin
   }, [size, img]);
 
   return (

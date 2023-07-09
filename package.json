@@ -11,11 +11,6 @@
     "crypto-js": "^4.1.1",
     "firebase": "^9.22.2",
     "framer-motion": "^10.12.18",
-<<<<<<< HEAD
-=======
-    "html-to-image": "^1.11.11",
-    "qrcode.react": "^3.1.0",
->>>>>>> origin/0709habin
     "react": "^18.2.0",
     "react-bootstrap": "^2.8.0",
     "react-dom": "^18.2.0",

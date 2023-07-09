@@ -12,26 +12,16 @@ function App() {
 
   return (
     <BrowserRouter>
-<<<<<<< HEAD
       <AccountContext.Provider value={{ account, setAccount }}>
         <AnimatePresence>
-=======
-      <AnimatePresence>
-        <AccountContext.Provider value={{ account, setAccount }}>
->>>>>>> origin/0709habin
           <Routes>
             <Route path="/" element={<Main />} />
             <Route path="/mint" element={<Mint />} />
             <Route path="/partsshop" element={<Parts />} />
             <Route path="/mypage" element={<MyPage />} />
           </Routes>
-<<<<<<< HEAD
         </AnimatePresence>
       </AccountContext.Provider>
-=======
-        </AccountContext.Provider>
-      </AnimatePresence>
->>>>>>> origin/0709habin
     </BrowserRouter>
   );
 }

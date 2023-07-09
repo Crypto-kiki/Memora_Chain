@@ -129,7 +129,6 @@ const MyNfts = ({
 
   const handleModalClose = () => {
     setmodalt(false);
-<<<<<<< HEAD
     setSelectedImageIndex(null);
     setMetadataByTokenIdLengthy("");
     setSelectedImageInfo(null);
@@ -137,39 +136,17 @@ const MyNfts = ({
     setMetadataFileName("");
     setPartsNumber("");
     // setBurnTx(null);
-=======
-    setTimeout(() => {
-      setSelectedImageIndex(null);
-      setMetadataByTokenIdLengthy("");
-      setSelectedImageInfo(null);
-      setSelectedBurn("");
-      setMetadataFileName("");
-      setPartsNumber("");
-      // setBurnTx(null);
-    }, 200); // useEffect 점검하기
->>>>>>> origin/0709habin
   };
 
   const handleModalOutsideClick = (event) => {
     if (!modalRef.current.contains(event.target)) {
       setmodalt(false);
-<<<<<<< HEAD
       handleModalClose();
       setMetadataByTokenIdLengthy("");
       setSelectedImageInfo(null);
       setSelectedBurn("");
       setMetadataFileName("");
       setPartsNumber("");
-=======
-      setTimeout(() => {
-        handleModalClose();
-        setMetadataByTokenIdLengthy("");
-        setSelectedImageInfo(null);
-        setSelectedBurn("");
-        setMetadataFileName("");
-        setPartsNumber("");
-      }, 200);
->>>>>>> origin/0709habin
     }
   };
 
@@ -203,7 +180,6 @@ const MyNfts = ({
 
   const handleWideModalClose = () => {
     setmodalt(false);
-<<<<<<< HEAD
     setSelectedWideImageIndex(null);
     setMetadataByTokenIdWide("");
     setSelectedImageInfo(null);
@@ -211,39 +187,17 @@ const MyNfts = ({
     setMetadataFileName("");
     setPartsNumber("");
     // setBurnTx(null);
-=======
-    setTimeout(() => {
-      setSelectedWideImageIndex(null);
-      setMetadataByTokenIdWide("");
-      setSelectedImageInfo(null);
-      setSelectedBurn("");
-      setMetadataFileName("");
-      setPartsNumber("");
-      // setBurnTx(null);
-    }, 200);
->>>>>>> origin/0709habin
   };
 
   const handleWideModalOutsideClick = (event) => {
     if (!modalRef2.current.contains(event.target)) {
       setmodalt(false);
-<<<<<<< HEAD
       handleWideModalClose();
       setMetadataByTokenIdWide("");
       setSelectedImageInfo(null);
       setSelectedBurn("");
       setMetadataFileName("");
       setPartsNumber("");
-=======
-      setTimeout(() => {
-        handleWideModalClose();
-        setMetadataByTokenIdWide("");
-        setSelectedImageInfo(null);
-        setSelectedBurn("");
-        setMetadataFileName("");
-        setPartsNumber("");
-      }, 200);
->>>>>>> origin/0709habin
     }
   };
 
@@ -445,11 +399,7 @@ const MyNfts = ({
                         <div className="flex flex-col justify-center items-center md:ml-10">
                           {selectedImageInfo &&
                             selectedImageInfo.length > 0 && (
-<<<<<<< HEAD
                               <div className="flex flex-col text-xs md:text-xl p-8 md:p-20 modalLetter w-[370px] md:w-[700px] relative ">
-=======
-                              <div className="flex flex-col text-xs md:text-xl p-8 md:p-10 modalLetter w-[370px] md:w-[700px]  relative ">
->>>>>>> origin/0709habin
                                 <button onClick={handleWideModalClose}>
                                   <VscChromeClose className=" text-[#f3f2dc] text-xl md:text-3xl font-extrabold absolute right-5 top-0 border rounded-full border-[#f3f2dc]" />
                                 </button>
