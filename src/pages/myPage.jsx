@@ -152,11 +152,11 @@ const MyPage = () => {
           <Link to="/">
             <div className="mt-3">
               <img
-                src={`${process.env.PUBLIC_URL}/image/Logo6big.png`}
+                src={`${process.env.PUBLIC_URL}/image/logo6big.png`}
                 className="hidden md:flex md:w-28"
               />
               <img
-                src={`${process.env.PUBLIC_URL}/image/Logo6big.png`}
+                src={`${process.env.PUBLIC_URL}/image/logo6.png`}
                 className="flex md:hidden w-14"
               />
             </div>
