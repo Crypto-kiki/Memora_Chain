@@ -237,7 +237,6 @@ const Parts = () => {
 
   // 세로 이미지
   const handleImageClick = async (index) => {
-    setSize("");
     setSelectedImageInfo("");
     setSelectedImageCanvas("");
     const imageUrl = lengthyImages[index];
@@ -262,8 +261,6 @@ const Parts = () => {
 
   // 가로 이미지
   const handleWideImageClick = async (index) => {
-    setSize("");
-    setSize("");
     setSelectedImageInfo("");
     setSelectedImageCanvas("");
     const imageUrl = wideImages[index];
@@ -287,12 +284,21 @@ const Parts = () => {
   };
 
   // 아이템 모달
-  const openItemModal = (index) => {
-    setItemIndex(index);
-    setSelectedNFTSticker("none");
-    setModalIsOpen(true);
+  const openItemModal = async (index) => {
+    try {
+      if (!account) {
+        await connectWithMetamask();
+      }
+      setItemIndex(index);
+      setSelectedNFTSticker("none");
+      setModalIsOpen(true);
+    } catch (error) {
+      console.error(error);
+    }
   };
   const closeItemModal = () => {
+    setSelectedImageInfo("");
+    setSelectedImageCanvas("");
     setModalIsOpen(false);
   };
 
@@ -499,11 +505,15 @@ const Parts = () => {
       try {
         const mintNft = await contract.methods
           .mintPartNft(metadataURI, ItemIndex, selectedTokenId)
-          .send({ from: account });
+          .send({
+            from: account,
+            value: ItemImage[ItemIndex].price * 10 ** 18,
+          });
         console.log(mintNft);
         setNftBlockHash(mintNft.blockHash);
       } catch (error) {
         console.error(error);
+        setDownloadURL(null);
       }
     };
 
@@ -555,6 +565,22 @@ const Parts = () => {
     };
   };
 
+  const modalRef2 = useRef(null);
+  useEffect(() => {
+    if (downloadURL) {
+      setShowVideo(true);
+    }
+  }, [downloadURL]);
+
+  const [showVideo, setShowVideo] = useState(false);
+  const handleVideoLoaded = () => {
+    modalRef.current.classList.add("show");
+  };
+
+  const handleVideoEnded = () => {
+    modalRef.current.classList.remove("show");
+  };
+
   useEffect(() => {
     loadImageForCanvas();
     console.log(size);
@@ -576,13 +602,12 @@ const Parts = () => {
       exit={{ opacity: 0 }}
       transition={{ duration: 1.5, ease: "easeIn" }}
     >
-      {/* <div className="film-left w-24" /> */}
       <div className="w-full flex flex-col">
-        <header className="flex justify-between items-center px-3 md:px-10 font-julius md:text-2xl tracking-wider text-[#686667]">
+        <header className="flex justify-between items-center px-3 md:px-10 font-julius md:text-2xl tracking-wider text-white">
           <Link to="/">
             <div className="mt-3">
               <img
-                src={`${process.env.PUBLIC_URL}/image/Logo.png`}
+                src={`${process.env.PUBLIC_URL}/image/logo6big.png`}
                 className="w-14 md:w-28"
               />
             </div>
@@ -716,10 +741,10 @@ const Parts = () => {
           </div>
         </div>
         {modalIsOpen && (
-          <div className="fixed top-0 left-0 right-0 bottom-0 backdrop-filter backdrop-blur-sm flex flex-col justify-center modal px-10 ">
+          <div className="fixed top-0 left-0 right-0 bottom-0 backdrop-filter backdrop-blur-sm flex flex-col justify-center modal px-5 md:px-10 ">
             <div className="pl-4 flex flex-col">
-              <div className="font-bold text-4xl text-white mb-6">Select</div>
-              <ul className="font-bold text-[#F3EED4] text-sm">
+              <div className="font-bold text-xl md:text-4xl text-white mb-3 md:mb-6">Select</div>
+              <ul className="hidden md:flex font-bold text-[#F3EED4] text-xs md:text-sm">
                 <li>스티커를 미부착한 NFT만 사용 가능합니다.</li>
                 <li>
                   스티커를 제거 후 다시 부착할 수 있습니다. 스티커는 제거하면
@@ -727,9 +752,9 @@ const Parts = () => {
                 </li>
               </ul>
             </div>
-            <div className="border border-[#F3EED4] rounded-md w-full h-4/5 mt-6 flex justify-between text-2xl font-bold p-4 relative">
-              <div className="w-7/12 h-full overflow-y-scroll scrollBar">
-                <div className="grid grid-cols-3 gap-4">
+            <div className="border border-[#F3EED4] rounded-md w-full  h-full md:h-4/5 mt-3  md:mt-6  grid grid-rows-2  md:flex md:flex-row md:justify-between md:text-2xl font-bold p-4 relative">
+              <div className="w-full md:w-7/12 h-full  overflow-y-scroll scrollBar">
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                   {lengthyImages.map((imageUrl, index) => (
                     <img
                       key={index}
@@ -756,12 +781,12 @@ const Parts = () => {
                   ))}
                 </div>
               </div>
-              <div className="w-5/12 relative flex flex-col justify-center items-center">
+              <div className="w-full md:w-5/12 relative flex flex-col justify-center items-center">
                 {size == 1 ? (
                   // 가로
                   <>
-                    <div className="h-full w-full flex flex-col justify-between items-center">
-                      <div className="h-[80%] w-[80%] flex justify-center items-center mt-[5%] itemModalBackgroundWide">
+                    <div className="h-full w-full flex flex-col justify-center md:justify-between items-center overflow-y-scroll scrollBar">
+                      <div className="h-[100%] md:h-[80%] w-[100%] md:w-[80%] flex justify-center items-center mt-[5%] itemModalBackgroundWide">
                         {selectedNFTSticker == "none" ? (
                           selectedImageCanvas === 0 ? (
                             <ItemCanvas
@@ -813,7 +838,7 @@ const Parts = () => {
                             />
                           ) : null
                         ) : (
-                          <div className="w-[60%] text-lg">
+                          <div className="w-[60%] text-xs md:text-lg">
                             <div>스티커가 부착된 NFT 입니다.</div>
                             <div>NFT당 1개만 부착이 가능합니다.</div>
                             <div>
@@ -821,7 +846,7 @@ const Parts = () => {
                               <div>MyPage에서 스티커를 제거해주세요.</div>
                             </div>
                             <Link to="/mypage">
-                              <button className="mt-20 border border-black px-10 py-3">
+                            <button className="mt-8 md:mt-20 border border-black px-5 md:px-10 py-1 md:py-3">
                                 MyPage로 이동
                               </button>
                             </Link>
@@ -832,7 +857,7 @@ const Parts = () => {
                       {selectedNFTSticker == "none" && (
                         <button
                           onClick={upLoadImage}
-                          className="w-56 border border-[#F3EED4] shadow-lg py-2 text-4xl text-[#F3EED4] mb-[20%]"
+                          className="w-28 md:w-56 border border-[#F3EED4] shadow-lg py-1 md:py-2 text-xl md:text-4xl text-[#F3EED4] mb-[20%]"
                         >
                           BUY
                         </button>
@@ -842,8 +867,8 @@ const Parts = () => {
                 ) : (
                   // 세로
                   <>
-                    <div className="h-full w-full flex flex-col justify-between items-center">
-                      <div className="h-[80%] w-[90%] flex justify-center items-center mt-[5%] itemModalBackgroundLengthy">
+                    <div className="h-full w-full flex flex-col md:justify-between  items-center overflow-y-scroll scrollBar">
+                      <div className="h-[100%] w-[80%]  flex justify-center items-center mt-[5%] itemModalBackgroundLengthy">
                         {selectedNFTSticker == "none" ? (
                           selectedImageCanvas === 0 ? (
                             <ItemCanvas
@@ -895,7 +920,7 @@ const Parts = () => {
                             />
                           ) : null
                         ) : (
-                          <div className="w-[60%] text-lg">
+                          <div className="w-[60%] md:w-[60%] text-xs md:text-lg text-center">
                             <div>스티커가 부착된 NFT 입니다.</div>
                             <div>NFT당 1개만 부착이 가능합니다.</div>
                             <div>
@@ -903,7 +928,7 @@ const Parts = () => {
                               <div>MyPage에서 스티커를 제거해주세요.</div>
                             </div>
                             <Link to="/mypage">
-                              <button className="mt-20 border border-black px-10 py-3">
+                              <button className="mt-8 md:mt-20 border border-black  px-5 md:px-10 py-1 md:py-3">
                                 MyPage로 이동
                               </button>
                             </Link>
@@ -913,7 +938,7 @@ const Parts = () => {
                       {selectedNFTSticker == "none" && (
                         <button
                           onClick={upLoadImage}
-                          className="w-56 border border-[#F3EED4] shadow-lg py-2 text-4xl text-[#F3EED4] mb-[20%]"
+                          className="w-28 md:w-56 border border-[#F3EED4] shadow-lg py-1 md:py-2 text-xl md:text-4xl text-[#F3EED4] mb-[20%]"
                         >
                           BUY
                         </button>

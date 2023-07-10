@@ -78,7 +78,7 @@ function CanvasForm({
 
         //가로가 김
         ctx.drawImage(image3, cw - 95, 25, 73, 73);
-        if (iw > 1100) {
+        if (iw > 1100 || iar>1.5 ) {
           ctx.fillStyle = "white";
           ctx.fillRect(
             cw / 2 - (rectWidth2 * iar * 0.5) / 2,

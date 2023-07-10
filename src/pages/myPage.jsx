@@ -62,10 +62,10 @@ const MyPage = () => {
     }
   };
 
-  useEffect(() => {
-    connectWithMetamask();
-  }, []);
-
+  useEffect(()=>{
+    console.log(account);
+  },[account])
+ 
   const onClickLogOut = () => {
     setAccount("");
   };

@@ -38,6 +38,20 @@ const MyNfts = ({
   const web3 = new Web3(window.ethereum);
   const contract = new web3.eth.Contract(CONTRACT_ABI, CONTRACT_ADDRESS);
 
+  const connectWithMetamask = async () => {
+    try {
+      const accounts = await window.ethereum.request({
+        method: "eth_requestAccounts",
+      });
+      if (accounts) {
+        setAccount(accounts[0]);
+      }
+    } catch (error) {
+      console.error(error);
+      alert("계정 정보를 불러오는데 실패하였습니다.");
+    }
+  };
+
   const getMetadataImages = async () => {
     try {
       const imageResponses = await Promise.all(
@@ -135,7 +149,6 @@ const MyNfts = ({
     setSelectedBurn("");
     setMetadataFileName("");
     setPartsNumber("");
-    // setBurnTx(null);
   };
 
   const handleModalOutsideClick = (event) => {
@@ -228,16 +241,17 @@ const MyNfts = ({
   };
 
   const restoreNft = async () => {
-    if (partsNumber == "none") {
-      alert("메타데이터를 업로드해야 합니다.");
-      return;
-    }
     try {
-      const mintNft = await contract.methods
+      const response = await contract.methods
         .restoreNft(selectedBurn)
         .send({ from: account });
-      console.log(mintNft);
-      const txHash = mintNft.transactionHash;
+      console.log(response);
+
+      const storage = getStorage();
+      const desertRef = ref(storage, account + "/" + metadataFileName);
+      await deleteObject(desertRef);
+
+      const txHash = response.transactionHash;
       onBurnTx(txHash); // 부모 컴포넌트로 burnTx 값 전달
       handleModalClose();
       handleWideModalClose();
@@ -257,9 +271,8 @@ const MyNfts = ({
         <div>
           {!loading ? (
             <>
-              {" "}
               <div>
-                <div className="grid grid-cols-3 justify-center gap-5 md:gap-40">
+                <div className="grid grid-cols-3 justify-center gap-5 md:gap-32">
                   {lengthyImages.map((imageUrl, index) => (
                     <div key={index}>
                       <img
@@ -363,8 +376,8 @@ const MyNfts = ({
                   </motion.div>
                 )}
               </div>
-              <div className="mt-10 md:mt-40">
-                <div className="grid grid-cols-2 justify-center gap-5 md:gap-40">
+              <div className="mt-10 md:mt-32">
+                <div className="grid grid-cols-2 justify-center gap-5 md:gap-32">
                   {wideImages.map((imageUrl, index) => (
                     <div key={index}>
                       <img
@@ -478,17 +491,35 @@ const MyNfts = ({
           )}
         </div>
       )}
-      {metadataUris.legnth == 0 && (
+      {account ? (
+        <div>
+          {metadataUris.length == 0 && (
+            <div className="w-full h-screen  border-4 flex flex-col justify-center items-center ">
+              <div className="flexjustify-center items-center text-4xl">
+                You don't have any NFTs in your Wallet
+              </div>
+              <div>
+                <Link to="/mint">
+                  <div className="border-2 p-4 text-2xl mt-6 rounded-md hover:bg-[#f3f2dc] hover:text-gray-700 ">
+                    Mint Now
+                  </div>
+                </Link>
+              </div>
+            </div>
+          )}
+        </div>
+      ) : (
         <div className="w-full h-screen  border-4 flex flex-col justify-center items-center ">
           <div className="flexjustify-center items-center text-4xl">
-            You don't have any NFTs in your Wallet
+            Please log in first
           </div>
           <div>
-            <Link to="/mint">
-              <div className="border-2 p-4 text-2xl mt-6 rounded-md hover:bg-[#f3f2dc] hover:text-gray-700 ">
-                Mint Now
-              </div>
-            </Link>
+            <button
+              className="border-2 p-4 text-2xl mt-6 rounded-md hover:bg-[#f3f2dc] hover:text-gray-700 "
+              onClick={connectWithMetamask}
+            >
+              Login
+            </button>
           </div>
         </div>
       )}
