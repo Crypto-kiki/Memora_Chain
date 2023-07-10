@@ -120,7 +120,7 @@ const Main = () => {
                         )}
                       </div>
                       <Link to="/mint" className="text-lg">
-                        <div>MINT</div>
+                        <div>Mint</div>
                       </Link>
                       <Link to="/partsshop" className="text-lg">
                         <div>Sticker</div>
@@ -177,9 +177,9 @@ const Main = () => {
             type="video/mp4"
           />
         </video>
-        <div className="bg-[#E3C9B2] mainSecondDiv mainmobileSecondDiv   h-[40vh] md:h-[80vh] relative justify-center items-center mt-1 md:mt-3"></div>
-        <div className="mainmobileThirdDiv mainThirdDiv w-full h-[40vh] md:h-[80vh] mt-1 md:mt-3"></div>
-        <div className="flex w-full flex-col md:w-full md:flex-row items-center md:justify-center mt-1 md:mt-3 bg-gradient-to-b from-[#85A0BD] from-78.1% via-[#CEC3B7] via-86% via-[#D2B9A6] to-[#B4958D] to-100%  px-15 md:px-20 py-12 md:pl-32 md:pr-16">
+        <div className="bg-[#E3C9B2] mainSecondDiv mainmobileSecondDiv   h-[40vh] md:h-[80vh] relative justify-center items-center my-2 md:mt-3"></div>
+        <div className="mainmobileThirdDiv mainThirdDiv w-full h-[48vh] md:h-[90vh]  md:mt-3"></div>
+        <div className="flex w-full flex-col md:w-full md:flex-row items-center md:justify-center mt-2 md:mt-3 bg-gradient-to-b from-[#85A0BD] from-78.1% via-[#CEC3B7] via-86% via-[#D2B9A6] to-[#B4958D] to-100%  px-15 md:px-20 py-12 md:pl-32 md:pr-16">
           <div className="md:hidden flex font-semiboldbold text-2xl mt-10 text-[#F3EED4]">
             Where time and space meet
           </div>
@@ -222,7 +222,7 @@ const Main = () => {
           />
         </div>
 
-        <div className="flex flex-col justify-center items-center mt-1 md:mt-3 bg-[#96A9C2] pt-10 md:pt-20 pb-10">
+        <div className="flex flex-col justify-center items-center mt-1 md:mt-3 bg-[#96A9C2]  md:pt-20 pb-10">
           <img
             src={`${process.env.PUBLIC_URL}/image/AIRPLANE.png`}
             className="hidden md:flex md:w-1/2"
@@ -232,7 +232,7 @@ const Main = () => {
             className="flex md:hidden  w-5/6"
           />
           <Link to="/mint">
-            <button className="bg-[#D9D9D9] px-8 md:px-16 py-2 md:py-4 text-xl md:text-2xl mt-8 md:mt-10 tracking-wider text-[#857464]">
+            <button className="bg-[#D9D9D9] px-8 md:px-16 py-2 md:py-4 text-xl md:text-2xl md:mt-10 tracking-wider text-[#857464]">
               mint now
             </button>
           </Link>
@@ -240,7 +240,7 @@ const Main = () => {
         <div className="bg-[#F3EED4] flex flex-col md:grid md:grid-cols-3 items-center md:items-center text-[#857464]">
           <img
             src={`${process.env.PUBLIC_URL}/image/Logo.png`}
-            className="w-12 md:w-36 mb-2 md:mb-0 "
+            className="w-12 md:w-36  "
           />
           <div className="flex flex-col justify-center items-center">
             <div className="hidden md:flex text-2xl mb-4">contact us</div>
@@ -249,7 +249,7 @@ const Main = () => {
               <div>Email: memorachain@gmail.com</div>
             </div>
           </div>
-          <div className="flex flex-col justify-center items-center">
+          <div className="flex flex-col text-xs md:text-base justify-center items-center">
             <div>2023. 06. 23</div>
             <div>copyright@ made by kimshinjo</div>
           </div>

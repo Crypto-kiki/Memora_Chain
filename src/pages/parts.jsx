@@ -603,16 +603,16 @@ const Parts = () => {
       transition={{ duration: 1.5, ease: "easeIn" }}
     >
       <div className="w-full flex flex-col">
-        <header className="flex justify-between items-center px-3 md:px-10 font-julius md:text-2xl tracking-wider text-white">
+        <header className="flex justify-between items-center px-3 md:px-10 font-julius md:text-2xl tracking-wider text-[#F3EED4]">
           <Link to="/">
             <div className="mt-3">
               <img
-                src={`${process.env.PUBLIC_URL}/image/logo6big.png`}
+                src={`${process.env.PUBLIC_URL}/image/logo7.png`}
                 className="w-14 md:w-28"
               />
             </div>
           </Link>
-          <div className="md:hidden absolute z-10 top-0 right-0 w-full ">
+          <div className="md:hidden absolute z-10 top-0 right-0 w-full text-black ">
             {isMenuOpen ? (
               <>
                 <div
@@ -671,7 +671,7 @@ const Parts = () => {
                     setMenuOpen(true);
                   }}
                 >
-                  <RxHamburgerMenu size={25} />
+                  <RxHamburgerMenu className="text-[#F3EED4]" size={25} />
                 </button>
               </div>
             )}
@@ -701,7 +701,7 @@ const Parts = () => {
           </div>
         </header>
         <div className="flex justify-center items-center">
-          <div className="text-white border border-white w-40 md:w-80 text-center text-xl md:text-5xl mt-5 md:mt-0 py-2 md:py-6 px-4 md:px-10 tracking-widest">
+          <div className="text-[#F3EED4] border border-[#F3EED4] w-40 md:w-80 text-center text-xl md:text-5xl mt-5 md:mt-0 py-2 md:py-6 px-4 md:px-10 tracking-widest">
             Sticker
           </div>
         </div>
@@ -741,12 +741,12 @@ const Parts = () => {
           </div>
         </div>
         {modalIsOpen && (
-          <div className="fixed top-0 left-0 right-0 bottom-0 backdrop-filter backdrop-blur-sm flex flex-col justify-center modal px-5 md:px-10 ">
+          <div className="h-screen fixed top-0 left-0 right-0 md:bottom-0 backdrop-filter backdrop-blur-sm flex flex-col justify-center modal p-5 md:px-10">
             <div className="pl-4 flex flex-col">
               <div className="font-bold text-xl md:text-4xl text-white mb-3 md:mb-6">
                 Select
               </div>
-              <ul className="hidden md:flex font-bold text-[#F3EED4] text-xs md:text-sm">
+              <ul className="md:flex md:flex-col font-bold text-[#F3EED4] text-xs md:text-sm">
                 <li>스티커를 미부착한 NFT만 사용 가능합니다.</li>
                 <li>
                   스티커를 제거 후 다시 부착할 수 있습니다. 스티커는 제거하면
@@ -754,8 +754,11 @@ const Parts = () => {
                 </li>
               </ul>
             </div>
-            <div className="border border-[#F3EED4] rounded-md w-full  h-full md:h-4/5 mt-3  md:mt-6  grid grid-rows-2  md:flex md:flex-row md:justify-between md:text-2xl font-bold p-4 relative">
-              <div className="w-full md:w-7/12 h-full  overflow-y-scroll scrollBar">
+            <div className="border border-[#F3EED4] rounded-md w-full h-[80vh] md:h-4/5 mt-3 md:mt-6 flex flex-col md:flex md:flex-row md:justify-between md:text-2xl font-bold p-4 relative">
+              <button onClick={closeItemModal}>
+                <VscChromeClose className=" text-[#f3f2dc] text-xl md:text-3xl font-extrabold absolute -top-4 -right-4 md:-right-7 md:-top-7 border rounded-full border-[#f3f2dc]" />
+              </button>
+              <div className="w-full md:w-7/12 h-2/6 md:h-full overflow-y-scroll scrollBar">
                 <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                   {lengthyImages.map((imageUrl, index) => (
                     <img
@@ -783,12 +786,12 @@ const Parts = () => {
                   ))}
                 </div>
               </div>
-              <div className="w-full md:w-5/12 relative flex flex-col justify-center items-center">
+              <div className="border border-t-white mt-3 md:mt-0 md:border-none w-full h-2/3 md:h-full md:w-5/12 relative flex flex-col justify-center items-center">
                 {size == 1 ? (
                   // 가로
                   <>
-                    <div className="h-full w-full flex flex-col justify-center md:justify-between items-center overflow-y-scroll scrollBar">
-                      <div className="h-[100%] md:h-[80%] w-[100%] md:w-[80%] flex justify-center items-center mt-[5%] itemModalBackgroundWide">
+                    <div className="h-full w-full flex flex-col justify-center md:justify-between items-center ">
+                      <div className="h-[80%] md:h-[80%] w-[70%] md:w-[80%] flex justify-center items-center mt-[5%] itemModalBackgroundWide">
                         {selectedNFTSticker == "none" ? (
                           selectedImageCanvas === 0 ? (
                             <ItemCanvas
@@ -840,7 +843,7 @@ const Parts = () => {
                             />
                           ) : null
                         ) : (
-                          <div className="w-[60%] text-xs md:text-lg">
+                          <div className="w-[80%] text-xs md:text-lg">
                             <div>스티커가 부착된 NFT 입니다.</div>
                             <div>NFT당 1개만 부착이 가능합니다.</div>
                             <div>
@@ -869,8 +872,8 @@ const Parts = () => {
                 ) : (
                   // 세로
                   <>
-                    <div className="h-full w-full flex flex-col md:justify-between  items-center overflow-y-scroll scrollBar">
-                      <div className="h-[100%] w-[80%]  flex justify-center items-center mt-[5%] itemModalBackgroundLengthy">
+                    <div className=" h-4/5 md:h-full md:w-[90%] flex flex-col md:justify-between items-center ">
+                      <div className="h-[100%] w-[100%]  flex justify-center items-center mt-[5%] itemModalBackgroundLengthy">
                         {selectedNFTSticker == "none" ? (
                           selectedImageCanvas === 0 ? (
                             <ItemCanvas
@@ -922,7 +925,7 @@ const Parts = () => {
                             />
                           ) : null
                         ) : (
-                          <div className="w-[60%] md:w-[60%] text-xs md:text-lg text-center">
+                          <div className="w-[80%] md:w-[60%] text-xs md:text-lg text-center">
                             <div>스티커가 부착된 NFT 입니다.</div>
                             <div>NFT당 1개만 부착이 가능합니다.</div>
                             <div>
@@ -948,9 +951,6 @@ const Parts = () => {
                     </div>
                   </>
                 )}
-                <button onClick={closeItemModal}>
-                  <VscChromeClose className=" text-[#f3f2dc] text-xl md:text-3xl font-extrabold absolute right-0 top-0 border rounded-full border-[#f3f2dc]" />
-                </button>
               </div>
             </div>
           </div>

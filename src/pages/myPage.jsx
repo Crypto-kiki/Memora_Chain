@@ -63,8 +63,8 @@ const MyPage = () => {
   };
 
   useEffect(() => {
-    connectWithMetamask();
-  }, []);
+    console.log(account);
+  }, [account]);
 
   const onClickLogOut = () => {
     setAccount("");
@@ -75,7 +75,6 @@ const MyPage = () => {
       const response = await contract.methods.getAllNft(account).call();
       const tempArray = response.map((v) => Number(v));
       setTokenIds(tempArray);
-      console.log(tokenIds);
     } catch (error) {
       console.error(error);
     }
@@ -148,20 +147,20 @@ const MyPage = () => {
     >
       {/* <div className="film-left w-24" /> */}
       <div className="w-full flex flex-col">
-        <header className="flex justify-between items-center px-3 md:px-10 font-julius md:text-2xl tracking-wider text-white">
+        <header className="flex justify-between items-center px-3 md:px-10 font-julius md:text-2xl tracking-wider text-[#F3EED4]">
           <Link to="/">
             <div className="mt-3">
               <img
-                src={`${process.env.PUBLIC_URL}/image/logo6big.png`}
+                src={`${process.env.PUBLIC_URL}/image/logo7.png`}
                 className="hidden md:flex md:w-28"
               />
               <img
-                src={`${process.env.PUBLIC_URL}/image/logo6.png`}
+                src={`${process.env.PUBLIC_URL}/image/logo7mobile.png`}
                 className="flex md:hidden w-14"
               />
             </div>
           </Link>
-          <div className="md:hidden absolute z-10 top-0 right-0 w-full ">
+          <div className="md:hidden absolute z-10 top-0 right-0 w-full  ">
             {isMenuOpen ? (
               <>
                 <div
@@ -171,7 +170,7 @@ const MyPage = () => {
                   }}
                 ></div>
                 <div
-                  className={`bg-gray-100 overflow-hidden absolute z-10 top-0 right-0  w-2/5   min-h-screen `}
+                  className={`bg-gray-100 text-black overflow-hidden absolute z-10 top-0 right-0  w-2/5   min-h-screen `}
                 >
                   <Link to="/">
                     <div className="mt-5 flex justify-center mb-12">
@@ -206,7 +205,7 @@ const MyPage = () => {
                     </Link>
                     {account && (
                       <Link to="/myPage" className="text-lg">
-                        MyPage
+                        MY PAGE
                       </Link>
                     )}
                   </div>
@@ -220,7 +219,7 @@ const MyPage = () => {
                     setMenuOpen(true);
                   }}
                 >
-                  <RxHamburgerMenu className="text-white" size={25} />
+                  <RxHamburgerMenu className="text-[#F3EED4]" size={25} />
                 </button>
               </div>
             )}
@@ -254,7 +253,7 @@ const MyPage = () => {
             Gallery
           </div>
         </div>
-        <div className="my-10 md:my-44">
+        <div className="mt-10 md:mt-44">
           <MyNfts
             metadataUris={metadataUris}
             tokenIds={tokenIds}

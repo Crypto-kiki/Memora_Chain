@@ -673,7 +673,7 @@ const Mint = () => {
         </header>
         <div className="flex flex-col justify-center items-center">
           <div className="mt-6 md:mt-12">
-            <div className="block text-[#686667] font-julius text-xl md:text-2xl font-bold">
+            <div className="block text-[#686667] font-julius text-lg text-center md:text-left  md:text-2xl md:font-bold">
               "Samples."
             </div>
             <div className="my-4 md:my-10 flex">
@@ -718,7 +718,7 @@ const Mint = () => {
               )}
             </div>
             <div className="w-3/5 md:w-1/3 flex flex-col mt-5 md:mt-0 md:ml-20  items-center h-60 md:h-80">
-              <label className="w-full border border-[#8b8b8b] h-1/4 flex items-center justify-center shadow-lg">
+              <label className="w-full border border-[#8b8b8b] h-1/4 flex items-center justify-center shadow-lg cursor-pointer">
                 <input
                   type="file"
                   onChange={handleFileChange}
@@ -747,7 +747,7 @@ const Mint = () => {
               </form>
             </div>
           </div>
-          <div className="text-[#686667] text-lg md:text-xl mb-10 md:mb-20">
+          <div className="text-[#686667] text-lg text-center md:text-xl mb-10 md:mb-20">
             "Leaving Traces of the Present on the Blockchain."
           </div>
           {downloadURL && (
