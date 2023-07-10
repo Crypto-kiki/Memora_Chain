@@ -123,7 +123,7 @@ const Main = () => {
                         <div>MINT</div>
                       </Link>
                       <Link to="/partsshop" className="text-lg">
-                        <div>Sticker</div>
+                        <div>STICKER</div>
                       </Link>
                       {account && (
                         <Link to="/myPage" className="text-lg">
@@ -151,7 +151,7 @@ const Main = () => {
                 <div>Mint</div>
               </Link>
               <Link to="/partsshop">
-                <div className="mx-10">Sticker</div>
+                <div className="mx-10">STICKER</div>
               </Link>
               <Link
                 to={account ? "/mypage" : ""}
