@@ -253,7 +253,7 @@ const MyPage = () => {
             Gallery
           </div>
         </div>
-        <div className="mt-10 md:mt-44">
+        <div className="my-10 md:my-44">
           <MyNfts
             metadataUris={metadataUris}
             tokenIds={tokenIds}

@@ -3,10 +3,13 @@ import { useEffect } from "react";
 
 function ItemCanvas({ size, img, setEnd, setItemOnImage, ItemIndex }) {
   const ItemImage = [
-    `${process.env.PUBLIC_URL}/image/parts/items/tape.jpg`,
-    `${process.env.PUBLIC_URL}/image/parts/items/stamp.jpg`,
-    `${process.env.PUBLIC_URL}/image/parts/items/umbrella.png`,
+    `${process.env.PUBLIC_URL}/image/parts/items/item1s.png`,
+    `${process.env.PUBLIC_URL}/image/parts/items/item2s.png`,
+    `${process.env.PUBLIC_URL}/image/parts/items/item3s.png`,
+    `${process.env.PUBLIC_URL}/image/parts/items/item4s.png`,
   ];
+
+  const ItemPosition = [];
 
   useEffect(() => {}, [size]);
   const canvasRef = useRef(null);
@@ -35,6 +38,9 @@ function ItemCanvas({ size, img, setEnd, setItemOnImage, ItemIndex }) {
         ctx.drawImage(image, 0, 0, 900, 550);
         //추가할 파츠 그리기
         ctx.drawImage(image2, 15, 15, 120, 120);
+        //         ctx.fillStyle = "red";
+        // ctx.fillRect(15, 15, 120, 120);
+
         const imageDataUrl = canvas.toDataURL("image/png"); // 파일 url 저장부분
 
         setItemOnImage(imageDataUrl);
@@ -52,7 +58,9 @@ function ItemCanvas({ size, img, setEnd, setItemOnImage, ItemIndex }) {
         //배경 프레임 그리기
         ctx.drawImage(image, 0, 0, 550, 900);
         //추가할 파츠 그리기
-        ctx.drawImage(image2, 420, 30, 100, 100);
+        ctx.drawImage(image2, 360, 20, 190, 190);
+        // ctx.fillStyle = "red";
+        // ctx.fillRect(420, 770, 100, 100);
 
         const imageDataUrl = canvas.toDataURL("image/png"); // 파일 url 저장부분
         setItemOnImage(imageDataUrl);

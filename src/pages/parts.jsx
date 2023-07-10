@@ -75,22 +75,28 @@ const Parts = () => {
 
   const ItemImage = [
     {
-      url: `${process.env.PUBLIC_URL}/image/parts/items/tape.jpg`,
+      url: `${process.env.PUBLIC_URL}/image/parts/items/item1.png`,
       name: "Tape",
       position: "우측 상단",
       price: "0.001",
     },
     {
-      url: `${process.env.PUBLIC_URL}/image/parts/items/stamp.jpg`,
+      url: `${process.env.PUBLIC_URL}/image/parts/items/item2.png`,
       name: "stamp",
       position: "우측 상단",
       price: "0.002",
     },
     {
-      url: `${process.env.PUBLIC_URL}/image/parts/items/umbrella.png`,
+      url: `${process.env.PUBLIC_URL}/image/parts/items/item3.png`,
       name: "Umbrella",
       position: "우측 상단",
       price: "0.003",
+    },
+    {
+      url: `${process.env.PUBLIC_URL}/image/parts/items/item4s.png`,
+      name: "Flower",
+      position: "우측 상단",
+      price: "0.004",
     },
   ];
 
