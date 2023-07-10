@@ -519,18 +519,6 @@ const Mint = () => {
     initialize();
   }, [nftBlockHash]);
 
-  // const decryptIpfs = () => {
-  //   if (encryptedIpfs) {
-  //     try {
-  //       const decrypted = CryptoJS.AES.decrypt(encryptedIpfs, ENCRYPT_KEY);
-  //       const decryptedIpfs = decrypted.toString(CryptoJS.enc.Utf8);
-  //       setDecryptedIpfs(decryptedIpfs);
-  //     } catch (error) {
-  //       console.error(error);
-  //     }
-  //   }
-  // };
-
   const handleSubmit = (e) => {
     e.preventDefault();
     setMessage(e.target.elements.message.value);
@@ -704,13 +692,13 @@ const Mint = () => {
             </div>
           </div>
           <div className="hidden md:flex mb-10 md:mb-0 md:text-2xl tracking-widest text-[#686667]">
-            "Capture your Memories forever on the Blockchains."
+            "Eternalize Your Memories, Own Your NFT."
           </div>
           <div className="flex md:hidden  md:mb-0 md:text-2xl tracking-widest text-[#686667]">
-            Capture your Memories forever
+            "Eternalize Your Memories,
           </div>
           <div className="flex md:hidden mb-10 md:mb-0 md:text-2xl tracking-widest text-[#686667]">
-            on the Blockchains.
+            Own Your NFT."
           </div>
           <div className="w-full flex flex-col md:flex-row  md:mt-40 mb-10 justify-center items-center">
             <div>
@@ -760,7 +748,7 @@ const Mint = () => {
             </div>
           </div>
           <div className="text-[#686667] text-lg md:text-xl mb-10 md:mb-20">
-            "My location is with memories."
+            "Leaving Traces of the Present on the Blockchain."
           </div>
           {downloadURL && (
             <motion.div
@@ -777,7 +765,7 @@ const Mint = () => {
           )}
           {!selectedFile ? (
             <div className="h-[300px] w-[330px] md:h-[900px] md:w-[1000px] flex flex-col justify-center items-center border border-[#8b8b8b] p-10 md:p-0 text-md  md:text-2xl">
-              <div>Image Upload First,</div>
+              <div>Upload Image First,</div>
               <div className="hidden md:flex">
                 And you can watch NFT Samples by your image
               </div>
@@ -806,7 +794,7 @@ const Mint = () => {
           )}
         </div>
         <div className="mt-5 md:mt-10 text-[#686667] text-lg md:text-xl flex flex-col justify-center items-center">
-          "MINT, Your own memory"
+          "MINT, Present Becomes Eternal"
         </div>
         <div className="flex justify-center items-center">
           {downloadURL ? (

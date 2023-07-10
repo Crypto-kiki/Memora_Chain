@@ -148,7 +148,7 @@ const MyPage = () => {
     >
       {/* <div className="film-left w-24" /> */}
       <div className="w-full flex flex-col">
-        <header className="flex justify-between items-center px-3 md:px-10 font-julius md:text-2xl tracking-wider text-[#686667]">
+        <header className="flex justify-between items-center px-3 md:px-10 font-julius md:text-2xl tracking-wider text-white">
           <Link to="/">
             <div className="mt-3">
               <img
@@ -254,7 +254,7 @@ const MyPage = () => {
             Gallery
           </div>
         </div>
-        <div className="mt-10 md:mt-44">
+        <div className="my-10 md:my-44">
           <MyNfts
             metadataUris={metadataUris}
             tokenIds={tokenIds}
