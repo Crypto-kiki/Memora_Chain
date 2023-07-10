@@ -637,7 +637,7 @@ const Parts = () => {
                       {account ? (
                         <div>
                           <button className="" onClick={onClickLogOut}>
-                            LOGOUT
+                            Logout
                           </button>
                         </div>
                       ) : (
@@ -645,19 +645,19 @@ const Parts = () => {
                           className=" btn-style"
                           onClick={connectWithMetamask}
                         >
-                          LOGIN
+                          Login
                         </button>
                       )}
                     </div>
                     <Link to="/mint" className="text-lg">
-                      <div>MINT</div>
+                      <div>Mint</div>
                     </Link>
                     <Link to="/partsshop" className="text-lg">
                       <div>Sticker</div>
                     </Link>
                     {account && (
                       <Link to="/myPage" className="text-lg">
-                        MY PAGE
+                        MyPage
                       </Link>
                     )}
                   </div>
