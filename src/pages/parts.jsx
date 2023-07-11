@@ -638,7 +638,7 @@ const Parts = () => {
 
   return (
     <motion.div
-      className="flex justify-between min-h-screen partsmobileBackground partsBackground"
+      className="flex justify-between min-h-screen partsmobileBackground partsBackground pb-44"
       initial={{ opacity: 0.2 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
@@ -748,7 +748,7 @@ const Parts = () => {
           </div>
         </div>
         <div className="w-full p-8 md:p-20">
-          <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-20">
+          <div className="w-full grid grid-cols-1 md:place-items-center md:grid-cols-2 gap-8 md:gap-20">
             {ItemImage.map((item, index) => (
               <div
                 key={index}
@@ -783,7 +783,20 @@ const Parts = () => {
           </div>
         </div>
         {modalIsOpen && (
-          <div className="h-screen fixed top-0 left-0 right-0 md:bottom-0 backdrop-filter backdrop-blur-sm flex flex-col justify-center modal p-5 md:px-10">
+          <div className="h-screen fixed top-0 left-0 right-0 md:bottom-0 backdrop-filter backdrop-blur-sm flex flex-col justify-center modal p-5 md:px-10 ">
+            {downloadURL && (
+              <motion.div
+                className={`fixed top-0 left-0 right-0 bottom-0 backdrop-filter backdrop-blur-sm flex flex-col justify-center items-center  z-20`}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 2, ease: "easeIn" }}
+              >
+                <img
+                  src={`${process.env.PUBLIC_URL}/image/mint/memorachainGIF.gif`}
+                />
+              </motion.div>
+            )}
             <div className="pl-4 flex flex-col">
               <div className="font-bold text-xl md:text-4xl text-white mb-3 md:mb-6">
                 Select
