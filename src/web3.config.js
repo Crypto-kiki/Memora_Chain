@@ -1,4 +1,4 @@
-export const CONTRACT_ADDRESS = "0x465Bc8610a4957D6F801Dd1C308Fd4957f184496";
+export const CONTRACT_ADDRESS = "0xB44EB9E32f4a3b8Cd73971B732f4a56021160df8";
 export const CONTRACT_ABI = [
   {
     anonymous: false,
@@ -89,24 +89,6 @@ export const CONTRACT_ABI = [
       },
     ],
     name: "approve",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "_address",
-        type: "address",
-      },
-      {
-        internalType: "uint256",
-        name: "_tokenId",
-        type: "uint256",
-      },
-    ],
-    name: "approveR",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",

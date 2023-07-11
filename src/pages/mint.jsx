@@ -742,7 +742,7 @@ const Mint = () => {
                   type="submit"
                   className="w-full border border-[#8b8b8b] h-1/4 shadow-lg"
                 >
-                  Submit
+                  Write on NFT
                 </button>
               </form>
             </div>

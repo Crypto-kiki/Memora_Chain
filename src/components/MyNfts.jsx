@@ -241,17 +241,16 @@ const MyNfts = ({
   };
 
   const restoreNft = async () => {
+    if (partsNumber == "none") {
+      alert("메타데이터를 업로드해야 합니다.");
+      return;
+    }
     try {
-      const response = await contract.methods
+      const mintNft = await contract.methods
         .restoreNft(selectedBurn)
         .send({ from: account });
-      console.log(response);
-
-      const storage = getStorage();
-      const desertRef = ref(storage, account + "/" + metadataFileName);
-      await deleteObject(desertRef);
-
-      const txHash = response.transactionHash;
+      console.log(mintNft);
+      const txHash = mintNft.transactionHash;
       onBurnTx(txHash); // 부모 컴포넌트로 burnTx 값 전달
       handleModalClose();
       handleWideModalClose();
@@ -259,6 +258,26 @@ const MyNfts = ({
       console.error(error);
     }
   };
+
+  // const restoreNft = async () => {
+  //   try {
+  //     const response = await contract.methods
+  //       .restoreNft(selectedBurn)
+  //       .send({ from: account });
+  //     console.log(response);
+
+  //     const storage = getStorage();
+  //     const desertRef = ref(storage, account + "/" + metadataFileName);
+  //     await deleteObject(desertRef);
+
+  //     const txHash = response.transactionHash;
+  //     onBurnTx(txHash); // 부모 컴포넌트로 burnTx 값 전달
+  //     handleModalClose();
+  //     handleWideModalClose();
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
 
   return (
     <div className="px-10 md:px-40">

@@ -355,6 +355,42 @@ const Parts = () => {
     }
   };
 
+  // const upLoadImage = async () => {
+  //   if (selectedNFTImage && account) {
+  //     try {
+  //       // base64 데이터를 Blob으로 변환
+  //       const blob = await fetch(itemOnImage).then((res) => res.blob());
+
+  //       // Blob을 파일로 변환
+  //       const file = new File([blob], "image.jpg", { type: blob.type });
+  //       console.log(file);
+  //       const folderRef = ref(storage, account); // account 폴더에 대한 참조 생성
+  //       // account 폴더 내의 파일에 대한 참조 생성
+  //       const imageRef = ref(folderRef, v4() + selectedNFTImage.name);
+  //       // const imageRef = ref(storage, `images/selectedFile.name}`);
+  //       await uploadBytes(imageRef, file);
+
+  //       const metadata = {
+  //         customMetadata: {
+  //           account: account,
+  //         },
+  //       };
+  //       await updateMetadata(imageRef, metadata);
+
+  //       const url = await getDownloadURL(imageRef);
+  //       setDownloadURL(url);
+
+  //       // 업로드된 파일의 이름 받기
+  //       const fileName = imageRef.name;
+  //       console.log("Firebase Uploaded: ", fileName);
+  //       setUploadFileName(fileName);
+  //       console.log(uploadFileName);
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //   }
+  // };
+
   useEffect(() => {
     if (downloadURL) {
       console.log(uploadFileName);
@@ -469,7 +505,7 @@ const Parts = () => {
           },
           {
             trait_type: "Uploaded File Name",
-            value: selectedImageInfo[8].value,
+            value: uploadFileName,
           },
           {
             trait_type: "parts",
@@ -792,7 +828,7 @@ const Parts = () => {
                   ))}
                 </div>
               </div>
-              <div className="border border-t-white mt-3 md:mt-0 md:border-none w-full h-2/3 md:h-full md:w-5/12 relative flex flex-col justify-center items-center">
+              <div className="border border-t-white mt-3 md:mt-0 md:border-none w-full h-2/3 md:h-[85%] md:w-5/12 relative flex flex-col justify-center items-center">
                 {size == 1 ? (
                   // 가로
                   <>

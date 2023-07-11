@@ -3,10 +3,20 @@ import { useEffect } from "react";
 
 function ItemCanvas4({ size, img, setEnd, setItemOnImage, ItemIndex }) {
   const ItemImage = [
-    `${process.env.PUBLIC_URL}/image/parts/items/tape.jpg`,
-    `${process.env.PUBLIC_URL}/image/parts/items/stamp.jpg`,
-    `${process.env.PUBLIC_URL}/image/parts/items/umbrella.png`,
+    `${process.env.PUBLIC_URL}/image/parts/items/item1s.png`,
+    `${process.env.PUBLIC_URL}/image/parts/items/item2s.png`,
+    `${process.env.PUBLIC_URL}/image/parts/items/item5s.png`,
+    `${process.env.PUBLIC_URL}/image/parts/items/item4s.png`,
   ];
+
+  const ItemX = [640, 630, 680, 680];
+  const ItemY = [370, 390, 30, 35];
+  const ItemW = [170, 170, 170, 170];
+  const ItemH = [170, 170, 170, 170];
+  const ItemX2 = [680, 700, 680, 680];
+  const ItemY2 = [380, 400, 200, 200];
+  const ItemW2 = [190, 180, 180, 180];
+  const ItemH2 = [190, 180, 180, 180];
 
   useEffect(() => {}, [size]);
   const canvasRef = useRef(null);
@@ -59,7 +69,13 @@ function ItemCanvas4({ size, img, setEnd, setItemOnImage, ItemIndex }) {
       // console.log(color);
       if (isWhiteColor(color)) {
         //추가할 파츠 그리기
-        ctx.drawImage(image2, 655, 425, 80, 80);
+        ctx.drawImage(
+          image2,
+          ItemX2[ItemIndex],
+          ItemY2[ItemIndex],
+          ItemW2[ItemIndex],
+          ItemH2[ItemIndex]
+        );
         // ctx.fillStyle = "red"; //바꿔야되는부분
         // ctx.fillRect(110, 50, 120, 120);
 
@@ -69,7 +85,13 @@ function ItemCanvas4({ size, img, setEnd, setItemOnImage, ItemIndex }) {
         setEnd(false);
       } else {
         //추가할 파츠 그리기
-        ctx.drawImage(image2, 720, 420, 80, 80);
+        ctx.drawImage(
+          image2,
+          ItemX[ItemIndex],
+          ItemY[ItemIndex],
+          ItemW[ItemIndex],
+          ItemH[ItemIndex]
+        );
         // ctx.fillStyle = "blue"; //바꿔야되는부분
         // ctx.fillRect(720, 420, 80, 80);
 
