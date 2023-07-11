@@ -143,7 +143,7 @@ const MyPage = () => {
       initial={{ opacity: 0.2 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      transition={{ duration: 1.5, ease: "easeIn" }}
+      transition={{ duration: 1, ease: "easeInOut" }}
     >
       {/* <div className="film-left w-24" /> */}
       <div className="w-full flex flex-col font-habin">

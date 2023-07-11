@@ -571,7 +571,7 @@ const Mint = () => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      transition={{ duration: 2, ease: "easeIn" }}
+      transition={{ duration: 1, ease: "easeInOut" }}
     >
       <div className="w-full flex flex-col font-habin">
         <header className="flex justify-between items-center px-3 md:px-10 font-habin md:text-2xl tracking-wider text-[#686667]">
@@ -742,7 +742,7 @@ const Mint = () => {
                   type="submit"
                   className="w-full border border-[#8b8b8b] h-1/4 shadow-lg"
                 >
-                  Submit
+                  Write on NFT
                 </button>
               </form>
             </div>

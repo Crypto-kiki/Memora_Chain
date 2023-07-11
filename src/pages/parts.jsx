@@ -76,24 +76,24 @@ const Parts = () => {
   const ItemImage = [
     {
       url: `${process.env.PUBLIC_URL}/image/parts/items/item1.png`,
-      name: "Tape",
+      name: "Guitar",
       position: "우측 상단",
       price: "0.001",
     },
     {
       url: `${process.env.PUBLIC_URL}/image/parts/items/item2.png`,
-      name: "stamp",
+      name: "Stamp",
       position: "우측 상단",
       price: "0.002",
     },
     {
-      url: `${process.env.PUBLIC_URL}/image/parts/items/item3.png`,
-      name: "Umbrella",
+      url: `${process.env.PUBLIC_URL}/image/parts/items/item5.png`,
+      name: "Swing",
       position: "우측 상단",
       price: "0.003",
     },
     {
-      url: `${process.env.PUBLIC_URL}/image/parts/items/item4s.png`,
+      url: `${process.env.PUBLIC_URL}/image/parts/items/item4.png`,
       name: "Flower",
       position: "우측 상단",
       price: "0.004",
@@ -642,7 +642,7 @@ const Parts = () => {
       initial={{ opacity: 0.2 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      transition={{ duration: 1.5, ease: "easeIn" }}
+      transition={{ duration: 1, ease: "easeInOut" }}
     >
       <div className="w-full flex flex-col font-habin">
         <header className="flex justify-between items-center px-3 md:px-10 font-julius md:text-2xl tracking-wider text-[#F3EED4]">
