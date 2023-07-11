@@ -73,7 +73,7 @@ const Main = () => {
       <div className="film-left md:w-24 md:visible md:flex-shrink-0" />
       <div className="w-full flex flex-col">
         <div className="bg-[#F3EED4]">
-          <header className="flex justify-between items-center px-3 md:px-10 font-julius md:text-2xl tracking-wider text-[#686667]">
+          <header className="flex justify-between items-center px-3 md:px-10 font-habin md:text-2xl tracking-wider text-[#686667]">
             <Link to="/">
               <div className="mt-3">
                 <img
@@ -107,7 +107,7 @@ const Main = () => {
                         {account ? (
                           <div>
                             <button className="" onClick={onClickLogOut}>
-                              Logout
+                              LOGOUT
                             </button>
                           </div>
                         ) : (
@@ -115,19 +115,19 @@ const Main = () => {
                             className=" btn-style"
                             onClick={connectWithMetamask}
                           >
-                            Login
+                            LOGIN
                           </button>
                         )}
                       </div>
                       <Link to="/mint" className="text-lg">
-                        <div>Mint</div>
+                        <div>MINT</div>
                       </Link>
                       <Link to="/partsshop" className="text-lg">
-                        <div>Sticker</div>
+                        <div>STICKER</div>
                       </Link>
                       {account && (
                         <Link to="/myPage" className="text-lg">
-                          My Page
+                          MY PAGE
                         </Link>
                       )}
                     </div>
@@ -148,19 +148,19 @@ const Main = () => {
             </div>
             <div className="hidden md:flex ">
               <Link to="/mint">
-                <div>Mint</div>
+                <div>MINT</div>
               </Link>
               <Link to="/partsshop">
-                <div className="mx-10">Sticker</div>
+                <div className="mx-10">STICKER</div>
               </Link>
               <Link
                 to={account ? "/mypage" : ""}
                 onClick={!account ? connectWithMetamask : null}
               >
                 {account ? (
-                  <div className="mr-10 ">MyPage</div>
+                  <div className="mr-10 ">MY PAGE</div>
                 ) : (
-                  <div>LogIn</div>
+                  <div>LOGIN</div>
                 )}
               </Link>
               {account && (
@@ -179,8 +179,8 @@ const Main = () => {
         </video>
         <div className="bg-[#E3C9B2] mainSecondDiv mainmobileSecondDiv   h-[40vh] md:h-[80vh] relative justify-center items-center my-2 md:mt-3"></div>
         <div className="mainmobileThirdDiv mainThirdDiv w-full h-[48vh] md:h-[90vh]  md:mt-3"></div>
-        <div className="flex w-full flex-col md:w-full md:flex-row items-center md:justify-center mt-2 md:mt-3 bg-gradient-to-b from-[#85A0BD] from-78.1% via-[#CEC3B7] via-86% via-[#D2B9A6] to-[#B4958D] to-100%  px-15 md:px-20 py-12 md:pl-32 md:pr-16">
-          <div className="md:hidden flex font-semiboldbold text-2xl mt-10 text-[#F3EED4]">
+        <div className="flex w-full flex-col md:w-full md:flex-row items-center md:justify-center  font-habin  mt-2 md:mt-3 bg-gradient-to-b from-[#85A0BD] from-78.1% via-[#CEC3B7] via-86% via-[#D2B9A6] to-[#B4958D] to-100%  px-15 md:px-20 py-12 md:pl-32 md:pr-16">
+          <div className="md:hidden flex md:font-semibold text-2xl mt-10 text-[#F3EED4]">
             Where time and space meet
           </div>
           <div className="border-4 border-yellow-100 w-3/4 md:w-1/3 my-8 md:ml-8 md:mb-0">
@@ -193,17 +193,17 @@ const Main = () => {
             <div className="hidden md:flex text-xs md:text-4xl mb-10 text-[#F3EED4]  ">
               Where time and space meet
             </div>
-            <div className="text-[#857464] font-semibold flex flex-col justify-center items-center text-md md:text-lg tracking-widest">
+            <div className="text-[#493422] flex flex-col justify-center items-center text-md tracking-widest">
               "Preserve the significance of
               <div>the present moment by minting NFTs</div>
               <div className="hidden"> of the present moment</div>
               <div className="hidden">by minting NFTs</div>
             </div>
-            <div className="text-[#857464] font-semibold flex flex-col justify-center items-center text-md">
+            <div className="text-[#493422]  flex flex-col justify-center items-center text-md">
               that combine imagery, location coordinates,
               <div>and weather data, all secured</div>
             </div>
-            <div className="text-[#857464] font-semibold flex flex-col justify-center items-center text-md">
+            <div className="text-[#493422]  flex flex-col justify-center items-center text-md">
               on the blockchain."
             </div>
           </div>
@@ -232,30 +232,30 @@ const Main = () => {
             className="flex md:hidden  w-5/6"
           />
           <Link to="/mint">
-            <button className="bg-[#D9D9D9] px-8 md:px-16 py-2 md:py-4 text-xl md:text-2xl md:mt-10 tracking-wider text-[#857464]">
+            <button className="bg-[#D9D9D9] font-habin px-8 md:px-16 py-2 md:py-4 text-xl md:text-2xl md:mt-10 tracking-wider text-[#857464]">
               mint now
             </button>
           </Link>
         </div>
-        <div className="bg-[#F3EED4] flex flex-col md:grid md:grid-cols-3 items-center md:items-center text-[#857464]">
+        <div className="bg-[#F3EED4] font-habin flex flex-col md:grid md:grid-cols-3 md:pt-5 md:pb-3 items-center  md:items-center text-[#857464]">
           <img
             src={`${process.env.PUBLIC_URL}/image/Logo.png`}
-            className="w-12 md:w-36  "
+            className="md:ml-10 w-12 md:w-24  "
           />
           <div className="flex flex-col justify-center items-center">
-            <div className="hidden md:flex text-2xl mb-4">contact us</div>
+            <div className="hidden md:flex text-lg mb-4">contact us</div>
             <div className="hidden md:flex flex-col justify-center items-center">
-              <div>Tel: 010-0000-0000</div>
+              <div>Tel: 010-3186-9553</div>
               <div>Email: memorachain@gmail.com</div>
             </div>
           </div>
-          <div className="flex flex-col text-xs md:text-base justify-center items-center">
+          <div className="flex flex-col md:ml-10 text-xs md:text-base justify-center items-center">
             <div>2023. 06. 23</div>
             <div>copyright@ made by kimshinjo</div>
           </div>
         </div>
       </div>
-      <div className="flex-shrink-0 film-right xl:w-24 lg:w-20 md:w-16 sm:12 " />
+      <div className="flex-shrink-0 film-right xl:w-24 lg:w-20 md:w-16 sm:12  " />
     </motion.div>
   );
 };

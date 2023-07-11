@@ -240,37 +240,17 @@ const MyNfts = ({
     }
   };
 
-  const restoreNft = async () => {
-    if (partsNumber == "none") {
-      alert("메타데이터를 업로드해야 합니다.");
-      return;
-    }
-    try {
-      const mintNft = await contract.methods
-        .restoreNft(selectedBurn)
-        .send({ from: account });
-      console.log(mintNft);
-      const txHash = mintNft.transactionHash;
-      onBurnTx(txHash); // 부모 컴포넌트로 burnTx 값 전달
-      handleModalClose();
-      handleWideModalClose();
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
   // const restoreNft = async () => {
+  //   if (partsNumber == "none") {
+  //     alert("메타데이터를 업로드해야 합니다.");
+  //     return;
+  //   }
   //   try {
-  //     const response = await contract.methods
+  //     const mintNft = await contract.methods
   //       .restoreNft(selectedBurn)
   //       .send({ from: account });
-  //     console.log(response);
-
-  //     const storage = getStorage();
-  //     const desertRef = ref(storage, account + "/" + metadataFileName);
-  //     await deleteObject(desertRef);
-
-  //     const txHash = response.transactionHash;
+  //     console.log(mintNft);
+  //     const txHash = mintNft.transactionHash;
   //     onBurnTx(txHash); // 부모 컴포넌트로 burnTx 값 전달
   //     handleModalClose();
   //     handleWideModalClose();
@@ -278,6 +258,28 @@ const MyNfts = ({
   //     console.error(error);
   //   }
   // };
+
+  const restoreNft = async () => {
+    try {
+      const response = await contract.methods
+        .restoreNft(selectedBurn)
+        .send({ from: account });
+      console.log(response);
+
+      console.log(metadataFileName);
+      const storage = getStorage();
+      const desertRef = ref(storage, account + "/" + metadataFileName);
+      console.log(desertRef);
+      await deleteObject(desertRef);
+
+      const txHash = response.transactionHash;
+      onBurnTx(txHash); // 부모 컴포넌트로 burnTx 값 전달
+      handleModalClose();
+      handleWideModalClose();
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <div className="px-10 md:px-40">
@@ -369,7 +371,7 @@ const MyNfts = ({
                           {partsNumber == "none" ? (
                             <button
                               onClick={onClickBurn}
-                              className="mt-2 md:mt-0 border-4 border-[#f3f2dc] px-10 md:px-20 py-2 md:py-4 font-extrabold text-xl tracking-widest"
+                              className="mt-2 md:mt-0 border-[1px]  border-[#f3f2dc] px-10 md:px-20 py-2 md:py-4 font-normal md:font-extrabold text-xl tracking-widest"
                             >
                               Burn NFT
                             </button>
@@ -377,13 +379,13 @@ const MyNfts = ({
                             <div className="w-full flex justify-end items-end">
                               <button
                                 onClick={onClickBurn}
-                                className="mt-2 md:mt-0 border-4 border-[#f3f2dc] px-10 md:px-20 py-2 md:py-4 font-extrabold text-xl tracking-widest"
+                                className="mt-2 md:mt-0 border-[1px] border-[#f3f2dc] px-10 md:px-20 py-2 md:py-4 font-normal md:font-extrabold text-xl tracking-widest"
                               >
                                 Burn NFT
                               </button>
                               <button
                                 onClick={restoreNft}
-                                className="mt-2 md:mt-0 border-4 border-[#f3f2dc] px-10 md:px-10 py-2 md:py-4 font-extrabold text-xl tracking-widest"
+                                className="mt-2 md:mt-0 border-[1px] border-[#f3f2dc] px-10 md:px-10 py-2 md:py-4 font-normal md:font-extrabold text-xl tracking-widest"
                               >
                                 Dettache Sticker
                               </button>

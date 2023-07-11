@@ -44,6 +44,12 @@
   /* 다른 폰트 형식을 사용할 경우 format을 조정합니다. */
 }
 
+@font-face {
+  font-family: "Jomolhari";
+  src: url("../public/font/Jomolhari.ttf") format("truetype");
+  /* 다른 폰트 형식을 사용할 경우 format을 조정합니다. */
+}
+
 #fontChange {
   font-family: "MyFont", sans-serif;
 }
@@ -62,6 +68,10 @@
 
 #fontChange {
   font-family: "Inter", sans-serif;
+}
+
+#fontChange {
+  font-family: "Jomolhari", sans-serif;
 }
 
 .film-left {
@@ -289,4 +299,8 @@ body::-webkit-scrollbar-track {
   background-repeat: repeat;
   background-size: cover;
   background-position: center;
+}
+
+.textarea {
+  vertical-align: middle;
 }

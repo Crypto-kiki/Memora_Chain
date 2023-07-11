@@ -107,7 +107,7 @@ function CanvasForm({
               ch / 2 - ((cw / 1.84) * 0.5) / 2 + 40
             );
             ctx.fillText(
-              "IN CHAIN.",
+              "ON CHAIN.",
               cw / 2 -
                 (rectWidth2 * iar * 0.5) / 2 +
                 rectWidth2 * iar * 0.5 +
@@ -214,7 +214,7 @@ function CanvasForm({
               ch / 2 - ((cw / 1.84) * 0.6) / 2 + 40
             );
             ctx.fillText(
-              "IN CHAIN.",
+              "ON CHAIN.",
               cw / 2 -
                 (rectWidth2 * iar * 0.6) / 2 +
                 rectWidth2 * iar * 0.6 +
@@ -376,7 +376,7 @@ function CanvasForm({
               ch / 2 - ch / 18.18 - (rectheight2 * (2 - iar) - rectheight2) - 52
             );
             ctx.fillText(
-              "IN CHAIN.",
+              "ON CHAIN.",
               cw / 2.02,
               ch / 2 - ch / 18.18 - (rectheight2 * (2 - iar) - rectheight2) - 20
             );
@@ -472,7 +472,7 @@ function CanvasForm({
                 100
             );
             ctx.fillText(
-              "IN CHAIN.",
+              "ON CHAIN.",
               cw / 2.02,
               ch / 2 - ch / 18.18 - (rectheight2 * (2 - iar) - rectheight2) - 70
             );

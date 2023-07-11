@@ -146,7 +146,7 @@ const MyPage = () => {
       transition={{ duration: 1.5, ease: "easeIn" }}
     >
       {/* <div className="film-left w-24" /> */}
-      <div className="w-full flex flex-col">
+      <div className="w-full flex flex-col font-habin">
         <header className="flex justify-between items-center px-3 md:px-10 font-julius md:text-2xl tracking-wider text-[#F3EED4]">
           <Link to="/">
             <div className="mt-3">
@@ -253,7 +253,7 @@ const MyPage = () => {
             Gallery
           </div>
         </div>
-        <div className="my-10 md:my-44">
+        <div className="mt-10 md:mt-44">
           <MyNfts
             metadataUris={metadataUris}
             tokenIds={tokenIds}

@@ -319,42 +319,6 @@ const Parts = () => {
   const PINATA_JWT = process.env.REACT_APP_PINATA_JWT; // Bearer Token 사용해야 됨.
   const ENCRYPT_KEY = process.env.REACT_APP_ENCRYPT_KEY;
 
-  const upLoadImage = async () => {
-    if (selectedNFTImage && account) {
-      try {
-        // base64 데이터를 Blob으로 변환
-        const blob = await fetch(itemOnImage).then((res) => res.blob());
-
-        // Blob을 파일로 변환
-        const file = new File([blob], "image.jpg", { type: blob.type });
-        console.log(file);
-        const folderRef = ref(storage, account); // account 폴더에 대한 참조 생성
-        // account 폴더 내의 파일에 대한 참조 생성
-        const imageRef = ref(folderRef, v4() + selectedNFTImage.name);
-        // const imageRef = ref(storage, `images/selectedFile.name}`);
-        await uploadBytes(imageRef, file);
-
-        const metadata = {
-          customMetadata: {
-            account: account,
-          },
-        };
-        await updateMetadata(imageRef, metadata);
-
-        const url = await getDownloadURL(imageRef);
-        setDownloadURL(url);
-
-        // 업로드된 파일의 이름 받기
-        const fileName = imageRef.name;
-        console.log("Firebase Uploaded: ", fileName);
-        setUploadFileName(fileName);
-        console.log(uploadFileName);
-      } catch (error) {
-        console.log(error);
-      }
-    }
-  };
-
   // const upLoadImage = async () => {
   //   if (selectedNFTImage && account) {
   //     try {
@@ -390,6 +354,42 @@ const Parts = () => {
   //     }
   //   }
   // };
+
+  const upLoadImage = async () => {
+    if (selectedNFTImage && account) {
+      try {
+        // base64 데이터를 Blob으로 변환
+        const blob = await fetch(itemOnImage).then((res) => res.blob());
+
+        // Blob을 파일로 변환
+        const file = new File([blob], "image.jpg", { type: blob.type });
+        console.log(file);
+        const folderRef = ref(storage, account); // account 폴더에 대한 참조 생성
+        // account 폴더 내의 파일에 대한 참조 생성
+        const imageRef = ref(folderRef, v4() + selectedNFTImage.name);
+        // const imageRef = ref(storage, `images/selectedFile.name}`);
+        await uploadBytes(imageRef, file);
+
+        const metadata = {
+          customMetadata: {
+            account: account,
+          },
+        };
+        await updateMetadata(imageRef, metadata);
+
+        const url = await getDownloadURL(imageRef);
+        setDownloadURL(url);
+
+        // 업로드된 파일의 이름 받기
+        const fileName = imageRef.name;
+        setUploadFileName(fileName);
+        console.log("Firebase Uploaded: ", fileName);
+        console.log(uploadFileName);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
 
   useEffect(() => {
     if (downloadURL) {
@@ -644,7 +644,7 @@ const Parts = () => {
       exit={{ opacity: 0 }}
       transition={{ duration: 1.5, ease: "easeIn" }}
     >
-      <div className="w-full flex flex-col">
+      <div className="w-full flex flex-col font-habin">
         <header className="flex justify-between items-center px-3 md:px-10 font-julius md:text-2xl tracking-wider text-[#F3EED4]">
           <Link to="/">
             <div className="mt-3">
@@ -762,7 +762,7 @@ const Parts = () => {
                   />
                 </div>
                 <div className="flex flex-col justify-center items-center">
-                  <div className="text-2xl md:text-5xl font-bold my-4 md:my-12 tracking-wide">
+                  <div className="text-2xl md:text-4xl my-4 md:my-12 tracking-wide">
                     {item.name}
                   </div>
                   <div className="text-sm md:text-base font-normal mt-1 md:mt-4">
@@ -828,12 +828,12 @@ const Parts = () => {
                   ))}
                 </div>
               </div>
-              <div className="border border-t-white mt-3 md:mt-0 md:border-none w-full h-2/3 md:h-[85%] md:w-5/12 relative flex flex-col justify-center items-center">
+              <div className="border border-t-white mt-3 md:mt-0 md:border-none w-full h-2/3 md:h-full md:w-5/12 relative flex flex-col justify-center items-center">
                 {size == 1 ? (
                   // 가로
                   <>
                     <div className="h-full w-full flex flex-col justify-center md:justify-between items-center ">
-                      <div className="h-[80%] md:h-[80%] w-[70%] md:w-[80%] flex justify-center items-center mt-[5%] itemModalBackgroundWide">
+                      <div className="h-[80%] md:h-[80%] w-[70%] md:w-[65%] flex justify-center items-center mt-[5%] itemModalBackgroundWide">
                         {selectedNFTSticker == "none" ? (
                           selectedImageCanvas === 0 ? (
                             <ItemCanvas
@@ -914,7 +914,7 @@ const Parts = () => {
                 ) : (
                   // 세로
                   <>
-                    <div className=" h-4/5 md:h-full md:w-[90%] flex flex-col md:justify-between items-center ">
+                    <div className=" h-4/5 md:h-[70%] md:w-[90%] flex flex-col md:justify-between items-center ">
                       <div className="h-[100%] w-[100%]  flex justify-center items-center mt-[5%] itemModalBackgroundLengthy">
                         {selectedNFTSticker == "none" ? (
                           selectedImageCanvas === 0 ? (

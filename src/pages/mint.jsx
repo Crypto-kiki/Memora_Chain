@@ -573,8 +573,8 @@ const Mint = () => {
       exit={{ opacity: 0 }}
       transition={{ duration: 2, ease: "easeIn" }}
     >
-      <div className="w-full flex flex-col">
-        <header className="flex justify-between items-center px-3 md:px-10 font-julius md:text-2xl tracking-wider text-[#686667]">
+      <div className="w-full flex flex-col font-habin">
+        <header className="flex justify-between items-center px-3 md:px-10 font-habin md:text-2xl tracking-wider text-[#686667]">
           <Link to="/">
             <div className="mt-3">
               <img
@@ -608,7 +608,7 @@ const Mint = () => {
                       {account ? (
                         <div>
                           <button className="" onClick={onClickLogOut}>
-                            Logout
+                            LOGOUT
                           </button>
                         </div>
                       ) : (
@@ -673,20 +673,20 @@ const Mint = () => {
         </header>
         <div className="flex flex-col justify-center items-center">
           <div className="mt-6 md:mt-12">
-            <div className="block text-[#686667] font-julius text-lg text-center md:text-left  md:text-2xl md:font-bold">
+            <div className="block text-[#686667] font-julius text-lg text-center   md:text-2xl ">
               "Samples."
             </div>
-            <div className="my-4 md:my-10 flex">
+            <div className="my-4 md:mt-10 md:my-0 md:mb-20 flex">
               <img
-                src={`${process.env.PUBLIC_URL}/image/1.png`}
+                src={`${process.env.PUBLIC_URL}/image/mint/sample1.avif`}
                 className="w-24 md:w-96"
               />
               <img
-                src={`${process.env.PUBLIC_URL}/image/2.png`}
+                src={`${process.env.PUBLIC_URL}/image/mint/sample2.avif`}
                 className="w-24 md:w-96 mx-5 md:mx-10"
               />
               <img
-                src={`${process.env.PUBLIC_URL}/image/3.png`}
+                src={`${process.env.PUBLIC_URL}/image/mint/sample3.avif`}
                 className="w-24 md:w-96"
               />
             </div>
@@ -700,7 +700,7 @@ const Mint = () => {
           <div className="flex md:hidden mb-10 md:mb-0 md:text-2xl tracking-widest text-[#686667]">
             Own Your NFT."
           </div>
-          <div className="w-full flex flex-col md:flex-row  md:mt-40 mb-10 justify-center items-center">
+          <div className="w-full flex flex-col md:flex-row  md:mt-20 mb-10 md:mb-20 justify-center items-center">
             <div>
               {!isLocationAllowed && (
                 <button
@@ -730,10 +730,10 @@ const Mint = () => {
                 onSubmit={handleSubmit}
                 className="h-full flex flex-col w-full"
               >
-                <label className="h-full my-4">
+                <label className="h-full my-4 ">
                   <textarea
                     name="message"
-                    className="h-full w-full bg-transparent border border-[#8b8b8b] text-center shadow-lg"
+                    className="h-full w-full placeholder-black pt-[12%] bg-transparent border  border-[#8b8b8b] text-center shadow-lg"
                     maxLength={100}
                     placeholder="Write this moment"
                   />
@@ -742,7 +742,7 @@ const Mint = () => {
                   type="submit"
                   className="w-full border border-[#8b8b8b] h-1/4 shadow-lg"
                 >
-                  Write on NFT
+                  Submit
                 </button>
               </form>
             </div>

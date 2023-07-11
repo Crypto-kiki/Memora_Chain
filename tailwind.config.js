@@ -8,6 +8,7 @@ module.exports = {
       display2: ["Kablammo", "cursive"],
       jomolhari: ["Jomolhari", "serif"],
       julius: ["Julius Sans One", "sans-serif"],
+      habin: ["Julius Sans One", "sans-serif"],
     },
   },
   plugins: [],
