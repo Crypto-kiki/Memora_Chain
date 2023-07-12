@@ -128,7 +128,7 @@ function CanvasForm({
             ctx.font = "15px EL";
             ctx.fillStyle = "#4d4d4d";
             ctx.fillText(
-              `${time[0]} ${time[1]} ${time[2]}`,
+              `${time[0]} ${time[1]} ${time[2]} ${weather}`,
               cw / 2 -
                 (rectWidth2 * iar * 0.5) / 2 +
                 rectWidth2 * iar * 0.5 +

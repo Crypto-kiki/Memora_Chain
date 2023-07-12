@@ -82,7 +82,7 @@ const Parts = () => {
     },
     {
       url: `${process.env.PUBLIC_URL}/image/parts/items/item2.png`,
-      name: "Stamp",
+      name: "BUILDING",
       position: "우측 상단",
       price: "0.002",
     },

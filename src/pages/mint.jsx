@@ -797,20 +797,12 @@ const Mint = () => {
           "MINT, Present Becomes Eternal"
         </div>
         <div className="flex justify-center items-center">
-          {downloadURL ? (
-            <Link to="/mypage">
-              <button className="w-44 md:w-56 border border-[#8b8b8b] shadow-lg py-3 mt-5 md:mt-10 mb-36  md:mb-56 text-xl md:text-4xl text-[#686667]">
-                Move to Gallery
-              </button>
-            </Link>
-          ) : (
-            <button
-              onClick={upLoadImage}
-              className="w-44 md:w-56 border border-[#8b8b8b] shadow-lg py-3 mt-5 md:mt-10 mb-36 md:mb-56 text-xl md:text-4xl text-[#686667]"
-            >
-              MINT
-            </button>
-          )}
+          <button
+            onClick={upLoadImage}
+            className="w-44 md:w-56 border border-[#8b8b8b] shadow-lg py-3 mt-5 md:mt-10 mb-36 md:mb-56 text-xl md:text-4xl text-[#686667]"
+          >
+            MINT
+          </button>
         </div>
       </div>
     </motion.div>

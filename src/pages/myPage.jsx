@@ -139,13 +139,12 @@ const MyPage = () => {
 
   return (
     <motion.div
-      className="flex justify-between min-h-screen myPageBackground w-full"
+      className="flex justify-between min-h-screen myPageBackground w-full pb-40"
       initial={{ opacity: 0.2 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 1, ease: "easeInOut" }}
     >
-      {/* <div className="film-left w-24" /> */}
       <div className="w-full flex flex-col font-habin">
         <header className="flex justify-between items-center px-3 md:px-10 font-julius md:text-2xl tracking-wider text-[#F3EED4]">
           <Link to="/">

@@ -259,7 +259,10 @@ const MyNfts = ({
   //   }
   // };
 
+  const [dettache, setDettache] = useState(false);
+
   const restoreNft = async () => {
+    setDettache(true);
     try {
       const response = await contract.methods
         .restoreNft(selectedBurn)
@@ -273,10 +276,11 @@ const MyNfts = ({
       await deleteObject(desertRef);
 
       const txHash = response.transactionHash;
-      onBurnTx(txHash); // 부모 컴포넌트로 burnTx 값 전달
+      setDettache(false);
       handleModalClose();
       handleWideModalClose();
     } catch (error) {
+      setDettache(false);
       console.error(error);
     }
   };
@@ -383,12 +387,26 @@ const MyNfts = ({
                               >
                                 Burn NFT
                               </button>
-                              <button
-                                onClick={restoreNft}
-                                className="mt-2 md:mt-0 border-[1px] border-[#f3f2dc] px-10 md:px-10 py-2 md:py-4 font-normal md:font-extrabold text-xl tracking-widest"
-                              >
-                                Dettache Sticker
-                              </button>
+                              {dettache == true ? (
+                                <motion.div
+                                  className={`fixed top-0 left-0 right-0 bottom-0 backdrop-filter backdrop-blur-sm flex flex-col justify-center items-center  z-20`}
+                                  initial={{ opacity: 0 }}
+                                  animate={{ opacity: 1 }}
+                                  exit={{ opacity: 0 }}
+                                  transition={{ duration: 2, ease: "easeIn" }}
+                                >
+                                  <img
+                                    src={`${process.env.PUBLIC_URL}/image/mint/memorachainGIF.gif`}
+                                  />
+                                </motion.div>
+                              ) : (
+                                <button
+                                  onClick={restoreNft}
+                                  className="mt-2 md:mt-0 border-[1px] border-[#f3f2dc] px-10 md:px-10 py-2 md:py-4 font-normal md:font-extrabold text-xl tracking-widest"
+                                >
+                                  Dettache Sticker
+                                </button>
+                              )}
                             </div>
                           )}
                         </div>
@@ -505,7 +523,7 @@ const MyNfts = ({
             </>
           ) : (
             <div className="w-full h-screen  border-4 flex justify-center items-center font-[#f3f2dc]">
-              <div className="flex justify-center items-center text-4xl">
+              <div className="flex justify-center items-center text-2xl md:text-4xl">
                 Loading Image
               </div>
             </div>
@@ -516,12 +534,12 @@ const MyNfts = ({
         <div>
           {metadataUris.length == 0 && (
             <div className="w-full h-screen  border-4 flex flex-col justify-center items-center ">
-              <div className="flexjustify-center items-center text-4xl">
+              <div className="flex justify-center items-center text-2xl md:text-4xl">
                 You don't have any NFTs in your Wallet
               </div>
               <div>
                 <Link to="/mint">
-                  <div className="border-2 p-4 text-2xl mt-6 rounded-md hover:bg-[#f3f2dc] hover:text-gray-700 ">
+                  <div className="border-2 p-2 md:p-4 text-xl  md:text-2xl mt-3 md:mt-6 rounded-md hover:bg-[#f3f2dc] hover:text-gray-700  ">
                     Mint Now
                   </div>
                 </Link>
@@ -531,12 +549,12 @@ const MyNfts = ({
         </div>
       ) : (
         <div className="w-full h-screen  border-4 flex flex-col justify-center items-center ">
-          <div className="flexjustify-center items-center text-4xl">
+          <div className="flex justify-center items-center text-2xl md:text-4xl">
             Please log in first
           </div>
           <div>
             <button
-              className="border-2 p-4 text-2xl mt-6 rounded-md hover:bg-[#f3f2dc] hover:text-gray-700 "
+              className="border-2 p-2 md:p-4 text-xl  md:text-2xl mt-3 md:mt-6 rounded-md hover:bg-[#f3f2dc] hover:text-gray-700 "
               onClick={connectWithMetamask}
             >
               Login
