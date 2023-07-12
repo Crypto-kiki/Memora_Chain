@@ -259,10 +259,10 @@ const MyNfts = ({
   //   }
   // };
 
-  const [dettache, setDettache] = useState(false);
+  const [detach, setDetach] = useState(false);
 
   const restoreNft = async () => {
-    setDettache(true);
+    setDetach(true);
     try {
       const response = await contract.methods
         .restoreNft(selectedBurn)
@@ -276,11 +276,12 @@ const MyNfts = ({
       await deleteObject(desertRef);
 
       const txHash = response.transactionHash;
-      setDettache(false);
+      onBurnTx(txHash);
+      setDetach(false);
       handleModalClose();
       handleWideModalClose();
     } catch (error) {
-      setDettache(false);
+      setDetach(false);
       console.error(error);
     }
   };
@@ -387,7 +388,7 @@ const MyNfts = ({
                               >
                                 Burn NFT
                               </button>
-                              {dettache == true ? (
+                              {detach == true ? (
                                 <motion.div
                                   className={`fixed top-0 left-0 right-0 bottom-0 backdrop-filter backdrop-blur-sm flex flex-col justify-center items-center  z-20`}
                                   initial={{ opacity: 0 }}
@@ -396,7 +397,7 @@ const MyNfts = ({
                                   transition={{ duration: 2, ease: "easeIn" }}
                                 >
                                   <img
-                                    src={`${process.env.PUBLIC_URL}/image/mint/memorachainGIF.gif`}
+                                    src={`${process.env.PUBLIC_URL}/image/myPage/detachGIF.gif`}
                                   />
                                 </motion.div>
                               ) : (
@@ -404,7 +405,7 @@ const MyNfts = ({
                                   onClick={restoreNft}
                                   className="mt-2 md:mt-0 border-[1px] border-[#f3f2dc] px-10 md:px-10 py-2 md:py-4 font-normal md:font-extrabold text-xl tracking-widest"
                                 >
-                                  Dettache Sticker
+                                  Detach Sticker
                                 </button>
                               )}
                             </div>
@@ -506,12 +507,26 @@ const MyNfts = ({
                               >
                                 Burn NFT
                               </button>
-                              <button
-                                onClick={restoreNft}
-                                className="mt-2 md:mt-0 border-4 border-[#f3f2dc] px-10 md:px-20 py-2 md:py-4 font-extrabold text-xl tracking-widest"
-                              >
-                                Dettache Sticker
-                              </button>
+                              {detach == true ? (
+                                <motion.div
+                                  className={`fixed top-0 left-0 right-0 bottom-0 backdrop-filter backdrop-blur-sm flex flex-col justify-center items-center  z-20`}
+                                  initial={{ opacity: 0 }}
+                                  animate={{ opacity: 1 }}
+                                  exit={{ opacity: 0 }}
+                                  transition={{ duration: 2, ease: "easeIn" }}
+                                >
+                                  <img
+                                    src={`${process.env.PUBLIC_URL}/image/myPage/detachGIF.gif`}
+                                  />
+                                </motion.div>
+                              ) : (
+                                <button
+                                  onClick={restoreNft}
+                                  className="mt-2 md:mt-0 border-[1px] border-[#f3f2dc] px-10 md:px-10 py-2 md:py-4 font-normal md:font-extrabold text-xl tracking-widest"
+                                >
+                                  Detach Sticker
+                                </button>
+                              )}
                             </div>
                           )}
                         </div>
