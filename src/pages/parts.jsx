@@ -115,6 +115,16 @@ const Parts = () => {
       if (accounts) {
         setAccount(accounts[0]);
       }
+      if (parseInt(window.ethereum.networkVersion) !== 11155111) {
+        await window.ethereum.request({
+          method: "wallet_switchEthereumChain",
+          params: [
+            {
+              chainId: "0xaa36a7",
+            },
+          ],
+        });
+      }
     } catch (error) {
       console.error(error);
       alert("계정 정보를 불러오는데 실패하였습니다.");

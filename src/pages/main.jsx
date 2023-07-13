@@ -50,7 +50,19 @@ const Main = () => {
       const accounts = await window.ethereum.request({
         method: "eth_requestAccounts",
       });
-      setAccount(accounts[0]); // Context의 account 값 설정
+      if (accounts) {
+        setAccount(accounts[0]);
+      }
+      if (parseInt(window.ethereum.networkVersion) !== 11155111) {
+        await window.ethereum.request({
+          method: "wallet_switchEthereumChain",
+          params: [
+            {
+              chainId: "0xaa36a7",
+            },
+          ],
+        });
+      }
     } catch (error) {
       console.error(error);
       alert("계정 정보를 불러오는데 실패하였습니다.");
@@ -58,8 +70,7 @@ const Main = () => {
   };
 
   const onClickLogOut = () => {
-    setAccount(""); // Context의 account 값 설정
-    sessionStorage.removeItem("loggedInAccount");
+    setAccount("");
   };
 
   return (
